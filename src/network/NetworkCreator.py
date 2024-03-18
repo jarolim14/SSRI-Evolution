@@ -242,3 +242,14 @@ class DirectedNetworkCreator:
             A dictionary containing information about the network.
         """
         return self.info_log
+
+
+# Example usage of directed network creator
+# from network.NetworkCreator import DirectedNetworkCreator
+#
+# # Create a directed network from the dataframe
+# dnc = DirectedNetworkCreator(df)
+# G = dnc.create_network()
+# G = dnc.add_data_to_nodes(G, col_list=["eid", "title", "year", "abstract", "doi", "unique_auth_year"])
+# info_log = dnc.get_info_log()
+# print(info_log)

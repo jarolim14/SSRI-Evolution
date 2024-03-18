@@ -2,12 +2,14 @@ import colorcet as cc
 import matplotlib.pyplot as plt
 import networkx as nx
 import plotly.graph_objects as go
+import plotly.io as pio
 
 
 class MainPathPlotterInteractive:
-    def __init__(self, G, cluster_col):
+    def __init__(self, G, cluster_col, label_col):
         self.G = G
         self.cluster_col = cluster_col
+        self.label_col = label_col
 
     @staticmethod
     def add_line_breaks(text, char_limit=100):
@@ -52,8 +54,11 @@ class MainPathPlotterInteractive:
         hover_texts = []
         for node, data in self.G.nodes(data=True):
             wrapped_title = self.add_line_breaks(data["title"])
-            wrapped_title = f"Cluster: {data[self.cluster_col]}<br>{wrapped_title}"
-            hover_texts.append(wrapped_title)
+            hover_title_cluster = (
+                f"Cluster: {data[self.cluster_col]}<br>{wrapped_title}"
+            )
+            hover_title_cluster_cited = f"Cluster: {data[self.cluster_col]}<br>Cited by: {data['citedby_count']}<br>{wrapped_title}"
+            hover_texts.append(hover_title_cluster_cited)
         return hover_texts
 
     def cluster_color_dict(self):
@@ -80,10 +85,10 @@ class MainPathPlotterInteractive:
         colors = [color_dict[cluster] for cluster in clusters]
         return colors
 
-    def node_labels(self, feature="year"):
+    def node_labels(self):
         node_labels = []
         for node, data in self.G.nodes(data=True):
-            node_labels.append(data[feature])
+            node_labels.append(data[self.label_col])
         return node_labels
 
     def edge_positions(self):
@@ -141,7 +146,7 @@ class MainPathPlotterInteractive:
         )
         return node_trace
 
-    def plot_network_on_timeline_interactive(self, savingpath=None, return_fig=False):
+    def plot_network_on_timeline_interactive(self, savingpath=None, return_fig=True):
         # Convert year attribute to integer, if not already
         # min_year, max_year, nodes_sorted_by_year = self.clean_years()
 
@@ -197,7 +202,7 @@ class MainPathPlotterInteractive:
                 fig.write_image(savingpath, dpi=300)
         fig.show()
         if return_fig:
-            return fig
+            return pio.to_html(fig, full_html=False, include_plotlyjs="cdn")
 
 
 # example usage
