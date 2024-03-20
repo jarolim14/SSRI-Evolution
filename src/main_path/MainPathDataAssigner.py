@@ -53,7 +53,7 @@ class MainPathDataAssigner:
         """Assign data from df to mp nodes based on a matching column."""
         for node in self.mp.nodes:
             match_id = self.mp.nodes[node][match_col]
-            if self.mp.nodes[node]["label"].startswith("family_"):
+            if "family_" in self.mp.nodes[node]["label"]:
                 eids = self.mp.nodes[node]["eid"].split(";")
                 self._assign_attributes_for_family(node, eids, match_col)
             else:

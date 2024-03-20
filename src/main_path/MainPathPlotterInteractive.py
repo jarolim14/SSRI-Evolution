@@ -1,6 +1,7 @@
 import colorcet as cc
 import matplotlib.pyplot as plt
 import networkx as nx
+import numpy as np
 import plotly.graph_objects as go
 import plotly.io as pio
 
@@ -25,6 +26,35 @@ class MainPathPlotterInteractive:
         if line:
             lines.append(line.strip())
         return "<br>".join(lines)
+
+    def adjust_overlap(self, min_dist=0.1, max_iterations=100):
+        """
+        Adjusts the positions to reduce overlap.
+
+        :param pos: Dictionary of positions keyed by node.
+        :param min_dist: Minimum desired distance between nodes.
+        :param max_iterations: Maximum number of iterations to perform adjustments.
+        :return: Adjusted positions.
+        """
+        for _ in range(max_iterations):
+            moved = False
+            for node1 in self.pos:
+                for node2 in self.pos:
+                    if node1 != node2:
+                        # Calculate the distance between two nodes
+                        delta = np.array(self.pos[node1]) - np.array(self.pos[node2])
+                        dist = np.sqrt(np.sum(delta**2))
+                        # If the nodes are too close, push them apart
+                        if dist < min_dist:
+                            moved = True
+                            displacement = delta / dist * (min_dist - dist) / 2
+                            self.pos[node1] += displacement
+                            self.pos[node2] -= displacement
+            # If no nodes were moved in this iteration, stop the adjustment
+            if not moved:
+                print(f"Adjustment finished after {_} iterations")
+                break
+        return self.pos
 
     def clean_years(self):
         """
@@ -110,7 +140,7 @@ class MainPathPlotterInteractive:
         edge_trace = go.Scatter(
             x=edge_x,
             y=edge_y,
-            line=dict(width=0.5, color="#888"),
+            line=dict(width=0.7, color="#000000"),
             hoverinfo="none",
             mode="lines",
         )
@@ -146,18 +176,27 @@ class MainPathPlotterInteractive:
         )
         return node_trace
 
-    def plot_network_on_timeline_interactive(self, savingpath=None, return_fig=True):
+    def plot_network_on_timeline_interactive(
+        self, savingpath=None, return_fig=True, adjust_overlap=True
+    ):
         # Convert year attribute to integer, if not already
         # min_year, max_year, nodes_sorted_by_year = self.clean_years()
 
         self.pos = nx.kamada_kawai_layout(
-            self.G, weight=None, scale=5.0, center=None, dim=2
+            self.G,
+            weight=None,
+            scale=5.0,
+            center=None,
+            dim=2,
         )  # Use Kamada-Kawai layout for better node positioning
+
+        if adjust_overlap:
+            self.pos = self.adjust_overlap(0.15, 100)
 
         edge_trace = self.get_edge_trace()
 
         node_trace = self.get_node_trace()
-        width = 900
+        width = 1000
         height = 1500
         if len(self.G.nodes) > 190:
             width = 1300
@@ -207,6 +246,6 @@ class MainPathPlotterInteractive:
 
 # example usage
 # plotter = MainPathPlotterInteractive(graph, "cluster")
-# plotter.plot_network_on_timeline_interactive()
+# plotter.plot_network_on_timeline_interactive(return_fig=False, adjust_overlap=True)
 # plotter.plot_network_on_timeline_interactive(savingpath="network_timeline.html")
 # plotter.plot_network_on_timeline_interactive(savingpath="network_timeline.png")

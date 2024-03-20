@@ -2,8 +2,9 @@ import networkx as nx
 
 
 class MainPathReader:
-    def __init__(self, filepath):
+    def __init__(self, filepath, node_attributes=None):
         self.filepath = filepath
+        self.node_attributes = node_attributes
         self.graph = nx.DiGraph()
         self.read_and_parse_file()
         print(self.graph)
@@ -27,13 +28,29 @@ class MainPathReader:
 
     def parse_vertex(self, line):
         parts = line.split()
-        vertex_id = parts[0]  # ID of the vertex
-        label = parts[1].strip('"')  # Label of the vertex, stripped of quotes
-        x, y, size = map(float, parts[2:5])
-        shape = parts[5]  # The shape of the vertex
-        eid = parts[-1]  # The eid attribute
+        # drop 'eid' and 'unique_auth_year' from parts
+        parts = [p for p in parts if p not in self.node_attributes]
+        vertex_data = [
+            "id",
+            "label",
+            "x",
+            "y",
+            "size",
+            "shape",
+        ]
+        vertex_data = vertex_data + self.node_attributes
+        # create a dictionary of the vertex data
+        vertex_dict = dict(zip(vertex_data, parts))
+        # add the vertex to the graph
         self.graph.add_node(
-            vertex_id, label=label, x=x, y=y, size=size, shape=shape, eid=eid
+            vertex_dict["id"],
+            label=vertex_dict["label"],
+            x=vertex_dict["x"],
+            y=vertex_dict["y"],
+            size=vertex_dict["size"],
+            shape=vertex_dict["shape"],
+            eid=vertex_dict["eid"],
+            unique_auth_year=vertex_dict["unique_auth_year"],
         )
 
     def parse_arc(self, line):
@@ -45,6 +62,5 @@ class MainPathReader:
     def get_graph(self):
         return self.graph
 
-    # example usage
-    # reader = MainPathReader("data/Graph1.net")
-    # graph = reader.get_graph()
+
+# example usage

@@ -38,7 +38,7 @@ class PartitionCreator:
         n_iterations=20,
         resolution_parameter=0.002,
         verbose=False,
-        cluster_colunm_name=None,
+        cluster_column_name=None,
         centrality_column_name=None,
     ):
         self.partition = la.find_partition(
@@ -55,27 +55,28 @@ class PartitionCreator:
         self.cluster_sizes = pd.Series(self.partition.sizes()).sort_values(
             ascending=False
         )
+
+        if cluster_column_name:
+            self.add_cluster_to_df(column_name=cluster_column_name)
+        if centrality_column_name:
+            self.add_centrality_to_df_and_graph(column_name=centrality_column_name)
         if verbose:
             print(f"Number of clusters: {len(self.cluster_sizes)}")
             print(f"Quality: {self.partition.quality()}")
             print(f"Modularity: {self.partition.modularity}")
-        if cluster_colunm_name:
-            self.add_cluster_to_df(column_name=cluster_colunm_name)
-        if centrality_column_name:
-            self.add_centrality_to_df(column_name=centrality_column_name)
 
     def add_cluster_to_df(self, column_name="cluster"):
         # Extract vertex attributes as a list of dictionaries
-        vertex_attributes = [vertex.attributes() for vertex in self.G.vs]
-
-        # Extract 'eid' and 'cluster' attributes into separate lists
-        eid_list = [attributes["eid"] for attributes in vertex_attributes]
-        cluster_list = [attributes["cluster"] for attributes in vertex_attributes]
+        vertices_df = pd.DataFrame([vertex.attributes() for vertex in self.G.vs])
 
         # Add the 'cluster' column to the DataFrame based on 'eid'
-        self.df[column_name] = self.df["eid"].map(dict(zip(eid_list, cluster_list)))
+        self.df = self.df.merge(
+            vertices_df[["eid", "cluster"]], on="eid", how="left"
+        ).rename(columns={"cluster": column_name})
 
-    def add_centrality_to_df(self, column_name="eigenvector_cluster_centrality"):
+    def add_centrality_to_df_and_graph(
+        self, column_name="eigenvector_cluster_centrality"
+    ):
         """
         Calculate a specified metric for each paper within its cluster and add it as a new column in the DataFrame.
 
@@ -99,6 +100,8 @@ class PartitionCreator:
                 eid_eigenvector[eid] = ev
 
         self.df[column_name] = self.df["eid"].map(eid_eigenvector)
+
+        self.G.vs[column_name] = [eid_eigenvector[eid] for eid in self.G.vs["eid"]]
 
     def cluster_title_printer(
         self,
