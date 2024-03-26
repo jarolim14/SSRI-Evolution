@@ -2,8 +2,9 @@ import sys
 
 import pandas as pd
 
-sys.path.append("/Users/jlq293/Projects/Study-1-Bibliometrics/src/network")
-from NetworkAnalyzerUtils import TextAnalyzer
+sys.path.append("Users/jlq293/Projects/Study-1-Bibliometrics/src/network")
+
+from TextAnalyzer import TextAnalyzer
 
 
 class CommunityExplorer:
@@ -17,7 +18,6 @@ class CommunityExplorer:
     ):
         self.df = df
         self.cluster_column = cluster_column
-        self.text_analyzer = TextAnalyzer()
         self.sort_column = sort_column
         self.nr_tiles = nr_tiles
         self.nr_words = nr_words
@@ -60,14 +60,15 @@ class CommunityExplorer:
         return cluster_title_sheet
 
     def analyze_text(self, df_cluster):
-        self.text_analyzer = TextAnalyzer()
+        text_analyzer = TextAnalyzer()
         text_corpus = df_cluster["title_abstract"].values
         # word_quantities = self.text_analyzer.count_word_quantities(text_corpus)
-        df_tfidf = self.text_analyzer.tfidf_word_values(text_corpus)
+        df_tfidf = text_analyzer.tfidf_word_values(text_corpus)
         # df_both = self.text_analyzer.merged_df(word_quantities, df_tfidf).head(
         #    self.nr_words
         # )
-        tfids_words = df_tfidf["Word_tfidf"].values
+        # min number of words
+        tfids_words = df_tfidf["Word_tfidf"].values[: self.nr_words]
         return tfids_words
 
     def create_full_explorer(self):
@@ -99,7 +100,8 @@ class CommunityExplorer:
             tfids_words = self.analyze_text(df_cluster)
 
             # add to summary dict
-            for i, word in enumerate(tfids_words):
+            for i in range(self.nr_words):
+                word = tfids_words[i] if i < len(tfids_words) else None
                 summary_dict[f"Word_{i}"].append(word)
 
         self.cluster_titles_sheets_dict = cluster_titles_sheets_dict
