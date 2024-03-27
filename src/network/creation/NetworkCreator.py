@@ -121,21 +121,32 @@ class WeightedNetworkCreator:
         self.info_log["length_of_df"] = len(self.df)
         return G
 
-    def add_data_to_nodes(
+    def prettify_network(
         self,
         G,
-        col_list=["eid", "title", "year", "abstract", "doi", "unique_auth_year"],
+        col_list=["eid", "title", "doi"],
     ):
         """
         Add data to nodes from df
         """
-        print("Adding data to nodes...")
-        # Add data to nodes from df
+        G_new = nx.Graph()
+        id_mapping = {}
+
         for node in G.nodes():
+            unique_auth_year = self.df.loc[
+                node, "unique_auth_year"
+            ]  # Get unique_auth_year value
+            id_mapping[node] = unique_auth_year
+            # Add node to new graph
+            G_new.add_node(unique_auth_year)
+            # Add data to node
             node_data = self.df.loc[node, col_list]  # Fetch all required data at once
             for col in col_list:
-                G.nodes[node][col] = node_data[col]
-        return G
+                G_new.nodes[unique_auth_year][col] = node_data[col]
+
+        for u, v, data in G.edges(data=True):
+            G_new.add_edge(id_mapping[u], id_mapping[v], **data)
+        return G_new
 
     def get_info_log(self):
         return self.info_log

@@ -2,17 +2,12 @@ import networkx as nx
 
 
 class PajekNetworkCreator:
-    def __init__(self, G, attr_to_keep):
+    def __init__(self, G):
         self.OG = G
         self.NG = G.copy()
         self.log = {}
-        self.attr_to_keep = attr_to_keep
 
     def prepare_attributes(self):
-        for node, data in self.NG.nodes(data=True):
-            keys_to_remove = [k for k in data if k not in self.attr_to_keep]
-            for k in keys_to_remove:
-                data.pop(k, None)
         for node, data in self.NG.nodes(data=True):
             for k, v in data.items():
                 data[k] = str(v)

@@ -33,20 +33,21 @@ class PajekNetworkCreatorUtils:
 
     @staticmethod
     def remove_reverse_time_bidirectional_edge(G):
-        # find bidirectional edges
-        bidirectional_edges = []
+        # Find and remove bidirectional edges where the earlier paper cites the later paper
         bidirectional_edges_removed = []
+        bidirectional_edges = []
         for edge in G.edges():
-            if (edge[1], edge[0]) in G.edges():
-                bidirectional_edges.append(edge)
+            if edge[::-1] in G.edges():
+                if edge not in bidirectional_edges:
+                    bidirectional_edges.append(edge)
 
-        # remove the edge where the earlier paper cites the later paper
         for edge in bidirectional_edges:
             year1 = pd.to_numeric(edge[0].split("_")[1])
             year2 = pd.to_numeric(edge[1].split("_")[1])
-            if year1 < year2:
-                G.remove_edge(edge[0], edge[1])
+            if year2 > year1:
+                G.remove_edge(*edge)
                 bidirectional_edges_removed.append(edge)
+                print("Removed bidirectional edge: ", edge)
 
         return G, bidirectional_edges_removed
 
@@ -102,7 +103,7 @@ class PajekNetworkCreatorUtils:
             for ref_eid in ref_eids:
                 if ref_eid in label_eid_dict:
                     ref_uay = label_eid_dict[ref_eid]
-                    edges.append((ref_uay, uay))
+                    edges.append((uay, ref_uay))
 
         G.add_edges_from(edges)
 
