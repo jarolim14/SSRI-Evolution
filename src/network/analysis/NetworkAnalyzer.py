@@ -2,7 +2,7 @@ import sys
 
 import pandas as pd
 
-sys.path.append("Users/jlq293/Projects/Study-1-Bibliometrics/src/network")
+sys.path.append("/Users/jlq293/Projects/Study-1-Bibliometrics/src/network/analysis/")
 
 from TextAnalyzer import TextAnalyzer
 

@@ -177,18 +177,20 @@ class MainPathPlotterInteractive:
         return node_trace
 
     def plot_network_on_timeline_interactive(
-        self, savingpath=None, return_fig=True, adjust_overlap=True
+        self, savingpath=None, return_fig=True, adjust_overlap=True, pos=None
     ):
         # Convert year attribute to integer, if not already
         # min_year, max_year, nodes_sorted_by_year = self.clean_years()
-
-        self.pos = nx.kamada_kawai_layout(
-            self.G,
-            weight=None,
-            scale=5.0,
-            center=None,
-            dim=2,
-        )  # Use Kamada-Kawai layout for better node positioning
+        if not pos:
+            self.pos = nx.kamada_kawai_layout(
+                self.G,
+                weight=None,
+                scale=5.0,
+                center=None,
+                dim=2,
+            )  # Use Kamada-Kawai layout for better node positioning
+        else:
+            self.pos = pos
 
         if adjust_overlap:
             self.pos = self.adjust_overlap(0.15, 100)

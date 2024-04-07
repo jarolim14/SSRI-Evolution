@@ -49,8 +49,7 @@ class MainPathReader:
             y=vertex_dict["y"],
             size=vertex_dict["size"],
             shape=vertex_dict["shape"],
-            eid=vertex_dict["eid"],
-            unique_auth_year=vertex_dict["unique_auth_year"],
+            **{k: vertex_dict[k] for k in self.node_attributes}
         )
 
     def parse_arc(self, line):
@@ -59,7 +58,16 @@ class MainPathReader:
         weight = float(parts[2])  # The weight of the arc
         self.graph.add_edge(source, target, weight=weight)
 
+    def prettify(self):
+        # Remove double quotes from node labels
+
+        for node in self.graph.nodes(data=True):
+            node[1]["label"] = node[1]["label"].replace('"', "")
+
+        return self.graph
+
     def get_graph(self):
+        self.prettify()
         return self.graph
 
 

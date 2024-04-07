@@ -59,6 +59,20 @@ class MainPathDataAssigner:
             else:
                 self._assign_single_node_attributes(node, match_id, match_col)
         # print("Data assigned to nodes.")
+        # Remove multiple clusters if only 1 in families
+        # find the attribute that contains the cluster information
+        cluster_attribute = [
+            attr
+            for attr in list(self.mp.nodes(data=True))[0][1].keys()
+            if attr.startswith("cluster")
+        ][0]
+        for node in self.mp.nodes(data=True):
+            cluster = node[1][cluster_attribute]
+            if ";" in cluster:
+                clusters = set(cluster.split(";"))
+                if len(clusters) == 1:
+                    node[1][cluster_attribute] = list(clusters)[0]
+
         return self.mp
 
     def _remove_node_attribute(self, node, attr):
@@ -73,10 +87,10 @@ class MainPathDataAssigner:
         # print("Unwanted node attributes removed.")
         return self.mp
 
-    def process_mp(self):
+    def process_mp(self, match_col="eid", attr_to_remove=["x", "y", "size", "shape"]):
         """Process the mp graph by assigning data and then removing unwanted data."""
-        self.assign_data_to_mp()
-        self.remove_data()
+        self.assign_data_to_mp(match_col)
+        self.remove_data(attr_to_remove)
         return self.mp
 
 
