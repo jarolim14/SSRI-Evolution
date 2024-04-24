@@ -44,9 +44,11 @@ class NetworkAnalyzerUtils:
             # Access the workbook through the writer.book attribute after writing
             workbook = writer.book
 
-            for idx, (sheet_name, sheet_data) in enumerate(
-                explorer_sheets_dict.items()
-            ):
+            sorted_sheet_names = sorted(explorer_sheets_dict.keys())
+
+            for idx, sheet_name in enumerate(sorted_sheet_names):
+                sheet_data = explorer_sheets_dict[sheet_name]
+
                 row = overall_summary_df.iloc[idx]
                 sheet_data.to_excel(writer, sheet_name=sheet_name, index=False)
 

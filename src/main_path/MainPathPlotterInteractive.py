@@ -7,10 +7,13 @@ import plotly.io as pio
 
 
 class MainPathPlotterInteractive:
-    def __init__(self, G, cluster_col, label_col):
+    def __init__(
+        self, G, cluster_col, label_col, hover_cols=["title", "citedby_count"]
+    ):
         self.G = G
         self.cluster_col = cluster_col
         self.label_col = label_col
+        self.hover_cols = hover_cols + [label_col, cluster_col]
 
     @staticmethod
     def add_line_breaks(text, char_limit=100):
@@ -82,13 +85,15 @@ class MainPathPlotterInteractive:
 
     def hover_texts(self):
         hover_texts = []
-        for node, data in self.G.nodes(data=True):
-            wrapped_title = self.add_line_breaks(data["title"])
-            hover_title_cluster = (
-                f"Cluster: {data[self.cluster_col]}<br>{wrapped_title}"
+        for _, data in self.G.nodes(data=True):
+            col_text_dict = {}
+            for col in self.hover_cols:
+                if data[col] is not None:
+                    col_text_dict[col] = self.add_line_breaks(data[col])
+            node_hover_text = "<br>".join(
+                [f"<b>{col}:</b> {col_text_dict[col]}" for col in col_text_dict]
             )
-            hover_title_cluster_cited = f"Cluster: {data[self.cluster_col]}<br>Cited by: {data['citedby_count']}<br>{wrapped_title}"
-            hover_texts.append(hover_title_cluster_cited)
+            hover_texts.append(node_hover_text)
         return hover_texts
 
     def cluster_color_dict(self):

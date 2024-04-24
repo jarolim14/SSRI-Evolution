@@ -1,149 +1,144 @@
-import json
-import re
-
+import colorcet as cc
+import networkx as nx
 import pandas as pd
+import sys
+from dash import Dash, html
+import colorcet as cc
+
+sys.path.append("/Users/jlq293/Projects/Study-1-Bibliometrics/src/main_path/")
 
 
-class TextProcessor:
-    """
-    Class for processing text data.
-    """
+params = "alpha0.3_k20_res0.005"
+p = f"../data/06-clustered-df/{params}.pkl"
+df = pd.read_pickle(p)
 
-    def __init__(self, df):
-        self.df = df
+path_to_main_path = "../data/08-main-paths/final_mp_clustered.graphml"
+G = nx.read_graphml(path_to_main_path)
 
-    def save_na_dict_to_json(
-        self,
-        columns=["title", "abstract"],
-        file_path="./output/removal_log/na_log_text_cols.json",
-    ):
-        na_dict = self.df[columns].isna().sum().to_dict()
-        json_data = json.dumps(na_dict)
-        with open(file_path, "w") as json_file:
-            json_file.write(json_data)
-        print(f"NA dict saved to {file_path}")
+list(G.nodes(data=True))[0]
 
-    def merge_title_abstract(self, title, abstract):
-        """
-        Merge title and abstract into one text.
-        """
-        # Check if title is not a string or is None
-        if not isinstance(title, str) or title is None:
-            title = ""
 
-        # Check if abstract is not a string or is None
-        if not isinstance(abstract, str) or abstract is None:
-            abstract = ""
+def node_and_edge_list_fun(G):
+    nodes_list = []
+    for node, data in G.nodes(data=True):
+        dat = {
+            "id": node,
+            "cluster": data["cluster_alpha0.3_k20_res0.005"],
+            "cluster_label": data["full_label"],
+            "title": data["title"],
+        }
+        pos = {"x": 0, "y": 0}
+        nodes_list.append({"data": dat, "position": pos})
 
-        # Merge title and abstract
-        text = title + ". " + abstract
+    edges_list = []
 
-        return text
+    for source, target in G.edges:
+        edges_list.append({"data": {"source": target, "target": source}})
+    print("Node example")
+    print(nodes_list[0])
+    return nodes_list, edges_list
 
-    def clean_text(self, title_abstract):
-        # Remove specific punctuation and extra brackets content
-        regex_pattern = r"\[.*?\]|[^\w\s();:.!?-]"
-        title_abstract = re.sub(regex_pattern, "", title_abstract)
 
-        # Condense multiple punctuations and reduce excess whitespaces
-        title_abstract = re.sub(r"([;:.!?-])\s*[;:.!?-]+\s*", r"\1 ", title_abstract)
-        title_abstract = re.sub(r"\s{2,}", " ", title_abstract)
+def default_stylesheet_fun(cluster_color_dict):
+    default_stylesheet = [
+        {
+            "selector": "node",  # Select all nodes
+            "style": {
+                "shape": "rectangle",  # Change the shape to rectangle
+                "width": "80px",  # Specify width of the nodes
+                "height": "30px",  # Specify height of the nodes
+                "label": "data(cluster)",  # Show node label
+                "font-size": "24px",  # Set font size
+                "text-valign": "center",
+                "text-halign": "center",
+            },
+        },
+        {
+            "selector": "edge",
+            "style": {
+                # The default curve style does not work with certain arrows
+                "curve-style": "bezier",
+                "source-arrow-shape": "triangle",
+                # "target-arrow-shape": "triangle",
+            },
+        },
+    ]
 
-        # strip leading and trailing whitespaces
-        title_abstract = title_abstract.strip()
-
-        return title_abstract
-
-    def remove_starting_phrases(self, text):
-        """
-        Remove starter phrases from the beginning of the text.
-        Starter phrases are identified as any word ending with a colon at the beginning of the text.
-        In practice, it is usually "Introduction:" or "Background:".
-        """
-
-        # Check if text is not a string or is None
-        if not isinstance(text, str) or text is None:
-            return ""
-
-        # Regular expression to match a starting word ending with a colon
-        starter_phrase_pattern = r"^\s*\w+:\s*"
-
-        # Remove the starter phrase if found
-        cleaned_text = re.sub(starter_phrase_pattern, "", text, count=1)
-
-        # Make it case insensitive and remove only if it's the first word
-        cleaned_text = cleaned_text.replace("Abstract", "", 1).replace("Title", "", 1)
-
-        return cleaned_text
-
-    def remove_ending_statements(self, abstract):
-        """
-        Removes parts of the abstract after the second-to-last or last sentence
-        if certain conditions are met. Specifically, if the sentence starts with
-        'copyright', starts with 4 consecutive digits, or ends with 4 consecutive digits.
-
-        Parameters:
-        abstract (str): The abstract to be processed.
-
-        Returns:
-        str: Modified abstract with specific end sentences removed.
-        """
-        # Split abstract into sentences and filter out very short fragments
-        sentences = [
-            sentence.strip()
-            for sentence in re.split(r"(?<=[.!?])\s+", abstract)
-            if len(sentence.strip()) > 3
-        ]
-
-        # Define a regex pattern for matching the criteria
-        pattern_start_with_copy_or_digits = re.compile(
-            r"(?i)^(copyright|\d{4}|\(c\)|all rights reserved|©)"
+    # Add styles for each label-color mapping
+    for cluster, color in cluster_color_dict.items():
+        default_stylesheet.append(
+            {
+                "selector": f'[cluster = "{cluster}"]',  # Select nodes with the specific label
+                "style": {"background-color": color, "line-color": color},
+            }
         )
-        pattern_end_with_digits = re.compile(r"\d{4}$")
-
-        # Function to check the conditions on a sentence
-        def check_conditions(sentence):
-            return pattern_start_with_copy_or_digits.match(
-                sentence
-            ) or pattern_end_with_digits.search(sentence)
-
-        # Check the second-to-last sentence first
-        if len(sentences) >= 2 and check_conditions(sentences[-2]):
-            return " ".join(sentences[:-2])
-
-        # If conditions not met in second-to-last, check the last sentence
-        elif len(sentences) >= 1 and check_conditions(sentences[-1]):
-            return " ".join(sentences[:-1])
-
-        # If none of the conditions are met, return the original abstract
-        return abstract
-
-    def clean_text_and_remove_start_and_ending_statements(self):
-        """
-        use both functions above to clean text
-        """
-
-        clean_title = self.df["title"].apply(self.remove_starting_phrases)
-        clean_abstract = self.df["abstract"].apply(self.remove_starting_phrases)
-        clean_abstract = [
-            self.remove_ending_statements(abstract) for abstract in clean_abstract
-        ]
-        title_abstract = [
-            self.merge_title_abstract(title, abstract)
-            for title, abstract in zip(clean_title, clean_abstract)
-        ]
-
-        self.df["title_abstract"] = [self.clean_text(t) for t in title_abstract]
-        return self.df
+    return default_stylesheet
 
 
-df = pd.read_pickle("data/03-connected/scopus_cleaned_connected.pkl")
+def cluster_color_dict(G):
+    cluster_color_dict = {
+        cluster: cc.glasbey_light[i]
+        for i, cluster in enumerate(
+            set(nx.get_node_attributes(G, "cluster_alpha0.3_k20_res0.005").values())
+        )
+    }
+    # print first
+    print(f"Cluster color dictionary example: {list(cluster_color_dict.items())[:5]}")
+
+    return cluster_color_dict
 
 
-# Usage:
-cols = ["abstract", "title"]
-file_path = "./output/removal_log/na_log_text_cols.json"
+nodes_list, edges_list = node_and_edge_list_fun(G)
 
-tp = TextProcessor(df)
-tp.save_na_dict_to_json(cols, file_path)
-df = tp.clean_text_and_remove_start_and_ending_statements()
+cluster_color_dict = cluster_color_dict(G)
+
+default_stylesheet = default_stylesheet_fun(cluster_color_dict)
+
+
+from dash import Dash, html
+import dash_cytoscape as cyto
+
+# nodes_list[0] = {'data': {'id': '1', 'label': '36', 'cluster': '36'}, 'position': {'x': 0, 'y': 0}}
+cyto.load_extra_layouts()
+
+app = Dash(__name__)
+server = app.server
+
+
+elements = nodes_list + edges_list
+
+app.layout = html.Div(
+    [
+        html.Div(
+            cyto.Cytoscape(
+                id="main-path-cytoscape",
+                elements=elements,
+                style={
+                    "width": "100%",
+                    "height": "800px",
+                    "background-color": "#f5f5f5",  # Change background color here
+                    "padding": "20px",
+                },
+                layout={"name": "dagre"},
+                stylesheet=default_stylesheet,
+                #                responsive=True,
+            ),
+        ),
+        html.Button("Print elements JSONified", id="button-main-path-cytoscape"),
+        html.Div(id="html-main-path-cytoscape"),
+    ]
+)
+
+
+@app.callback(
+    Output("html-main-path-cytoscape", "children"),
+    [Input("button-main-path-cytoscape", "n_clicks")],
+    [State("main-path-cytoscape", "elements")],
+)
+def testCytoscape(n_clicks, elements):
+    if n_clicks:
+        return json.dumps(elements)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
