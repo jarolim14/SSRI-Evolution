@@ -6,7 +6,6 @@ sys.path.append("/Users/jlq293/Projects/Study-1-Bibliometrics/src/network/analys
 
 from TextAnalyzer import TextAnalyzer
 
-
 class CommunityExplorer:
     def __init__(
         self,
@@ -26,8 +25,9 @@ class CommunityExplorer:
         summary_cols = [
             "Cluster",
             "Nr of Pubs",
-            "Mean Year",
-            "SD Year",
+            "25th Percentile Year",
+            "Median Year",
+            "75th Percentile Year",
             "Given Label",
         ]
         summary_cols.extend([f"Word_{i}" for i in range(self.nr_words)])
@@ -92,8 +92,9 @@ class CommunityExplorer:
             ## Calculate the full value counts per cluster
             summary_dict["Cluster"].append(cluster)
             summary_dict["Nr of Pubs"].append(df_cluster.shape[0])
-            summary_dict["Mean Year"].append(round(df_cluster["year"].mean(), 1))
-            summary_dict["SD Year"].append(round(df_cluster["year"].std(), 1))
+            summary_dict["25th Percentile Year"].append(df_cluster["year"].quantile(0.25))
+            summary_dict["Median Year"].append(df_cluster["year"].quantile(0.50))
+            summary_dict["75th Percentile Year"].append(df_cluster["year"].quantile(0.75))
             summary_dict["Given Label"].append("")
 
             ## text analyser
@@ -108,7 +109,7 @@ class CommunityExplorer:
 
         self.df_summary = (
             pd.DataFrame(summary_dict)
-            .sort_values(by="Nr of Pubs", ascending=False)
+            .sort_values(by="Cluster", ascending=True)
             .reset_index(drop=True)
         )
 
@@ -152,8 +153,9 @@ class FullExplorer:
         params_cols = [
             "Cluster",
             "Nr of Pubs",
-            "Mean Year",
-            "SD Year",
+            "25th Percentile Year",
+            "Median Year",
+            "75th Percentile Year",
         ]
         params_cols.extend([f"Word_{i}" for i in range(self.nr_words)])
         params_dict = {col: [] for col in params_cols}
@@ -165,8 +167,9 @@ class FullExplorer:
             df_cluster = self.df[self.df[self.cluster_column] == cluster]
             params_dict["Cluster"].append(cluster)
             params_dict["Nr of Pubs"].append(df_cluster.shape[0])
-            params_dict["Mean Year"].append(round(df_cluster["year"].mean(), 1))
-            params_dict["SD Year"].append(round(df_cluster["year"].std(), 1))
+            params_dict["25th Percentile Year"].append(df_cluster["year"].quantile(0.25))
+            params_dict["Median Year"].append(df_cluster["year"].quantile(0.50))
+            params_dict["75th Percentile Year"].append(df_cluster["year"].quantile(0.75))
 
             # Now add words
             text_analyzer = TextAnalyzer()  # Make sure TextAnalyzer is defined/imported

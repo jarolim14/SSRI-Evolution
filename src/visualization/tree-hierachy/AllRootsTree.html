@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Pharmacology Visualisation</title>
+<style>
+/* ... (Your existing CSS styles remain unchanged) ... */
+</style>
+<select id="datasetSelect">
+  <option value="pharmacology">Pharmacology</option>
+  <option value="safety">Safety</option>
+</select>
+<form>
+  <label><input type="radio" name="mode" value="cluster" checked> Dendrogram</label>
+  <label><input type="radio" name="mode" value="tree"> Tree</label>
+  <button id="saveButton">Save as SVG</button>
+</form>
+<svg width="960" height="1200"></svg>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+
+const datasets = {
+  pharmacology: {
+    "name": "Pharmacology",
+    "children": [
+        {
+            "name": "Pharmacodynamics",
+            "children": [
+                {
+                    "name": "Mechanism of action",
+                    "children": [
+                        { "name": "Serotonin Receptor Studies" },
+                        { "name": "Prenatal Exposure" },
+                        { "name": "Astrocyte Receptors" },
+                        { "name": "SSRIs Effects on Dopamine Receptors" },
+                        { "name": "Modulation of Serotonin Release by Auto- and Heteroreceptors" }
+                    ]
+                },
+                {
+                    "name": "Animal Models of Disorders",
+                    "children": [
+                        { "name": "Forced Swimming Test" },
+                        { "name": "Conditioned Fear" },
+                        { "name": "Differential Reinforcement of Low Rate (DRL) Operant Schedule" },
+                        { "name": "Olfactory Bulbectomized (OB) Rat Model for Depression" },
+                        { "name": "Animal Models of Obsessive-compulsive Disorder (OCD)" }
+                    ]
+                },
+                {
+                    "name": "OtherPharmacodynamics",
+                    "children": [
+                        { "name": "Neurogenesis" },
+                        { "name": "Prenatal Exposure" },
+                        { "name": "Ion Channels" },
+                        { "name": "Methylenedioxymethamphetamine (MDMA) Effects on Serotonin" },
+                        { "name": "SSRIs as Antifungal Agents" },
+                        { "name": "SSRIs in Model Organisms (C. Elegans and Drosophila)" },
+                        { "name": "Paroxetines Potential as GRK2 Inhibitor" },
+                        { "name": "LDAEP as Biomarker for Depression" },
+                        { "name": "Treatment of Paroxetine Induced Sexual Dysfunction" }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Pharmacokinetics",
+            "children": [
+                { "name": "Cytochrome P450 System" },
+                { "name": "(Sertraline) Drug Delivery" }
+            ]
+        },
+        {
+            "name": "Pharmacogenetics",
+            "children": [
+                { "name": "Serotonin Transporter Gene and Antidepressant Response" },
+                { "name": "Genotype Mediated Response to SSRIs" }
+            ]
+        },
+        {
+            "name": "Analytical Methods",
+            "children": [
+                { "name": "Quantification of SSRIs in Biological Samples" },
+                { "name": "Quantification of Dopamine and Serotonin Release and Uptake" }
+            ]
+        },
+        {
+            "name": "Biomarker Search",
+            "children": [
+                { "name": "Neural Processing of Emotional Cues" },
+                { "name": "SSRIs Effect on BDNF Levels in Depressive Patients" }
+            ]
+        },
+        {
+            "name": "OtherPharmacology",
+            "children": [
+                { "name": "Prenatal Exposure" },
+                { "name": "Neural Processing of Emotional Cues" },
+                { "name": "SSRI Synthesis" },
+                { "name": "Neuroendocrine Effects of Citalopram" },
+                { "name": "Pharmacological Reviews" },
+                { "name": "Novel Compounds Synthesis and Antidepressant Potential" }
+            ]
+        }
+    ]
+},
+  safety: {
+    "name": "Safety",
+    "children": [
+      { 
+        "name": "Prenatal Exposure", 
+        "children": [
+          { "name": "Prenatal Exposure" },
+          { "name": "Prenatal Exposure (nc)" } // Added "(nc)" to differentiate
+        ]
+      },
+      { "name": "Pregnancy", "children": [{ "name": "Prenatal Exposure" }] },
+      { 
+        "name": "Suicide", 
+        "children": [
+          { "name": "Pediatric Depression" },
+          { "name": "Suicide Risk" }
+        ]
+      },
+      { 
+        "name": "Sexual Dysfunction", 
+        "children": [
+          { "name": "Sexual Dysfunction" },
+          { "name": "Treatment of Paroxetine Induced Sexual Dysfunction" },
+          { "name": "Psilocybin for Depression" } 
+        ]
+      },
+      { 
+        "name": "Toxicity", 
+        "children": [
+          { "name": "Serotonin Syndrome" },
+          { "name": "Hepatotoxic Risk" }
+        ]
+      },
+      { "name": "Bleeding Risk", "children": [{ "name": "Bleeding Risk" }] },
+      { "name": "Cardiovascular", "children": [{ "name": "QTC Prolongation" }] },
+      { 
+        "name": "Other Safety", 
+        "children": [
+          { "name": "Fracture Risk" },
+          { "name": "Extrapyramidal Reactions Risk" },
+          { "name": "Oncopreventive and Oncolytic Properties of SSRIs" },
+          { "name": "Drug-Drug Interactions" },
+          { "name": "Hyponatremia Risk" },
+          { "name": "Forensic Drug Concentration" },
+          { "name": "SSRI Safety Reviews" },
+          { "name": "Withdrawal Symptoms" },
+          { "name": "Hyperprolactinemia-related Symptoms" },
+          { "name": "SSRIs Ocular Safety Risk" },
+          { "name": "Orofacial Pain Disorders" },
+          { "name": "Generic SSRIs" },
+          { "name": "Risk of Hallucinations" },
+          { "name": "Risk of Microscopic Colitis" },
+          { "name": "Risk of Reversible Cerebral Vasoconstriction Syndrome (RCVS)" }
+        ]
+      }
+    ]
+  }
+};
+
+
+const margin = { top: 20, right: 220, bottom: 20, left: 120 };
+const width = 960 - margin.left - margin.right;
+const height = 1200 - margin.top - margin.bottom;
+
+const svg = d3.select("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", `translate(${margin.left},${margin.top})`);
+
+let tree = d3.tree().size([height - 400, width - 160]);
+let cluster = d3.cluster().size([height, width - 160]);
+
+// Style Definitions (Moved outside of function for efficiency)
+svg.append("defs").append("style").text(`
+  .node circle { fill: #999; }
+  .node text { font: 12px sans-serif; }
+  .node--internal circle { fill: #555; }
+  .node--internal text { text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff; }
+  .link { fill: none; stroke: #555; stroke-opacity: 0.4; stroke-width: 1.5px; }
+`);
+
+let root, link, node; 
+
+function updateVisualization(data) {
+
+  root = d3.hierarchy(data, d => d.children);
+  cluster(root);
+
+  // Clear previous elements
+  svg.selectAll(".link").remove();
+  svg.selectAll(".node").remove();
+
+  // Create links and nodes
+  link = svg.selectAll(".link")
+    .data(root.descendants().slice(1))
+    .join("path")
+    .attr("class", "link")
+    .attr("d", diagonal);
+
+  node = svg.selectAll(".node")
+    .data(root.descendants())
+    .join("g")
+    .attr("class", d => "node" + (d.children ? " node--internal" : " node--leaf"))
+    .attr("transform", d => `translate(${d.y},${d.x})`); 
+
+  node.append("circle").attr("r", 2.5);
+  node.append("text")
+    .attr("dy", ".35em")
+    .attr("x", d => d.children ? -13 : 13)
+    .attr("text-anchor", d => d.children ? "end" : "start")
+    .text(d => d.data.name);
+}
+
+
+// Initial visualization
+updateVisualization(datasets.pharmacology); 
+
+// Dropdown Change Event
+d3.select("#datasetSelect").on("change", function() {
+  const selectedDataset = this.value;
+  updateVisualization(datasets[selectedDataset]);
+  changed(); // Apply the current layout mode to the new data
+});
+
+
+
+d3.selectAll("input")
+    .on("click", changed);
+
+function changed() {
+    (this.value === "tree" ? tree : cluster)(root);
+    var t = d3.transition().duration(750);
+    node.transition(t).attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+    link.transition(t).attr("d", diagonal);
+}
+
+function diagonal(d) {
+  return "M" + d.y + "," + d.x
+    + "C" + (d.parent.y + 100) + "," + d.x
+    + " " + (d.parent.y + 100) + "," + d.parent.x
+    + " " + d.parent.y + "," + d.parent.x;
+}
+
+// save as svg
+function diagonal(d) {
+  return "M" + d.y + "," + d.x
+    + "C" + (d.parent.y + 100) + "," + d.x
+    + " " + (d.parent.y + 100) + "," + d.parent.x
+    + " " + d.parent.y + "," + d.parent.x;
+}
+// Embed styles function
+function embedStyles(svgElement) {
+    const styles = `
+    .node circle {
+        fill: #999;
+    }
+    .node text {
+        font: 12px sans-serif;
+    }
+    .node--internal circle {
+        fill: #555;
+    }
+    .node--internal text {
+        text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+    }
+    .link {
+        fill: none;
+        stroke: #555;
+        stroke-opacity: 0.4;
+        stroke-width: 1.5px;
+    }
+    `;
+    
+    const styleElement = document.createElement("style");
+    styleElement.setAttribute("type", "text/css");
+    styleElement.innerHTML = styles;
+
+    const defsElement = document.createElement("defs");
+    defsElement.appendChild(styleElement);
+
+    svgElement.insertBefore(defsElement, svgElement.firstChild);
+}
+
+// Save as SVG functionality
+document.getElementById('saveButton').addEventListener('click', function() {
+    var svgElement = document.querySelector('svg');
+    embedStyles(svgElement); // Embed the styles before serialization
+
+    var serializer = new XMLSerializer();
+    var svgString = serializer.serializeToString(svgElement);
+    var blob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'pharmacology_visualisation.svg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
+</script>
+
+</script>
+
+

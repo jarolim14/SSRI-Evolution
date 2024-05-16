@@ -1,0 +1,475 @@
+digraph {
+	graph [size="100,800"]
+	Pharmacology
+	Pharmacodynamics
+	Pharmacology -> Pharmacodynamics
+	"Mechanism of action"
+	Pharmacodynamics -> "Mechanism of action"
+	Label_A
+	"Mechanism of action" -> Label_A
+	Label_C
+	"Mechanism of action" -> Label_C
+	Label_X
+	"Mechanism of action" -> Label_X
+	Label_Y
+	"Mechanism of action" -> Label_Y
+	Label_Z
+	"Mechanism of action" -> Label_Z
+	"Animal Models of Disorders"
+	Pharmacodynamics -> "Animal Models of Disorders"
+	Label_M
+	"Animal Models of Disorders" -> Label_M
+	Label_N
+	"Animal Models of Disorders" -> Label_N
+	Label_O
+	"Animal Models of Disorders" -> Label_O
+	Label_P
+	"Animal Models of Disorders" -> Label_P
+	Label_Q
+	"Animal Models of Disorders" -> Label_Q
+	Other
+	Pharmacodynamics -> Other
+	Label_B
+	Other -> Label_B
+	Label_D
+	Other -> Label_D
+	Label_E
+	Other -> Label_E
+	Label_F
+	Other -> Label_F
+	Label_G
+	Other -> Label_G
+	Label_H
+	Other -> Label_H
+	Label_I
+	Other -> Label_I
+	Label_J
+	Other -> Label_J
+	Pharmacokinetics
+	Pharmacology -> Pharmacokinetics
+	Label_K
+	Pharmacokinetics -> Label_K
+	Label_L
+	Pharmacokinetics -> Label_L
+	Pharmacogenetics
+	Pharmacology -> Pharmacogenetics
+	Label_R
+	Pharmacogenetics -> Label_R
+	Label_S
+	Pharmacogenetics -> Label_S
+	"Analytical Methods"
+	Pharmacology -> "Analytical Methods"
+	Label_T
+	"Analytical Methods" -> Label_T
+	Label_U
+	"Analytical Methods" -> Label_U
+	"Biomarker Search"
+	Pharmacology -> "Biomarker Search"
+	Label_V
+	"Biomarker Search" -> Label_V
+	Label_W
+	"Biomarker Search" -> Label_W
+	Other
+	Pharmacology -> Other
+	Label_A
+	Other -> Label_A
+	Label_V
+	Other -> Label_V
+	Label_60
+	Other -> Label_60
+	Label_72
+	Other -> Label_72
+	Label_118
+	Other -> Label_118
+	Indications
+	Disorders
+	Indications -> Disorders
+	Depression
+	Disorders -> Depression
+	Label_7
+	Depression -> Label_7
+	Label_8
+	Depression -> Label_8
+	Label_12
+	Depression -> Label_12
+	Label_13
+	Depression -> Label_13
+	Label_14
+	Depression -> Label_14
+	Label_17
+	Depression -> Label_17
+	Label_21
+	Depression -> Label_21
+	Label_25
+	Depression -> Label_25
+	Label_41
+	Depression -> Label_41
+	Label_48
+	Depression -> Label_48
+	Label_54
+	Depression -> Label_54
+	Label_55
+	Depression -> Label_55
+	Label_58
+	Depression -> Label_58
+	Label_64
+	Depression -> Label_64
+	Label_74
+	Depression -> Label_74
+	Label_79
+	Depression -> Label_79
+	Label_81
+	Depression -> Label_81
+	Label_82
+	Depression -> Label_82
+	Label_86
+	Depression -> Label_86
+	Label_87
+	Depression -> Label_87
+	Label_88
+	Depression -> Label_88
+	Label_93
+	Depression -> Label_93
+	Label_95
+	Depression -> Label_95
+	Label_98
+	Depression -> Label_98
+	Label_100
+	Depression -> Label_100
+	Label_102
+	Depression -> Label_102
+	Label_113
+	Depression -> Label_113
+	Label_115
+	Depression -> Label_115
+	Label_116
+	Depression -> Label_116
+	Label_119
+	Depression -> Label_119
+	Label_120
+	Depression -> Label_120
+	Label_121
+	Depression -> Label_121
+	Label_122
+	Depression -> Label_122
+	Label_125
+	Depression -> Label_125
+	Label_128
+	Depression -> Label_128
+	Label_132
+	Depression -> Label_132
+	Label_138
+	Depression -> Label_138
+	Label_141
+	Depression -> Label_141
+	Label_142
+	Depression -> Label_142
+	Label_23
+	Depression -> Label_23
+	Label_47
+	Depression -> Label_47
+	Label_19
+	Depression -> Label_19
+	Label_41
+	Depression -> Label_41
+	Anxiety
+	Disorders -> Anxiety
+	Label_32
+	Anxiety -> Label_32
+	Label_37
+	Anxiety -> Label_37
+	Label_63
+	Anxiety -> Label_63
+	Label_75
+	Anxiety -> Label_75
+	OCD
+	Disorders -> OCD
+	Label_4
+	OCD -> Label_4
+	Label_137
+	OCD -> Label_137
+	Label_139
+	OCD -> Label_139
+	"Weight and Eating Disorders"
+	Disorders -> "Weight and Eating Disorders"
+	Label_29
+	"Weight and Eating Disorders" -> Label_29
+	Label_50
+	"Weight and Eating Disorders" -> Label_50
+	"Substance Abuse"
+	Disorders -> "Substance Abuse"
+	Label_51
+	"Substance Abuse" -> Label_51
+	Label_124
+	"Substance Abuse" -> Label_124
+	Other
+	Disorders -> Other
+	Label_15
+	Other -> Label_15
+	Label_22
+	Other -> Label_22
+	Label_34
+	Other -> Label_34
+	Label_36
+	Other -> Label_36
+	Label_42
+	Other -> Label_42
+	Label_43
+	Other -> Label_43
+	Label_45
+	Other -> Label_45
+	Label_52
+	Other -> Label_52
+	Label_56
+	Other -> Label_56
+	Label_61
+	Other -> Label_61
+	Label_62
+	Other -> Label_62
+	Label_71
+	Other -> Label_71
+	Label_78
+	Other -> Label_78
+	Label_91
+	Other -> Label_91
+	Label_99
+	Other -> Label_99
+	Label_101
+	Other -> Label_101
+	Label_103
+	Other -> Label_103
+	Label_104
+	Other -> Label_104
+	Label_105
+	Other -> Label_105
+	Label_109
+	Other -> Label_109
+	Label_110
+	Other -> Label_110
+	Label_114
+	Other -> Label_114
+	Label_115
+	Other -> Label_115
+	Label_123
+	Other -> Label_123
+	Label_126
+	Other -> Label_126
+	Label_127
+	Other -> Label_127
+	Label_129
+	Other -> Label_129
+	Label_133
+	Other -> Label_133
+	Label_144
+	Other -> Label_144
+	"Special Populations"
+	Indications -> "Special Populations"
+	Pediatrics
+	"Special Populations" -> Pediatrics
+	Label_7
+	Pediatrics -> Label_7
+	Label_56
+	Pediatrics -> Label_56
+	Label_75
+	Pediatrics -> Label_75
+	Label_139
+	Pediatrics -> Label_139
+	Geriatrics
+	"Special Populations" -> Geriatrics
+	Label_26
+	Geriatrics -> Label_26
+	Label_38
+	Geriatrics -> Label_38
+	Label_49
+	Geriatrics -> Label_49
+	Label_58
+	Geriatrics -> Label_58
+	Label_65
+	Geriatrics -> Label_65
+	Label_69
+	Geriatrics -> Label_69
+	Label_79
+	Geriatrics -> Label_79
+	Label_115
+	Geriatrics -> Label_115
+	Label_141
+	Geriatrics -> Label_141
+	Other
+	"Special Populations" -> Other
+	Label_20
+	Other -> Label_20
+	Label_21
+	Other -> Label_21
+	Label_48
+	Other -> Label_48
+	Label_55
+	Other -> Label_55
+	Label_87
+	Other -> Label_87
+	Label_88
+	Other -> Label_88
+	Label_93
+	Other -> Label_93
+	Label_100
+	Other -> Label_100
+	Label_116
+	Other -> Label_116
+	Label_121
+	Other -> Label_121
+	Label_131
+	Other -> Label_131
+	Other
+	Indications -> Other
+	Safety
+	"Prenatal Exposure"
+	Safety -> "Prenatal Exposure"
+	Label_2
+	"Prenatal Exposure" -> Label_2
+	Label_11
+	"Prenatal Exposure" -> Label_11
+	Pregnancy
+	Safety -> Pregnancy
+	Label_2
+	Pregnancy -> Label_2
+	Suicide
+	Safety -> Suicide
+	Label_7
+	Suicide -> Label_7
+	Label_1
+	Suicide -> Label_1
+	"Sexual Dysfunction"
+	Safety -> "Sexual Dysfunction"
+	Label_0
+	"Sexual Dysfunction" -> Label_0
+	Label_140
+	"Sexual Dysfunction" -> Label_140
+	Label_143
+	"Sexual Dysfunction" -> Label_143
+	Toxicity
+	Safety -> Toxicity
+	Label_18
+	Toxicity -> Label_18
+	Label_59
+	Toxicity -> Label_59
+	"Bleeding Risk"
+	Safety -> "Bleeding Risk"
+	Label_27
+	"Bleeding Risk" -> Label_27
+	Cardiovascular
+	Safety -> Cardiovascular
+	Label_46
+	Cardiovascular -> Label_46
+	Other
+	Safety -> Other
+	Label_38
+	Other -> Label_38
+	Label_40
+	Other -> Label_40
+	Label_44
+	Other -> Label_44
+	Label_65
+	Other -> Label_65
+	Label_69
+	Other -> Label_69
+	Label_73
+	Other -> Label_73
+	Label_76
+	Other -> Label_76
+	Label_80
+	Other -> Label_80
+	Label_90
+	Other -> Label_90
+	Label_97
+	Other -> Label_97
+	Label_99
+	Other -> Label_99
+	Label_130
+	Other -> Label_130
+	Label_135
+	Other -> Label_135
+	Label_147
+	Other -> Label_147
+	Other
+	Drugs
+	Other -> Drugs
+	Paroxetine
+	Drugs -> Paroxetine
+	Label_9
+	Paroxetine -> Label_9
+	Label_33
+	Paroxetine -> Label_33
+	Label_140
+	Paroxetine -> Label_140
+	Fluoxetine
+	Drugs -> Fluoxetine
+	Label_39
+	Fluoxetine -> Label_39
+	Label_134
+	Fluoxetine -> Label_134
+	Fluoxamine
+	Drugs -> Fluoxamine
+	Label_14
+	Fluoxamine -> Label_14
+	Escitalopram
+	Drugs -> Escitalopram
+	Label_25
+	Escitalopram -> Label_25
+	Sertraline
+	Drugs -> Sertraline
+	Label_64
+	Sertraline -> Label_64
+	Label_85
+	Sertraline -> Label_85
+	Agomelatine
+	Drugs -> Agomelatine
+	Label_81
+	Agomelatine -> Label_81
+	Vilazodone
+	Drugs -> Vilazodone
+	Label_86
+	Vilazodone -> Label_86
+	Psilocybin
+	Drugs -> Psilocybin
+	Label_142
+	Psilocybin -> Label_142
+	Ecotoxicology
+	Other -> Ecotoxicology
+	Label_1
+	Ecotoxicology -> Label_1
+	Label_83
+	Ecotoxicology -> Label_83
+	"Alternative Treatments"
+	Other -> "Alternative Treatments"
+	Label_8
+	"Alternative Treatments" -> Label_8
+	Label_35
+	"Alternative Treatments" -> Label_35
+	"Drug Utilization Patterns"
+	Other -> "Drug Utilization Patterns"
+	Label_24
+	"Drug Utilization Patterns" -> Label_24
+	"Cost-Effectiveness"
+	Other -> "Cost-Effectiveness"
+	Label_31
+	"Cost-Effectiveness" -> Label_31
+	Other
+	Other -> Other
+	Label_53
+	Other -> Label_53
+	Label_94
+	Other -> Label_94
+	Label_96
+	Other -> Label_96
+	Label_105
+	Other -> Label_105
+	Label_111
+	Other -> Label_111
+	Label_134
+	Other -> Label_134
+	Label_136
+	Other -> Label_136
+	Label_145
+	Other -> Label_145
+	Label_147
+	Other -> Label_147
+}

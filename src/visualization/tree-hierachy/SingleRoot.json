@@ -1,0 +1,55 @@
+{"Pharmacology": {
+    "Pharmacodynamics": {
+      "Mechanism of action": [
+        "Serotonin Receptor Studies",
+        "Prenatal Exposure",
+        "Serotonin Receptor Studies",
+        "Astrocyte Receptors",
+        "SSRIs Effects on Dopamine Receptors",
+        "Modulation of Serotonin Release by Autoreceptors and Heteroreceptors"
+      ],
+      "Animal Models of Disorders": [
+        "Forced Swimming Test",
+        "Conditioned Fear",
+        "Differential Reinforcement of Low Rate (DRL) Operant Schedule",
+        "Olfactory Bbulbectomized (OB) Rat Model for Depression",
+        "Animal Models of Obsessive-compulsive Disorder (OCD)"
+      ],
+      "OtherPharmacodynamics": [
+        "Neurogenesis",
+        "Prenatal Exposure",
+        "Ion Channels",
+        "Methylenedioxymethamphetamine (MDMA) Effects on Serotonin",
+        "SSRIs as Antifungal Agents",
+        "SSRIs in Model Organisms ( C. Elegans and Drosophilia)",
+        "Paroxetines Therapeutic Potential as G Protein-coupled Receptor Kinase 2 (GRK2) Inhibitor",
+        "Loudness Dependence of Auditory Evoked Potentials (LDAEP) as Biomarker for Depression",
+        "Treatment of Paroxetine Induced Sexual Dysfunction"
+      ]
+    },
+    "Pharmacokinetics": [
+      "SSRIs and the Cytochrome P450 System",
+      "(Sertraline) Drug Delivery"
+    ],
+    "Pharmacogenetics": [
+      "Serotonin Transporter Gene and Antidepressant Response",
+      "Genotype Mediated Response to SSRIs"
+    ],
+    "Analytical Methods": [
+      "Quantification of SSRIs in Biological Samples",
+      "Quantification of Dopamine and Serotonin Release and Uptake"
+    ],
+    "Biomarker Search": [
+      "Neural Processing of Emotional Cues",
+      "SSRIs Effect on Brain-derived Neurotrophic Factor (BDNF) Levels in Depressive Patients"
+    ],
+    "OtherPharmacology": [
+      "Prenatal Exposure",
+      "Neural Processing of Emotional Cues",
+      "SSRI Synthesis",
+      "Neuroendocrine Effects of Citalopram",
+      "Pharmacological Reviews",
+      "Novel Compounds Synthesis and Antidepressant Potential"
+    ]
+  }
+}

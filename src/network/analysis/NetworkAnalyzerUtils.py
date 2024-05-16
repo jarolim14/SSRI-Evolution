@@ -91,7 +91,7 @@ class NetworkAnalyzerUtils:
             workbook = writer.book
 
             # Iterate through cluster_titles_sheets_dict and write each to a new sheet
-            for cluster, sheet in cluster_titles_sheets_dict.items():
+            for cluster, sheet in sorted(cluster_titles_sheets_dict.items(), key=lambda x: int(x[0])):
                 sheet_name = f"cluster_{cluster}"
                 sheet.to_excel(writer, sheet_name=sheet_name, index=False)
 
@@ -111,7 +111,7 @@ class NetworkAnalyzerUtils:
                 )
                 # add time info
                 current_sheet.cell(row=lastrow + 3, column=1).value = (
-                    f"Year(x,sd) m={df_summary[df_summary['Cluster'] == cluster]['Mean Year'].values[0]} sd={df_summary[df_summary['Cluster'] == cluster]['SD Year'].values[0]}"
+                    f"Year(Q1, Median, Q3) Q1={df_summary[df_summary['Cluster'] == cluster]['25th Percentile Year'].values[0]} Median={df_summary[df_summary['Cluster'] == cluster]['Median Year'].values[0]} Q3={df_summary[df_summary['Cluster'] == cluster]['75th Percentile Year'].values[0]}"
                 )
 
             # Update the summary sheet with hyperlinks to each cluster sheet
