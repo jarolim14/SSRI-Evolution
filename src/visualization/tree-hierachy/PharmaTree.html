@@ -1,200 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Pharmacology Dendrogram</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        .node circle {
-            fill: #3706cb;
-        }
-        .node text {
-            font: 12px sans-serif;
-        }
-        .node--internal circle {
-         fill: #3706cb;
-        }       
-        .link {
-            fill: none;
-            stroke: #d317bd;
-            stroke-opacity: 0.4;
-            stroke-width: 1.5px;
-        }
+      .node circle {
+        fill: #3706cb;
+      }
+      .node text {
+        font: 12px sans-serif;
+      }
+      .node--internal circle {
+        fill: #3706cb;
+      }
+      .link {
+        fill: none;
+        stroke: #d317bd;
+        stroke-opacity: 0.4;
+        stroke-width: 1.5px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <script>
-        // Pharmacology data
-        const data = {
-            "name": "Pharmacology",
-            "children": [
-                {
-                    "name": "Pharmacodynamics",
-                    "children": [
-                        {
-                            "name": "Mechanism of action",
-                            "children": [
-                                { "name": "Serotonin Receptor Studies" },
-                                { "name": "Prenatal Exposure" },
-                                { "name": "Astrocyte Receptors" },
-                                { "name": "SSRIs Effects on Dopamine Receptors" },
-                                { "name": "Modulation of Serotonin Release by Autoreceptors and Heteroreceptors" }
-                            ]
-                        },
-                        {
-                            "name": "Animal Models of Disorders",
-                            "children": [
-                                { "name": "Forced Swimming Test" },
-                                { "name": "Conditioned Fear" },
-                                { "name": "Differential Reinforcement of Low Rate (DRL) Operant Schedule" },
-                                { "name": "Olfactory Bulbectomized (OB) Rat Model for Depression" },
-                                { "name": "Animal Models of Obsessive-compulsive Disorder (OCD)" }
-                            ]
-                        },
-                        {
-                            "name": "OtherPharmacodynamics",
-                            "children": [
-                                { "name": "Neurogenesis" },
-                                { "name": "Prenatal Exposure" },
-                                { "name": "Ion Channels" },
-                                { "name": "Methylenedioxymethamphetamine (MDMA) Effects on Serotonin" },
-                                { "name": "SSRIs as Antifungal Agents" },
-                                { "name": "SSRIs in Model Organisms (C. Elegans and Drosophila)" },
-                                { "name": "Paroxetines Therapeutic Potential as G Protein-coupled Receptor Kinase 2 (GRK2) Inhibitor" },
-                                { "name": "Loudness Dependence of Auditory Evoked Potentials (LDAEP) as Biomarker for Depression" },
-                                { "name": "Treatment of Paroxetine Induced Sexual Dysfunction" }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "name": "Pharmacokinetics",
-                    "children": [
-                        { "name": "Cytochrome P450 System" },
-                        { "name": "(Sertraline) Drug Delivery" }
-                    ]
-                },
-                {
-                    "name": "Pharmacogenetics",
-                    "children": [
-                        { "name": "Serotonin Transporter Gene and Antidepressant Response" },
-                        { "name": "Genotype Mediated Response to SSRIs" }
-                    ]
-                },
-                {
-                    "name": "Analytical Methods",
-                    "children": [
-                        { "name": "Quantification of SSRIs in Biological Samples" },
-                        { "name": "Quantification of Dopamine and Serotonin Release and Uptake" }
-                    ]
-                },
-                {
-                    "name": "Biomarker Search",
-                    "children": [
-                        { "name": "Neural Processing of Emotional Cues" },
-                        { "name": "SSRIs Effect on Brain-derived Neurotrophic Factor (BDNF) Levels in Depressive Patients" }
-                    ]
-                },
-                {
-                    "name": "OtherPharmacology",
-                    "children": [
-                        { "name": "Prenatal Exposure" },
-                        { "name": "Neural Processing of Emotional Cues" },
-                        { "name": "SSRI Synthesis" },
-                        { "name": "Neuroendocrine Effects of Citalopram" },
-                        { "name": "Pharmacological Reviews" },
-                        { "name": "Novel Compounds Synthesis and Antidepressant Potential" }
-                    ]
-                }
-            ]
-        };
+      // Pharmacology data
+      const data = {
+        name: "Pharmacology",
+        children: [
+          {
+            name: "Pharmacodynamics",
+            children: [
+              {
+                name: "Mechanism of action",
+                children: [
+                  { name: "Serotonin Receptor Studies" },
+                  { name: "Prenatal Exposure" },
+                  { name: "Astrocyte Receptors" },
+                  { name: "SSRIs Effects on Dopamine Receptors" },
+                  {
+                    name: "Modulation of Serotonin Release by Autoreceptors and Heteroreceptors",
+                  },
+                ],
+              },
+              {
+                name: "Animal Models of Disorders",
+                children: [
+                  { name: "Forced Swimming Test" },
+                  { name: "Conditioned Fear" },
+                  {
+                    name: "Differential Reinforcement of Low Rate (DRL) Operant Schedule",
+                  },
+                  {
+                    name: "Olfactory Bulbectomized (OB) Rat Model for Depression",
+                  },
+                  {
+                    name: "Animal Models of Obsessive-compulsive Disorder (OCD)",
+                  },
+                ],
+              },
+              {
+                name: "OtherPharmacodynamics",
+                children: [
+                  { name: "Neurogenesis" },
+                  { name: "Prenatal Exposure" },
+                  { name: "Ion Channels" },
+                  {
+                    name: "Methylenedioxymethamphetamine (MDMA) Effects on Serotonin",
+                  },
+                  { name: "SSRIs as Antifungal Agents" },
+                  {
+                    name: "SSRIs in Model Organisms (C. Elegans and Drosophila)",
+                  },
+                  {
+                    name: "Paroxetines Therapeutic Potential as G Protein-coupled Receptor Kinase 2 (GRK2) Inhibitor",
+                  },
+                  {
+                    name: "Loudness Dependence of Auditory Evoked Potentials (LDAEP) as Biomarker for Depression",
+                  },
+                  {
+                    name: "Treatment of Paroxetine Induced Sexual Dysfunction",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: "Pharmacokinetics",
+            children: [
+              { name: "Cytochrome P450 System" },
+              { name: "(Sertraline) Drug Delivery" },
+            ],
+          },
+          {
+            name: "Pharmacogenetics",
+            children: [
+              {
+                name: "Serotonin Transporter Gene and Antidepressant Response",
+              },
+              { name: "Genotype Mediated Response to SSRIs" },
+            ],
+          },
+          {
+            name: "Analytical Methods",
+            children: [
+              { name: "Quantification of SSRIs in Biological Samples" },
+              {
+                name: "Quantification of Dopamine and Serotonin Release and Uptake",
+              },
+            ],
+          },
+          {
+            name: "Biomarker Search",
+            children: [
+              { name: "Neural Processing of Emotional Cues" },
+              {
+                name: "SSRIs Effect on Brain-derived Neurotrophic Factor (BDNF) Levels in Depressive Patients",
+              },
+            ],
+          },
+          {
+            name: "OtherPharmacology",
+            children: [
+              { name: "Prenatal Exposure" },
+              { name: "Neural Processing of Emotional Cues" },
+              { name: "SSRI Synthesis" },
+              { name: "Neuroendocrine Effects of Citalopram" },
+              { name: "Pharmacological Reviews" },
+              {
+                name: "Novel Compounds Synthesis and Antidepressant Potential",
+              },
+            ],
+          },
+        ],
+      };
 
-        // Set the dimensions and margins of the diagram. change for more or less spacing
-        const margin = { top: 20, right: 90, bottom: 30, left: 90 },
-            width = 1300 - margin.left - margin.right,
-            height = 1000 - margin.top - margin.bottom;
+      // Set the dimensions and margins of the diagram. change for more or less spacing
+      const margin = { top: 20, right: 90, bottom: 30, left: 90 },
+        width = 1300 - margin.left - margin.right,
+        height = 1000 - margin.top - margin.bottom;
 
-        // Append the svg object to the body of the page
-        const svg = d3.select("body").append("svg")
-            .attr("width", width + margin.right + margin.left)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      // Append the svg object to the body of the page
+      const svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", width + margin.right + margin.left)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        // Create a tree layout
-        const tree = d3.tree()
-            .size([height, width]);
+      // Create a tree layout
+      const tree = d3.tree().size([height, width]);
 
-        // Assigns parent, children, height, depth
-        const root = d3.hierarchy(data, function (d) { return d.children; });
+      // Assigns parent, children, height, depth
+      const root = d3.hierarchy(data, function (d) {
+        return d.children;
+      });
 
-        // Maps the node data to the tree layout
-        const treeData = tree(root);
+      // Maps the node data to the tree layout
+      const treeData = tree(root);
 
-        // Compute the new tree layout
-        const nodes = treeData.descendants(),
-            links = treeData.descendants().slice(1);
+      // Compute the new tree layout
+      const nodes = treeData.descendants(),
+        links = treeData.descendants().slice(1);
 
-        // Normalize for fixed-depth
-        nodes.forEach(d => d.y = d.depth * 180);
+      // Normalize for fixed-depth
+      nodes.forEach((d) => (d.y = d.depth * 180));
 
-        // Variable to keep track of unique IDs for nodes
-        let i = 0;
+      // Variable to keep track of unique IDs for nodes
+      let i = 0;
 
-        // ****************** Nodes section ***************************
-        
-        // Update the nodes
-        const node = svg.selectAll('g.node')
-            .data(nodes, d => d.id || (d.id = ++i));
+      // ****************** Nodes section ***************************
 
-        // Enter any new modes at the parent's previous position
-        const nodeEnter = node.enter().append('g')
-            .attr("class", function(d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
-            .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+      // Update the nodes
+      const node = svg
+        .selectAll("g.node")
+        .data(nodes, (d) => d.id || (d.id = ++i));
 
-        // Add Circle for the nodes
-        nodeEnter.append('circle')
-            .attr('class', 'node')
-            .attr('r', 4)
-            .style('fill', '#c6c6c6');
+      // Enter any new modes at the parent's previous position
+      const nodeEnter = node
+        .enter()
+        .append("g")
+        .attr("class", function (d) {
+          return "node" + (d.children ? " node--internal" : " node--leaf");
+        })
+        .attr("transform", function (d) {
+          return "translate(" + d.y + "," + d.x + ")";
+        });
 
-        // Add labels for the nodes
-        nodeEnter.append('text')
-            .attr('dy', '.35em')
-            .attr('x', d => d.children || d._children ? -13 : 13)
-            .attr('text-anchor', d => d.children || d._children ? 'end' : 'start')
-            .text(d => d.data.name);
+      // Add Circle for the nodes
+      nodeEnter
+        .append("circle")
+        .attr("class", "node")
+        .attr("r", 4)
+        .style("fill", "#c6c6c6");
 
-        // ****************** Links section ***************************
+      // Add labels for the nodes
+      nodeEnter
+        .append("text")
+        .attr("dy", ".35em")
+        .attr("x", (d) => (d.children || d._children ? -13 : 13))
+        .attr("text-anchor", (d) =>
+          d.children || d._children ? "end" : "start"
+        )
+        .text((d) => d.data.name);
 
-        // Add the links between nodes: draw lines
-        svg.selectAll('path')
-            .data( root.descendants().slice(1) )
-            .enter()
-            .append('path')
-            .attr("d", function(d) {
-                return "M" + d.y + "," + d.x
-                        + "C" + (d.parent.y + 75) + "," + d.x
-                        + " " + (d.parent.y + 200) + "," + d.parent.x // 50 and 150 are coordinates of inflexion, play with it to change links shape
-                        + " " + d.parent.y + "," + d.parent.x;
-                    })
-            .style("fill", 'none')
-            .attr("stroke", '#ccc')
+      // ****************** Links section ***************************
 
+      // Add the links between nodes: draw lines
+      svg
+        .selectAll("path")
+        .data(root.descendants().slice(1))
+        .enter()
+        .append("path")
+        .attr("d", function (d) {
+          return (
+            "M" +
+            d.y +
+            "," +
+            d.x +
+            "C" +
+            (d.parent.y + 75) +
+            "," +
+            d.x +
+            " " +
+            (d.parent.y + 200) +
+            "," +
+            d.parent.x + // 50 and 150 are coordinates of inflexion, play with it to change links shape
+            " " +
+            d.parent.y +
+            "," +
+            d.parent.x
+          );
+        })
+        .style("fill", "none")
+        .attr("stroke", "#ccc");
 
-        // Add a circle for each node.
-        svg.selectAll("g")
-            .data(root.descendants())
-            .enter()
-            .append("g")
-            .attr("transform", function(d) {
-                return "translate(" + d.y + "," + d.x + ")"
-            })
-            .append("circle")
-                .attr("r", 7)
-                .style("fill", "#69b3a2")
-                .attr("stroke", "black")
-                .style("stroke-width", 2)
+      // Add a circle for each node.
+      svg
+        .selectAll("g")
+        .data(root.descendants())
+        .enter()
+        .append("g")
+        .attr("transform", function (d) {
+          return "translate(" + d.y + "," + d.x + ")";
+        })
+        .append("circle")
+        .attr("r", 7)
+        .style("fill", "#69b3a2")
+        .attr("stroke", "black")
+        .style("stroke-width", 2);
     </script>
-</body>
+  </body>
 </html>

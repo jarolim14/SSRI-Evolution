@@ -63,7 +63,6 @@ class PartitionCreator:
         if verbose:
             print(f"Number of clusters: {len(self.cluster_sizes)}")
             print(f"Quality: {self.partition.quality()}")
-            print(f"Modularity: {self.partition.modularity}")
 
     def add_cluster_to_df(self, column_name="cluster"):
         # Extract vertex attributes as a list of dictionaries

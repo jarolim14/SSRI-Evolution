@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SSRI Topics Overview</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      .node circle {
+        fill: #949294;
+      }
+      .node text {
+        font: 12px sans-serif;
+        fill: #000000;
+      }
+      .node--internal circle {
+        fill: #949294;
+      }
+      .link {
+        fill: none;
+        stroke: #949294;
+        stroke-opacity: 0.4;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const data = {
+        ssritopics: {
+          name: "SSRI Topics",
+          children: [
+            {
+              name: "Pharmacology",
+              children: [
+                {
+                  name: "Pharmacodynamics",
+                  children: [
+                    { name: "Analytical Methods" },
+                    { name: "Animal Models of Disorders" },
+                    { name: "Other" },
+                  ],
+                },
+                { name: "Pharmacokinetics" },
+                { name: "Analytical Methods" },
+                { name: "Biomarker Search" },
+                { name: "Other" },
+              ],
+            },
+            {
+              name: "Indications",
+              children: [
+                {
+                  name: "Disorder/Disease",
+                  children: [
+                    { name: "Depression" },
+                    { name: "Anxiety" },
+                    { name: "OCD" },
+                    { name: "Weight and Eating Disorders" },
+                    { name: "Substance Abuse/Addictions" },
+                    { name: "Other" },
+                  ],
+                },
+                { name: "Other" },
+              ],
+            },
+            {
+              name: "Safety",
+              children: [
+                {
+                  name: "Special Populations",
+                  children: [
+                    { name: "Geriatrics" },
+                    { name: "Pediatrics" },
+                    { name: "Other" },
+                  ],
+                },
+                { name: "Prenatal Exposure" },
+                { name: "Suicide" },
+                { name: "Sexual Dysfunction" },
+                { name: "Toxicity" },
+                { name: "Cardiovascular" },
+                { name: "Other" },
+              ],
+            },
+            {
+              name: "Other",
+              children: [
+                { name: "Drugs" },
+                { name: "Ecotoxicology" },
+                { name: "Alternative Treatments" },
+                { name: "Drug Utilization Patterns" },
+                { name: "Cost-Effectiveness" },
+                { name: "Other" },
+              ],
+            },
+          ],
+        },
+      };
+
+      // Set the dimensions and margins of the diagram
+      const margin = { top: 20, right: 190, bottom: 30, left: 90 },
+        width = 960 - margin.left - margin.right,
+        height = 1200 - margin.top - margin.bottom;
+
+      // Append the SVG object to the body of the page
+      const svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      // Create the cluster layout
+      const tree = d3.tree().size([height, width]);
+
+      const root = d3.hierarchy(data.ssritopics, (d) => d.children);
+
+      tree(root);
+
+      // Links
+      const link = svg
+        .selectAll(".link")
+        .data(root.descendants().slice(1))
+        .enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("d", (d) => {
+          return (
+            "M" +
+            d.y +
+            "," +
+            d.x +
+            "C" +
+            (d.parent.y + 80) +
+            "," +
+            d.x +
+            " " +
+            (d.parent.y + 250) +
+            "," +
+            d.parent.x +
+            " " +
+            d.parent.y +
+            "," +
+            d.parent.x
+          );
+        });
+
+      // Nodes
+      const node = svg
+        .selectAll(".node")
+        .data(root.descendants())
+        .enter()
+        .append("g")
+        .attr(
+          "class",
+          (d) => "node" + (d.children ? " node--internal" : " node--leaf")
+        )
+        .attr("transform", (d) => "translate(" + d.y + "," + d.x + ")");
+
+      node.append("circle").attr("r", 5);
+
+      node
+        .append("text")
+        .attr("dy", ".35em")
+        .attr("x", (d) => (d.children ? -13 : 13))
+        .style("text-anchor", (d) => (d.children ? "end" : "start"))
+        .text((d) => d.data.name);
+    </script>
+  </body>
+</html>
