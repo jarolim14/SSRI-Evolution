@@ -1,1 +1,467 @@
-{"pharmacology": {"name": "Pharmacology", "children": [{"name": "Pharmacodynamics", "children": [{"name": "Mechanism of action", "children": [{"name": "Serotonin Receptor Studies"}, {"name": "Paroxetine Bindeing"}, {"name": "SSRIs Effect on Fear"}, {"name": "SSRIs Effect on Neural Processing of Emotional Cues"}, {"name": "Serotonin Binding and Receptor Studies"}, {"name": "Astrocyte Receptors"}, {"name": "Repeated SSRIs Exposures Effects on Dopamine Receptors"}, {"name": "Neurochemical and Electrophysiological Correlates of SSRIs"}, {"name": "SSRIs for OCD-like behaviors"}, {"name": "SSRIs in Model Organisms ( C. Elegans and Drosophilia)"}, {"name": "Tryptophan Depletion in Depression"}]}, {"name": "Animal Models of Disorders", "children": [{"name": "The Chronic Unpredictable Mild Stress Model of Depression"}, {"name": "SSRIs in Forced Swimming Test"}, {"name": "SSRIs Effect on Response Inhibition"}, {"name": "Olfactory Bulbectomized (OB) Rat Model for Depression"}]}, {"name": "OtherPharmacodynamics", "children": [{"name": "SSRI Neuroscience"}, {"name": "SSRIs Effects on Ion Channels"}, {"name": "Methylenedioxymethamphetamine (MDMA) Effects on Serotonin"}, {"name": "Pulmonary Hypertension"}, {"name": "Sex differences in SSRI Effects in Depression"}, {"name": "Paroxetines Therapeutic Potential as G Protein-coupled Receptor Kinase 2 (GRK2) Inhibitor for Cardiovascular Diseases"}, {"name": "Serotonin and Dopamine Release and Uptake Dynamics"}, {"name": "SSRIs and Galanin in Depression"}, {"name": "SSRIs Cellular Distribution"}, {"name": "Treatment of Paroxetine Induced Sexual Dysfunction"}]}]}, {"name": "Pharmacokinetics", "children": [{"name": "SSRIs and the Cytochrome P450 System"}, {"name": "(Sertraline) Drug Delivery"}]}, {"name": "Pharmacogenetics", "children": [{"name": "Serotonin Transporter Gene and Antidepressant Response"}, {"name": "Genotype Mediated Response to SSRIs"}]}, {"name": "Analytical Methods", "children": [{"name": "Quantification of SSRIs in Biological Samples"}, {"name": "Novel Compounds Synthesis and Antidepressant Potential"}]}, {"name": "Biomarker Search", "children": [{"name": "Paroxetine Bindeing"}, {"name": "SSRIs and Inflammation"}, {"name": "SSRIs Effect on Brain-derived Neurotrophic Factor (BDNF) Levels in Depressive Patients"}, {"name": "Loudness Dependence of Auditory Evoked Potentials (LDAEP) as Biomarker for Depression"}]}, {"name": "OtherPharmacology", "children": [{"name": "Risks of Prenatal Exposure"}, {"name": "SSRI Synthesis"}, {"name": "SSRIs Effects on Neuroendocrine System"}, {"name": "Pharmacological Perspectives on Antidepressants"}]}]}, "indications": {"name": "Indications", "children": [{"name": "Disorders", "children": [{"name": "Depression", "children": [{"name": "Pediatric Depression"}, {"name": "The Chronic Unpredictable Mild Stress Model of Depression"}, {"name": "SSRIs in Forced Swimming Test"}, {"name": "Sequenced Depression Treatment"}, {"name": "Post-Stroke SSRI Use"}, {"name": "SSRIs and Inflammation"}, {"name": "Escitalopram for Depression"}, {"name": "SSRIs and Cardiovascular Pathology"}, {"name": "SSRIs for Bipolar Depression"}, {"name": "SSRIs for Depression in Parkinsons Patients"}, {"name": "SSRIs Effect on Sleep in Depressed Patients"}, {"name": "SSRIs for Depression in Diabetes Patients"}, {"name": "SSRIs for Premenstrual Dysphoric Disorder (PMDD)"}, {"name": "SSRIs for Depression with Cognitive Impairment"}, {"name": "SSRIs for Depression in in Epileptic Patients"}, {"name": "Sertraline for Depression"}, {"name": "Depression Treatment Review"}, {"name": "Agomelatin for Depression"}, {"name": "Geriatric Depression"}, {"name": "Citalopram for Depression"}, {"name": "Depression in Hepatitis Patients"}, {"name": "SSRIs and Augmentation for Treatment Resistant Depression"}, {"name": "SSRIs for Depression after Traumatic Brain Injury"}, {"name": "Sex differences in SSRI Effects in Depression"}, {"name": "Transcranial Direct Current Stimulation (tDCS) for Depression"}, {"name": "SSRIs for Depression in Cancer"}, {"name": "SSRIs Effect on Brain-derived Neurotrophic Factor (BDNF) Levels in Depressive Patients"}, {"name": "SSRIs for Postpartum Depression"}, {"name": "SSRIs for Depression in Kidney Disease Patients"}, {"name": "Vilazodone for Depression"}, {"name": "SSRIs for Depression in and Treatment of Multiple Sclerosis"}, {"name": "SSRIs for Depression in Chronic Obstructive Pulmonary Disease (COPD) Patients"}, {"name": "Folate for Depression"}, {"name": "Tryptophan Depletion in Depression"}, {"name": "SSRIs for Depression in HIV-positive Patients"}, {"name": "Loudness Dependence of Auditory Evoked Potentials (LDAEP) as Biomarker for Depression"}, {"name": "Novel Compounds Synthesis and Antidepressant Potential"}, {"name": "Exercise for Depression"}, {"name": "SSRIs and Galanin in Depression"}, {"name": "Psychotic Depression (STOP-PD Study)"}, {"name": "Childhood Abuse and Depression Treatment Response"}, {"name": "Psilocybin for Depression"}]}, {"name": "Anxiety", "children": [{"name": "SSRIs Effect on Fear"}, {"name": "SSRIs for Panic Disorder"}, {"name": "SSRIs for Generalized Anxiety Disorder (GAD)"}, {"name": "SSRIs for Social Anxiety Disorder"}, {"name": "SSRIs for Pediatric Anxiety"}]}, {"name": "OCD", "children": [{"name": "SSRIs for Obsessive-Compulsive Disorder (OCD)"}, {"name": "SSRIs for OCD-like behaviors"}, {"name": "SSRIs for Pediatric OCD"}]}, {"name": "Weight and Eating Disorders", "children": [{"name": "SSRIs for Weight Management"}, {"name": "SSRIs for Eating Disorders"}]}, {"name": "Substance Abuse/Addictions", "children": [{"name": "SSRIs for Alcohol Dependence"}, {"name": "SSRIs for Substance Abuse (Cocaine)"}, {"name": "Behavioral Addictions"}, {"name": "SSRIs for Smoking Cessation"}]}, {"name": "OtherDisorders", "children": [{"name": "SSRIs for PTSD"}, {"name": "SSRIs for Pain"}, {"name": "SSRIs in Dementias"}, {"name": "SSRIs for Dermatological Diseases"}, {"name": "SSRIs for Generalized Anxiety Disorder (GAD)"}, {"name": "Premature Ejaculation"}, {"name": "SSRIs for Irritable Bowel Syndrome"}, {"name": "Hot Flushes (Menopause)"}, {"name": "SSRIs for Autism Spectrum Disorders"}, {"name": "SSRIs (Fluvoxamine) for Schizophrenia"}, {"name": "SSRIs for Body Dysmorphic Disorder (BDD)"}, {"name": "SSRIs Effects on Antimicrobials and Gut Microbiome"}, {"name": "SSRIs for Personality Disorders and Related Traits"}, {"name": "SSRIs for Fibromyalgia"}, {"name": "SSRIs for Enuresis"}, {"name": "SSRIs for Migraine"}, {"name": "SSRIs for Dysthymia"}, {"name": "SSRIs for Trichotillomania"}, {"name": "Paroxetines Therapeutic Potential as G Protein-coupled Receptor Kinase 2 (GRK2) Inhibitor for Cardiovascular Diseases"}, {"name": "SSRIs for Congenital Myasthenic Syndrome (SCCMS)"}, {"name": "Olfactory Bulbectomized (OB) Rat Model for Depression"}, {"name": "SSRIs for Tinnitus "}, {"name": "SSRIs for Syncope"}, {"name": "SSRIs for Narcolepsy"}, {"name": "SSRIs for Tourette's Syndrome"}, {"name": "SSRIs for Depersonalization Disorder"}, {"name": "Depression in Infertile Women"}, {"name": "SSRIs for Olfactory reference syndrome (ORS)"}]}]}, {"name": "OtherIndications", "children": []}]}, "safety": {"name": "Safety", "children": [{"name": "Special Populations", "children": [{"name": "Pediatrics", "children": [{"name": "Pediatric Depression"}, {"name": "SSRIs for Pediatric Anxiety"}, {"name": "Childhood Abuse and Depression Treatment Response"}, {"name": "SSRIs for Pediatric OCD"}]}, {"name": "Geriatrics", "children": [{"name": "SSRIs in Dementias"}, {"name": "Fracture Risk"}, {"name": "SSRIs for Depression with Cognitive Impairment"}, {"name": "SSRIs for Depression in Parkinsons Patients"}, {"name": "Drug Drug Interactions"}, {"name": "Hyponatremia Risk"}, {"name": "Geriatric Depression"}]}, {"name": "OtherPopulations", "children": [{"name": "Post-Stroke SSRI Use"}, {"name": "SSRIs and Cardiovascular Pathology"}, {"name": "SSRIs for Depression in Diabetes Patients"}, {"name": "SSRIs for Depression in in Epileptic Patients"}, {"name": "Depression in Hepatitis Patients"}, {"name": "SSRIs for Depression after Traumatic Brain Injury"}, {"name": "SSRIs for Depression in Cancer"}, {"name": "SSRIs for Depression in Kidney Disease Patients"}, {"name": "SSRIs for Depression in and Treatment of Multiple Sclerosis"}, {"name": "SSRIs for Depression in Chronic Obstructive Pulmonary Disease (COPD) Patients"}, {"name": "SSRIs for Depression in HIV-positive Patients"}]}]}, {"name": "Prenatal Exposure", "children": [{"name": "Risks of Prenatal Exposure"}, {"name": "Risks of Prenatal Exposure (Rodents)"}]}, {"name": "Pregnancy", "children": []}, {"name": "Suicide", "children": [{"name": "Pediatric Depression"}, {"name": "Suicice Risk"}]}, {"name": "Sexual Dysfunction", "children": [{"name": "Sexual Dysfunction"}, {"name": "Treatment of Paroxetine Induced Sexual Dysfunction"}]}, {"name": "Toxicity", "children": [{"name": "Serotonin Syndrome"}, {"name": "Hepatotoxic Risk"}, {"name": "Forensic Drug Concentration"}]}, {"name": "Cardiovascular", "children": [{"name": "SSRIs and Cardiovascular Pathology"}, {"name": "QTC Prolongation"}, {"name": "Pulmonary Hypertension"}]}, {"name": "OtherSafety", "children": [{"name": "Bleeding Risk"}, {"name": "Fracture Risk"}, {"name": "Extrapyramidal Reactions Risk"}, {"name": "Oncopreventive and Oncolytic Properties of SSRIs"}, {"name": "Drug Drug Interactions"}, {"name": "Hyponatremia Risk"}, {"name": "SSRI Safety Reviews"}, {"name": "Pulmonary Hypertension"}, {"name": "Withdrawal Symptoms"}, {"name": "Repeated SSRIs Exposures Effects on Dopamine Receptors"}, {"name": "Hyperprolactinemia-related Symptoms"}, {"name": "SRRIs and Ocular Safety"}, {"name": "SSRI-Induced Mania"}, {"name": "Risk for Orofacial Pain Disorders"}, {"name": "Risk of Hallucinations"}, {"name": "Adulterants in Weight Loss Supplements"}, {"name": "Risk of Microscopic Colitis"}, {"name": "Risk of Priapism"}, {"name": "Risk of Reversible Cerebral Vasoconstriction Syndrome (RCVS)"}]}]}, "other": {"name": "Other", "children": [{"name": "Drugs", "children": [{"name": "Fluvoxamine", "children": [{"name": "Fluvoxamine for Depression"}, {"name": "Fluvoxamine for Covid 19"}, {"name": "SSRIs (Fluvoxamine) for Schizophrenia"}]}, {"name": "Paroxetine", "children": [{"name": "Paroxetine Bindeing"}, {"name": "Paroxetine"}, {"name": "Treatment of Paroxetine Induced Sexual Dysfunction"}]}, {"name": "Fluoxetine", "children": [{"name": "Fluoxetine"}]}, {"name": "Escitalopram", "children": [{"name": "Escitalopram for Depression"}]}, {"name": "Citalopram", "children": [{"name": "Citalopram for Depression"}]}, {"name": "Sertraline", "children": [{"name": "(Sertraline) Drug Delivery"}, {"name": "Sertraline for Depression"}, {"name": "Sertraline"}]}, {"name": "Agomelatine", "children": [{"name": "Agomelatin for Depression"}]}, {"name": "Vilazodone", "children": [{"name": "Vilazodone for Depression"}]}, {"name": "Psilocybin", "children": [{"name": "Psilocybin for Depression"}]}, {"name": "Generic SSRIs", "children": [{"name": "Generic SSRIs"}]}, {"name": "SSRIs", "children": [{"name": "Selective serotonin reuptake inhibitors"}]}]}, {"name": "Ecotoxicology", "children": [{"name": "Aquatic Ecotoxicology"}, {"name": "Wastewater Management"}]}, {"name": "Alternative Treatments", "children": [{"name": "Herbal and Natural Compounds for Depression"}, {"name": "St. John's Wort for Depression"}]}, {"name": "Drug Utilization Patterns", "children": [{"name": "SSRI Utilization Patterns"}]}, {"name": "Cost-Effectineness", "children": [{"name": "Cost-Effectiveness"}]}, {"name": "OtherOther", "children": [{"name": "Hot Flushes (Menopause)"}, {"name": "SSRI Use"}, {"name": "Gatways to Clinical Trials"}, {"name": "Canine Behavioral Disorders"}, {"name": "Adulterants in Weight Loss Supplements"}, {"name": "Gateways to Clinical Trials"}, {"name": "Depression in Infertile Women"}, {"name": "SSRIs for Olfactory reference syndrome (ORS)"}]}]}}
+{
+  "pharmacology": {
+    "name": "Pharmacology",
+    "children": [
+      {
+        "name": "Pharmacodynamics",
+        "children": [
+          {
+            "name": "Mechanism of action",
+            "children": [
+              { "name": "Serotonin Receptor Studies" },
+              { "name": "Paroxetine Bindeing" },
+              { "name": "SSRIs Effect on Fear" },
+              { "name": "SSRIs Effect on Neural Processing of Emotional Cues" },
+              { "name": "Serotonin Binding and Receptor Studies" },
+              { "name": "Astrocyte Receptors" },
+              {
+                "name": "Repeated SSRIs Exposures Effects on Dopamine Receptors"
+              },
+              {
+                "name": "Neurochemical and Electrophysiological Correlates of SSRIs"
+              },
+              { "name": "SSRIs for OCD-like behaviors" },
+              {
+                "name": "SSRIs in Model Organisms ( C. Elegans and Drosophilia)"
+              },
+              { "name": "Tryptophan Depletion in Depression" }
+            ]
+          },
+          {
+            "name": "Animal Models of Disorders",
+            "children": [
+              {
+                "name": "The Chronic Unpredictable Mild Stress Model of Depression"
+              },
+              { "name": "SSRIs in Forced Swimming Test" },
+              { "name": "SSRIs Effect on Response Inhibition" },
+              {
+                "name": "Olfactory Bulbectomized (OB) Rat Model for Depression"
+              }
+            ]
+          },
+          {
+            "name": "OtherPharmacodynamics",
+            "children": [
+              { "name": "SSRI Neuroscience" },
+              { "name": "SSRIs Effects on Ion Channels" },
+              {
+                "name": "Methylenedioxymethamphetamine (MDMA) Effects on Serotonin"
+              },
+              { "name": "Pulmonary Hypertension" },
+              { "name": "Sex differences in SSRI Effects in Depression" },
+              {
+                "name": "Paroxetines Therapeutic Potential as G Protein-coupled Receptor Kinase 2 (GRK2) Inhibitor for Cardiovascular Diseases"
+              },
+              { "name": "Serotonin and Dopamine Release and Uptake Dynamics" },
+              { "name": "SSRIs and Galanin in Depression" },
+              { "name": "SSRIs Cellular Distribution" },
+              { "name": "Treatment of Paroxetine Induced Sexual Dysfunction" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Pharmacokinetics",
+        "children": [
+          { "name": "SSRIs and the Cytochrome P450 System" },
+          { "name": "(Sertraline) Drug Delivery" }
+        ]
+      },
+      {
+        "name": "Pharmacogenetics",
+        "children": [
+          { "name": "Serotonin Transporter Gene and Antidepressant Response" },
+          { "name": "Genotype Mediated Response to SSRIs" }
+        ]
+      },
+      {
+        "name": "Analytical Methods",
+        "children": [
+          { "name": "Quantification of SSRIs in Biological Samples" },
+          { "name": "Novel Compounds Synthesis and Antidepressant Potential" }
+        ]
+      },
+      {
+        "name": "Biomarker Search",
+        "children": [
+          { "name": "Paroxetine Bindeing" },
+          { "name": "SSRIs and Inflammation" },
+          {
+            "name": "SSRIs Effect on Brain-derived Neurotrophic Factor (BDNF) Levels in Depressive Patients"
+          },
+          {
+            "name": "Loudness Dependence of Auditory Evoked Potentials (LDAEP) as Biomarker for Depression"
+          }
+        ]
+      },
+      {
+        "name": "OtherPharmacology",
+        "children": [
+          { "name": "Risks of Prenatal Exposure" },
+          { "name": "SSRI Synthesis" },
+          { "name": "SSRIs Effects on Neuroendocrine System" },
+          { "name": "Pharmacological Perspectives on Antidepressants" }
+        ]
+      }
+    ]
+  },
+  "indications": {
+    "name": "Indications",
+    "children": [
+      {
+        "name": "Disorders",
+        "children": [
+          {
+            "name": "Depression",
+            "children": [
+              { "name": "Pediatric Depression" },
+              {
+                "name": "The Chronic Unpredictable Mild Stress Model of Depression"
+              },
+              { "name": "SSRIs in Forced Swimming Test" },
+              { "name": "Sequenced Depression Treatment" },
+              { "name": "Post-Stroke SSRI Use" },
+              { "name": "SSRIs and Inflammation" },
+              { "name": "Escitalopram for Depression" },
+              { "name": "SSRIs and Cardiovascular Pathology" },
+              { "name": "SSRIs for Bipolar Depression" },
+              { "name": "SSRIs for Depression in Parkinsons Patients" },
+              { "name": "SSRIs Effect on Sleep in Depressed Patients" },
+              { "name": "SSRIs for Depression in Diabetes Patients" },
+              { "name": "SSRIs for Premenstrual Dysphoric Disorder (PMDD)" },
+              { "name": "SSRIs for Depression with Cognitive Impairment" },
+              { "name": "SSRIs for Depression in in Epileptic Patients" },
+              { "name": "Sertraline for Depression" },
+              { "name": "Depression Treatment Review" },
+              { "name": "Agomelatin for Depression" },
+              { "name": "Geriatric Depression" },
+              { "name": "Citalopram for Depression" },
+              { "name": "Depression in Hepatitis Patients" },
+              {
+                "name": "SSRIs and Augmentation for Treatment Resistant Depression"
+              },
+              { "name": "SSRIs for Depression after Traumatic Brain Injury" },
+              { "name": "Sex differences in SSRI Effects in Depression" },
+              {
+                "name": "Transcranial Direct Current Stimulation (tDCS) for Depression"
+              },
+              { "name": "SSRIs for Depression in Cancer" },
+              {
+                "name": "SSRIs Effect on Brain-derived Neurotrophic Factor (BDNF) Levels in Depressive Patients"
+              },
+              { "name": "SSRIs for Postpartum Depression" },
+              { "name": "SSRIs for Depression in Kidney Disease Patients" },
+              { "name": "Vilazodone for Depression" },
+              {
+                "name": "SSRIs for Depression in and Treatment of Multiple Sclerosis"
+              },
+              {
+                "name": "SSRIs for Depression in Chronic Obstructive Pulmonary Disease (COPD) Patients"
+              },
+              { "name": "Folate for Depression" },
+              { "name": "Tryptophan Depletion in Depression" },
+              { "name": "SSRIs for Depression in HIV-positive Patients" },
+              {
+                "name": "Loudness Dependence of Auditory Evoked Potentials (LDAEP) as Biomarker for Depression"
+              },
+              {
+                "name": "Novel Compounds Synthesis and Antidepressant Potential"
+              },
+              { "name": "Exercise for Depression" },
+              { "name": "SSRIs and Galanin in Depression" },
+              { "name": "Psychotic Depression (STOP-PD Study)" },
+              { "name": "Childhood Abuse and Depression Treatment Response" },
+              { "name": "Psilocybin for Depression" }
+            ]
+          },
+          {
+            "name": "Anxiety",
+            "children": [
+              { "name": "SSRIs Effect on Fear" },
+              { "name": "SSRIs for Panic Disorder" },
+              { "name": "SSRIs for Generalized Anxiety Disorder (GAD)" },
+              { "name": "SSRIs for Social Anxiety Disorder" },
+              { "name": "SSRIs for Pediatric Anxiety" }
+            ]
+          },
+          {
+            "name": "OCD",
+            "children": [
+              { "name": "SSRIs for Obsessive-Compulsive Disorder (OCD)" },
+              { "name": "SSRIs for OCD-like behaviors" },
+              { "name": "SSRIs for Pediatric OCD" }
+            ]
+          },
+          {
+            "name": "Weight and Eating Disorders",
+            "children": [
+              { "name": "SSRIs for Weight Management" },
+              { "name": "SSRIs for Eating Disorders" }
+            ]
+          },
+          {
+            "name": "Substance Abuse/Addictions",
+            "children": [
+              { "name": "SSRIs for Alcohol Dependence" },
+              { "name": "SSRIs for Substance Abuse (Cocaine)" },
+              { "name": "Behavioral Addictions" },
+              { "name": "SSRIs for Smoking Cessation" }
+            ]
+          },
+          {
+            "name": "OtherDisorders",
+            "children": [
+              { "name": "SSRIs for PTSD" },
+              { "name": "SSRIs for Pain" },
+              { "name": "SSRIs in Dementias" },
+              { "name": "SSRIs for Dermatological Diseases" },
+              { "name": "SSRIs for Generalized Anxiety Disorder (GAD)" },
+              { "name": "Premature Ejaculation" },
+              { "name": "SSRIs for Irritable Bowel Syndrome" },
+              { "name": "Hot Flushes (Menopause)" },
+              { "name": "SSRIs for Autism Spectrum Disorders" },
+              { "name": "SSRIs (Fluvoxamine) for Schizophrenia" },
+              { "name": "SSRIs for Body Dysmorphic Disorder (BDD)" },
+              { "name": "SSRIs Effects on Antimicrobials and Gut Microbiome" },
+              { "name": "SSRIs for Personality Disorders and Related Traits" },
+              { "name": "SSRIs for Fibromyalgia" },
+              { "name": "SSRIs for Enuresis" },
+              { "name": "SSRIs for Migraine" },
+              { "name": "SSRIs for Dysthymia" },
+              { "name": "SSRIs for Trichotillomania" },
+              {
+                "name": "Paroxetines Therapeutic Potential as G Protein-coupled Receptor Kinase 2 (GRK2) Inhibitor for Cardiovascular Diseases"
+              },
+              { "name": "SSRIs for Congenital Myasthenic Syndrome (SCCMS)" },
+              {
+                "name": "Olfactory Bulbectomized (OB) Rat Model for Depression"
+              },
+              { "name": "SSRIs for Tinnitus " },
+              { "name": "SSRIs for Syncope" },
+              { "name": "SSRIs for Narcolepsy" },
+              { "name": "SSRIs for Tourette's Syndrome" },
+              { "name": "SSRIs for Depersonalization Disorder" },
+              { "name": "Depression in Infertile Women" },
+              { "name": "SSRIs for Olfactory reference syndrome (ORS)" }
+            ]
+          }
+        ]
+      },
+      { "name": "OtherIndications", "children": [] }
+    ]
+  },
+  "safety": {
+    "name": "Safety",
+    "children": [
+      {
+        "name": "Special Populations",
+        "children": [
+          {
+            "name": "Pediatrics",
+            "children": [
+              { "name": "Pediatric Depression" },
+              { "name": "SSRIs for Pediatric Anxiety" },
+              { "name": "Childhood Abuse and Depression Treatment Response" },
+              { "name": "SSRIs for Pediatric OCD" }
+            ]
+          },
+          {
+            "name": "Geriatrics",
+            "children": [
+              { "name": "SSRIs in Dementias" },
+              { "name": "Fracture Risk" },
+              { "name": "SSRIs for Depression with Cognitive Impairment" },
+              { "name": "SSRIs for Depression in Parkinsons Patients" },
+              { "name": "Drug Drug Interactions" },
+              { "name": "Hyponatremia Risk" },
+              { "name": "Geriatric Depression" }
+            ]
+          },
+          {
+            "name": "OtherPopulations",
+            "children": [
+              { "name": "Post-Stroke SSRI Use" },
+              { "name": "SSRIs and Cardiovascular Pathology" },
+              { "name": "SSRIs for Depression in Diabetes Patients" },
+              { "name": "SSRIs for Depression in in Epileptic Patients" },
+              { "name": "Depression in Hepatitis Patients" },
+              { "name": "SSRIs for Depression after Traumatic Brain Injury" },
+              { "name": "SSRIs for Depression in Cancer" },
+              { "name": "SSRIs for Depression in Kidney Disease Patients" },
+              {
+                "name": "SSRIs for Depression in and Treatment of Multiple Sclerosis"
+              },
+              {
+                "name": "SSRIs for Depression in Chronic Obstructive Pulmonary Disease (COPD) Patients"
+              },
+              { "name": "SSRIs for Depression in HIV-positive Patients" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Prenatal Exposure",
+        "children": [
+          { "name": "Risks of Prenatal Exposure" },
+          { "name": "Risks of Prenatal Exposure (Rodents)" }
+        ]
+      },
+      { "name": "Pregnancy", "children": [] },
+      {
+        "name": "Suicide",
+        "children": [
+          { "name": "Pediatric Depression" },
+          { "name": "Suicice Risk" }
+        ]
+      },
+      {
+        "name": "Sexual Dysfunction",
+        "children": [
+          { "name": "Sexual Dysfunction" },
+          { "name": "Treatment of Paroxetine Induced Sexual Dysfunction" }
+        ]
+      },
+      {
+        "name": "Toxicity",
+        "children": [
+          { "name": "Serotonin Syndrome" },
+          { "name": "Hepatotoxic Risk" },
+          { "name": "Forensic Drug Concentration" }
+        ]
+      },
+      {
+        "name": "Cardiovascular",
+        "children": [
+          { "name": "SSRIs and Cardiovascular Pathology" },
+          { "name": "QTC Prolongation" },
+          { "name": "Pulmonary Hypertension" }
+        ]
+      },
+      {
+        "name": "OtherSafety",
+        "children": [
+          { "name": "Bleeding Risk" },
+          { "name": "Fracture Risk" },
+          { "name": "Extrapyramidal Reactions Risk" },
+          { "name": "Oncopreventive and Oncolytic Properties of SSRIs" },
+          { "name": "Drug Drug Interactions" },
+          { "name": "Hyponatremia Risk" },
+          { "name": "SSRI Safety Reviews" },
+          { "name": "Pulmonary Hypertension" },
+          { "name": "Withdrawal Symptoms" },
+          { "name": "Repeated SSRIs Exposures Effects on Dopamine Receptors" },
+          { "name": "Hyperprolactinemia-related Symptoms" },
+          { "name": "SRRIs and Ocular Safety" },
+          { "name": "SSRI-Induced Mania" },
+          { "name": "Risk for Orofacial Pain Disorders" },
+          { "name": "Risk of Hallucinations" },
+          { "name": "Adulterants in Weight Loss Supplements" },
+          { "name": "Risk of Microscopic Colitis" },
+          { "name": "Risk of Priapism" },
+          {
+            "name": "Risk of Reversible Cerebral Vasoconstriction Syndrome (RCVS)"
+          }
+        ]
+      }
+    ]
+  },
+  "other": {
+    "name": "Other",
+    "children": [
+      {
+        "name": "Drugs",
+        "children": [
+          {
+            "name": "Fluvoxamine",
+            "children": [
+              { "name": "Fluvoxamine for Depression" },
+              { "name": "Fluvoxamine for Covid 19" },
+              { "name": "SSRIs (Fluvoxamine) for Schizophrenia" }
+            ]
+          },
+          {
+            "name": "Paroxetine",
+            "children": [
+              { "name": "Paroxetine Bindeing" },
+              { "name": "Paroxetine" },
+              { "name": "Treatment of Paroxetine Induced Sexual Dysfunction" }
+            ]
+          },
+          { "name": "Fluoxetine", "children": [{ "name": "Fluoxetine" }] },
+          {
+            "name": "Escitalopram",
+            "children": [{ "name": "Escitalopram for Depression" }]
+          },
+          {
+            "name": "Citalopram",
+            "children": [{ "name": "Citalopram for Depression" }]
+          },
+          {
+            "name": "Sertraline",
+            "children": [
+              { "name": "(Sertraline) Drug Delivery" },
+              { "name": "Sertraline for Depression" },
+              { "name": "Sertraline" }
+            ]
+          },
+          {
+            "name": "Agomelatine",
+            "children": [{ "name": "Agomelatin for Depression" }]
+          },
+          {
+            "name": "Vilazodone",
+            "children": [{ "name": "Vilazodone for Depression" }]
+          },
+          {
+            "name": "Psilocybin",
+            "children": [{ "name": "Psilocybin for Depression" }]
+          },
+          {
+            "name": "Generic SSRIs",
+            "children": [{ "name": "Generic SSRIs" }]
+          },
+          {
+            "name": "SSRIs",
+            "children": [{ "name": "Selective serotonin reuptake inhibitors" }]
+          }
+        ]
+      },
+      {
+        "name": "Ecotoxicology",
+        "children": [
+          { "name": "Aquatic Ecotoxicology" },
+          { "name": "Wastewater Management" }
+        ]
+      },
+      {
+        "name": "Alternative Treatments",
+        "children": [
+          { "name": "Herbal and Natural Compounds for Depression" },
+          { "name": "St. John's Wort for Depression" }
+        ]
+      },
+      {
+        "name": "Drug Utilization Patterns",
+        "children": [{ "name": "SSRI Utilization Patterns" }]
+      },
+      {
+        "name": "Cost-Effectineness",
+        "children": [{ "name": "Cost-Effectiveness" }]
+      },
+      {
+        "name": "OtherOther",
+        "children": [
+          { "name": "Hot Flushes (Menopause)" },
+          { "name": "SSRI Use" },
+          { "name": "Gatways to Clinical Trials" },
+          { "name": "Canine Behavioral Disorders" },
+          { "name": "Adulterants in Weight Loss Supplements" },
+          { "name": "Gateways to Clinical Trials" },
+          { "name": "Depression in Infertile Women" },
+          { "name": "SSRIs for Olfactory reference syndrome (ORS)" }
+        ]
+      }
+    ]
+  }
+}
