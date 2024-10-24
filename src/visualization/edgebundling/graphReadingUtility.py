@@ -8,11 +8,12 @@ class graphReadingUtility:
     @staticmethod
     def read_and_clean_graph(path: str) -> ig.Graph:
         g = ig.Graph.Read_GraphML(path)
-        g.vs["node_id"] = [int(i) for i in range(g.vcount())]
+        g.vs["node_index"] = [int(i) for i in range(g.vcount())]  # Assign node indices
 
+        # Resolve conflict with 'id' attribute by renaming it
         if "id" in g.vs.attribute_names():
-            g.vs["node_name"] = g.vs["id"]
-            del g.vs["id"]
+            g.vs["node_name"] = g.vs["id"]  # Rename 'id' to 'node_name'
+            del g.vs["id"]  # Delete the 'id' attribute to avoid conflict
 
         if "cluster" in g.vs.attribute_names():
             g.vs["cluster"] = [int(cluster) for cluster in g.vs["cluster"]]
@@ -30,12 +31,14 @@ class graphReadingUtility:
             g.vs["centrality"] = g.vs["centrality_alpha0.3_k10_res0.002"]
             del g.vs["centrality_alpha0.3_k10_res0.002"]
 
-        g.es["edge_id"] = list(range(g.ecount()))
+        g.es["edge_id"] = list(range(g.ecount()))  # Assign edge indices
+
+        # Print attributes and graph stats for debugging
         print("Node Attributes:", g.vs.attribute_names())
         print("Edge Attributes:", g.es.attribute_names())
-        # print number of nodes and edges
         print(f"Number of nodes: {g.vcount()}")
         print(f"Number of edges: {g.ecount()}")
+
         return g
 
     @staticmethod

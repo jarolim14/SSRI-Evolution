@@ -4,6 +4,7 @@ tests/tmp/
 notebooks/api_key_scopus.json
 report/
 output/
+cemetry/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

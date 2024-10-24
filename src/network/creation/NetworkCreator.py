@@ -124,47 +124,36 @@ class WeightedNetworkCreator:
     def prettify_network(
         self,
         G,
-        col_list=["eid", "title", "doi"],
+        col_list=["year", "title", "eid"],
     ):
         """
-        Add data to nodes from df
+        Add data to nodes from df using numeric IDs.
         """
         G_new = nx.Graph()
         id_mapping = {}
 
-        for node in G.nodes():
-            unique_auth_year = self.df.loc[
-                node, "unique_auth_year"
-            ]  # Get unique_auth_year value
-            id_mapping[node] = unique_auth_year
-            # Add node to new graph
-            G_new.add_node(unique_auth_year)
-            # Add data to node
-            node_data = self.df.loc[node, col_list]  # Fetch all required data at once
-            for col in col_list:
-                G_new.nodes[unique_auth_year][col] = node_data[col]
+        for i, node in enumerate(G.nodes()):
+            # Use numeric index as the node ID
+            id_mapping[node] = i
+            G_new.add_node(i)
 
+            # Add other attributes from the DataFrame to the node
+            node_data = self.df.loc[node, col_list]
+            for col in col_list:
+                G_new.nodes[i][col] = node_data[col]
+
+        # Add edges, mapping original nodes to new numeric IDs
         for u, v, data in G.edges(data=True):
             G_new.add_edge(id_mapping[u], id_mapping[v], **data)
+
         return G_new
 
     def get_info_log(self):
         return self.info_log
 
 
-# Example usage of directed network creator
-# from network.NetworkCreator import DirectedNetworkCreator
-#
-# # Create a directed network from the dataframe
-# dnc = DirectedNetworkCreator(df)
-# G = dnc.create_network()
-# G = dnc.add_data_to_nodes(G, col_list=["eid", "title", "year", "abstract", "doi", "unique_auth_year"])
-# info_log = dnc.get_info_log()
-# print(info_log)
-
-
 class DirectedNetworkCreator:
-    def __init__(self, df, data_to_add=["eid", "title", "doi"]):
+    def __init__(self, df, data_to_add=["eid", "title", "year"]):
         self.df = df
         self.G = nx.DiGraph()
         self.eid_to_node = {}

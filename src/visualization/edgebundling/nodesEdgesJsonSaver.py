@@ -32,7 +32,7 @@ class nodesSaver:
         """
         if attributes is None:
             attributes = [
-                "node_id",
+                "node_index",
                 "node_name",
                 "doi",
                 "year",
@@ -79,8 +79,8 @@ class nodesSaver:
             str: The fixed string.
         """
         try:
-            decoded_title = title.encode("utf-8").decode("unicode_escape")
-            return decoded_title.encode("latin1").decode("utf-8")
+            decoded_title = title.encode("utf-8", "ignore").decode("utf-8")
+            return decoded_title
         except UnicodeEncodeError:
             # If the above method fails, return the original title
             return title
@@ -109,6 +109,40 @@ class edgesSaver:
         print(
             f"Color attribute added to edges. \n-1 if inter-clusters, cluster number if intra-cluster edge."
         )
+        return self.edges_df
+
+    def add_year_attr(self):
+        """
+        Add year information to edges based on node year. Use the more recent year.
+        if only 1 exists or both are the same, use that year.
+        """
+        self.edges_df["year"] = [
+            (
+                max(
+                    self.nodes_df.loc[source, "year"], self.nodes_df.loc[target, "year"]
+                )
+                if self.nodes_df.loc[source, "year"]
+                != self.nodes_df.loc[target, "year"]
+                else self.nodes_df.loc[source, "year"]
+            )
+            for source, target in zip(self.edges_df["source"], self.edges_df["target"])
+        ]
+
+        print(
+            f"Year attribute added to edges. Using the more recent year if different."
+        )
+        return self.edges_df
+
+    def add_id_attr(self):
+        """
+        Add id based on source and target nodes.
+        """
+        self.edges_df["id"] = [
+            f"{source}_{target}"
+            for source, target in zip(self.edges_df["source"], self.edges_df["target"])
+        ]
+
+        print(f"ID attribute added to edges.")
         return self.edges_df
 
     def transform_edges(

@@ -5,16 +5,26 @@ import networkx as nx
 from typing import List, Tuple, Union, Optional
 
 
-class graphToDfUtility:
+class GraphProcessingUtility:
     """
-    A utility class for converting igraph graph attributes to pandas DataFrames
-    and performing DataFrame operations related to graph data.
+    A utility class for converting igraph and NetworkX graphs to pandas DataFrames,
+    performing min-max normalization, and adding coordinate and distance data to edges.
     """
 
     @staticmethod
     def minmax_normalize(
         data: Union[List[float], np.ndarray], new_range: Tuple[float, float] = (0, 1)
     ) -> np.ndarray:
+        """
+        Normalize the input data to a specified range (default is [0, 1]).
+
+        Args:
+            data (Union[List[float], np.ndarray]): The data to be normalized.
+            new_range (Tuple[float, float]): The desired output range (default is (0, 1)).
+
+        Returns:
+            np.ndarray: The normalized data.
+        """
         data = np.array(data)
         if len(data) == 0:
             raise ValueError("Input data is empty")
@@ -24,173 +34,153 @@ class graphToDfUtility:
             raise ValueError("All values in the input data are identical")
 
         normalized_data = (data - data_min) / (data_max - data_min)
-
-        if new_range != (0, 1):
-            new_min, new_max = new_range
-            normalized_data = normalized_data * (new_max - new_min) + new_min
-
-        return normalized_data
-
-    def minmax_denormalize(
-        normalized_data: Union[List[float], np.ndarray],
-        original_range: Tuple[float, float],
-        current_range: Tuple[float, float] = (0, 1),
-    ) -> np.ndarray:
-
-        normalized_data = np.array(normalized_data)
-        if len(normalized_data) == 0:
-            raise ValueError("Input data is empty")
-
-        orig_min, orig_max = original_range
-        curr_min, curr_max = current_range
-
-        if orig_min >= orig_max or curr_min >= curr_max:
-            raise ValueError("Invalid range: min should be less than max")
-
-        # First, normalize to [0, 1] if not already
-        if current_range != (0, 1):
-            normalized_data = (normalized_data - curr_min) / (curr_max - curr_min)
-
-        # Then, scale to original range
-        denormalized_data = normalized_data * (orig_max - orig_min) + orig_min
-
-        return denormalized_data
+        new_min, new_max = new_range
+        return normalized_data * (new_max - new_min) + new_min
 
     @staticmethod
-    def edges_to_dataframe(g: ig.Graph) -> pd.DataFrame:
+    def edges_to_dataframe(g: Union[ig.Graph, nx.Graph]) -> pd.DataFrame:
         """
-        Convert the edges and their attributes of an igraph graph to a pandas DataFrame.
+        Convert the edges and their attributes of a graph (igraph or NetworkX) to a pandas DataFrame.
 
         Args:
-            g (ig.Graph): The input igraph graph.
+            g (Union[ig.Graph, nx.Graph]): The input graph.
 
         Returns:
             pd.DataFrame: A DataFrame containing edge attributes, source, and target nodes.
         """
-        # check if networkx or igraph
         if isinstance(g, nx.Graph):
             g = ig.Graph.from_networkx(g)
-        # Extract edge attributes
+
         edge_data = {attr: g.es[attr] for attr in g.es.attributes()}
+        edge_data["source"] = [g.vs[e.source]["node_index"] for e in g.es]
+        edge_data["target"] = [g.vs[e.target]["node_index"] for e in g.es]
 
-        # Add source and target node indices
-        edge_data["source"] = [e.source for e in g.es]
-        edge_data["target"] = [e.target for e in g.es]
-
-        # Convert to DataFrame
-        edge_dataframe = pd.DataFrame(edge_data)
-
-        return edge_dataframe
+        return pd.DataFrame(edge_data)
 
     @staticmethod
     def nodes_to_dataframe(
-        g: ig.Graph,
+        g: Union[ig.Graph, nx.Graph],
         normalize_coordinates: bool = False,
         drop_columns: Optional[List[str]] = None,
     ) -> pd.DataFrame:
         """
-        Convert the nodes and their attributes of an igraph graph to a pandas DataFrame.
+        Convert the nodes and their attributes of a graph (igraph or NetworkX) to a pandas DataFrame.
 
         Args:
-            g (ig.Graph): The input igraph graph.
-            drop_columns (Optional[List[str]]): A list of column names to drop from the DataFrame.
+            g (Union[ig.Graph, nx.Graph]): The input graph.
+            normalize_coordinates (bool): Whether to normalize coordinates (default is False).
+            drop_columns (Optional[List[str]]): List of column names to drop.
 
         Returns:
-            pd.DataFrame: A DataFrame containing node attributes and node indices.
+            pd.DataFrame: A DataFrame containing node attributes and indices.
         """
-        # check if networkx or igraph
         if isinstance(g, nx.Graph):
             g = ig.Graph.from_networkx(g)
-        # Extract node attributes
+
         node_data = {attr: g.vs[attr] for attr in g.vs.attributes()}
-
-        # Add node indices
         node_dataframe = pd.DataFrame(node_data)
-        node_dataframe["node_index"] = [n.index for n in g.vs]
-        if normalize_coordinates:
-            # Calculate min/max for coordinates
-            xmin, xmax = np.min(node_dataframe["x"]), np.max(node_dataframe["x"])
-            ymin, ymax = np.min(node_dataframe["y"]), np.max(node_dataframe["y"])
-            zmin, zmax = np.min(node_dataframe["z"]), np.max(node_dataframe["z"])
 
-            # Normalize coordinates
-            node_dataframe["x"] = minmax_normalize(node_dataframe["x"], xmin, xmax)
-            node_dataframe["y"] = minmax_normalize(node_dataframe["y"], ymin, ymax)
-            node_dataframe["z"] = minmax_normalize(node_dataframe["z"], zmin, zmax)
+        if normalize_coordinates:
+            # Normalize x, y, z coordinates
+            for coord in ["x", "y", "z"]:
+                node_dataframe[coord] = GraphProcessingUtility.minmax_normalize(
+                    node_dataframe[coord]
+                )
             print("Coordinates normalized to [0, 1] range.")
 
-        # Drop specified columns if provided
         if drop_columns:
             node_dataframe = node_dataframe.drop(columns=drop_columns, errors="ignore")
 
         return node_dataframe
 
     @staticmethod
-    def create_edge_df_with_source_target_coords(g: ig.Graph) -> pd.DataFrame:
+    def create_edge_df_with_source_target_coords(
+        edges_df: pd.DataFrame, nodes_df: pd.DataFrame
+    ) -> pd.DataFrame:
         """
-        Create a DataFrame containing edge information with source and target coordinates.
+        Adds the source and target node coordinates (x, y, z) to the edges DataFrame.
 
-        This method processes an igraph Graph object and extracts edge information,
-        including weights, IDs, source and target nodes, and their coordinates.
-        It also calculates the length of each edge segment.
-
-        Parameters:
-        -----------
-        g : ig.Graph
-            The input graph object from which to extract edge information.
+        Args:
+            edges_df (pd.DataFrame): DataFrame containing edges with 'source' and 'target' columns.
+            nodes_df (pd.DataFrame): DataFrame containing node data with 'node_index', 'x', 'y', 'z' columns.
 
         Returns:
-        --------
-        pd.DataFrame
-            A DataFrame containing the following columns:
-            - weight: Edge weight
-            - edge_id: Unique identifier for each edge
-            - source: Source node ID
-            - target: Target node ID
-            - source_x, source_y, source_z: Coordinates of the source node
-            - target_x, target_y, target_z: Coordinates of the target node
-            - segment_length: Euclidean distance between source and target nodes
-
-        Notes:
-        ------
-        - Assumes the graph nodes have 'x', 'y', and 'z' attributes for coordinates.
-        - Prints statistics about segment lengths after creating the DataFrame.
+            pd.DataFrame: edges_df with added 'source_x', 'source_y', 'source_z', 'target_x', 'target_y', 'target_z' columns.
         """
-        edge_data = []
-        for edge in g.es:
-            source = edge.source
-            target = edge.target
-            source_coords = (g.vs[source]["x"], g.vs[source]["y"], g.vs[source]["z"])
-            target_coords = (g.vs[target]["x"], g.vs[target]["y"], g.vs[target]["z"])
 
-            edge_data.append(
-                {
-                    "weight": edge["weight"],
-                    "edge_id": edge["edge_id"],
-                    "source": source,
-                    "target": target,
-                    "source_x": source_coords[0],
-                    "source_y": source_coords[1],
-                    "source_z": source_coords[2],
-                    "target_x": target_coords[0],
-                    "target_y": target_coords[1],
-                    "target_z": target_coords[2],
-                    "segment_length": graphToDfUtility.distance_between(
-                        source_coords, target_coords
-                    ),
-                }
+        def add_node_coords(
+            edges_df: pd.DataFrame,
+            nodes_df: pd.DataFrame,
+            node_column: str,
+            prefix: str,
+        ) -> pd.DataFrame:
+            """
+            Helper function to merge node coordinates (x, y, z) to edges_df for a given node column (source or target).
+
+            Args:
+                edges_df (pd.DataFrame): DataFrame containing edges.
+                nodes_df (pd.DataFrame): DataFrame containing nodes and their coordinates.
+                node_column (str): Column name in edges_df ('source' or 'target').
+                prefix (str): Prefix for the new coordinate columns ('source' or 'target').
+
+            Returns:
+                pd.DataFrame: edges_df with merged coordinates for the specified node_column.
+            """
+            return (
+                edges_df.merge(
+                    nodes_df[
+                        ["node_index", "x", "y", "z"]
+                    ],  # Only select relevant columns
+                    how="left",  # Left join to preserve all rows from edges_df
+                    left_on=node_column,  # Match on the specified column in edges_df ('source' or 'target')
+                    right_on="node_index",  # Match on 'node_index' in nodes_df
+                )
+                .rename(
+                    columns={  # Rename the merged columns with the given prefix
+                        "x": f"{prefix}_x",
+                        "y": f"{prefix}_y",
+                        "z": f"{prefix}_z",
+                    }
+                )
+                .drop(
+                    columns=["node_index"]
+                )  # Drop 'node_index' as it is no longer needed
             )
 
-        df = pd.DataFrame(edge_data)
+        edges_with_coords = add_node_coords(edges_df, nodes_df, "source", "source")
+        edges_with_coords = add_node_coords(
+            edges_with_coords, nodes_df, "target", "target"
+        )
 
-        # Print segment length statistics
+        return edges_with_coords
+
+    @staticmethod
+    def add_segment_length_to_edge_df(edges_with_coords: pd.DataFrame) -> pd.DataFrame:
+        """
+        Add the segment length (Euclidean distance between source and target nodes) to the edges DataFrame.
+
+        Args:
+            edges_with_coords (pd.DataFrame): DataFrame containing edges with source and target coordinates.
+
+        Returns:
+            pd.DataFrame: edges_with_coords with an added 'segment_length' column.
+        """
+        edges_with_coords["segment_length"] = edges_with_coords.apply(
+            lambda row: GraphProcessingUtility.distance_between(
+                (row["source_x"], row["source_y"], row["source_z"]),
+                (row["target_x"], row["target_y"], row["target_z"]),
+            ),
+            axis=1,
+        )
+
+        # Print statistics
         print("Segment length statistics:")
-        print(f"Min: {df['segment_length'].min():.2f}")
-        print(f"Max: {df['segment_length'].max():.2f}")
-        print(f"Mean: {df['segment_length'].mean():.2f}")
-        print(f"Median: {df['segment_length'].median():.2f}")
+        print(f"Min: {edges_with_coords['segment_length'].min():.2f}")
+        print(f"Max: {edges_with_coords['segment_length'].max():.2f}")
+        print(f"Mean: {edges_with_coords['segment_length'].mean():.2f}")
+        print(f"Median: {edges_with_coords['segment_length'].median():.2f}")
 
-        return df
+        return edges_with_coords
 
     @staticmethod
     def distance_between(
