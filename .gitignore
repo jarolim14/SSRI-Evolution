@@ -3,9 +3,10 @@
 tests/tmp/
 notebooks/api_key_scopus.json
 report/
-# Ignore everything in the folder
+# Ignore everything in the output directory
 output/*
-# Unignore the specific file
+
+# Unignore everything in the desired subdirectory
 !output/cluster-qualifications/cluster-label-tree/
 
 cemetry/
