@@ -6,7 +6,7 @@ report/
 # Ignore everything in the folder
 output/*
 # Unignore the specific file
-!output/cluster-qualifications/cluster-label-tree/D3JS_cluster_hierarchy_structure.json
+!output/cluster-qualifications/cluster-label-tree/
 
 cemetry/
 # Byte-compiled / optimized / DLL files
