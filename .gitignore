@@ -3,7 +3,11 @@
 tests/tmp/
 notebooks/api_key_scopus.json
 report/
-output/
+# Ignore everything in the folder
+output/*
+# Unignore the specific file
+!output/cluster-qualifications/cluster-label-tree/D3JS_cluster_hierarchy_structure.json
+
 cemetry/
 # Byte-compiled / optimized / DLL files
 __pycache__/
