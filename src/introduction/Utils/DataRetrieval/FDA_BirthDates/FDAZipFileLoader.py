@@ -12,7 +12,7 @@ class FDAZipFileLoader:
     Attributes:
         zip_url (str): The URL of the zip file to download.
         desired_file_name (str): The name of the file to extract and read.
-        df (pd.DataFrame): A Pandas DataFrame to store the extracted data.
+        dataframe (pd.DataFrame): A Pandas DataFrame to store the extracted data.
 
     Methods:
         load_data(): Downloads the zip file, extracts the desired file, and reads it into a Pandas DataFrame.
@@ -28,46 +28,46 @@ class FDAZipFileLoader:
         """
         self.zip_url = zip_url
         self.desired_file_name = desired_file_name
-        self.df = None
+        self.dataframe = None
 
     def load_data(self):
         """
-        Downloads the zip file, extracts the desired file, and reads it into a Pandas DataFrame.
+        Download the zip file, extract the desired file, and read it into a DataFrame.
 
         Returns:
-            pd.DataFrame: A Pandas DataFrame containing the data from the desired file.
+            pd.DataFrame: The extracted data as a Pandas DataFrame.
+
+        Raises:
+            Exception: If the zip file cannot be downloaded or the desired file is not found.
         """
-        # Send an HTTP GET request to download the zip file
-        response = requests.get(self.zip_url)
+        try:
+            # Download the zip file
+            response = requests.get(self.zip_url)
+            response.raise_for_status()
 
-        # Check if the request was successful (status code 200)
-        if response.status_code == 200:
-            # Open the zip file from the response content
-            with zipfile.ZipFile(BytesIO(response.content), "r") as zip_archive:
-                # Check if the desired file exists within the archive
-                if self.desired_file_name in zip_archive.namelist():
-                    # Read the contents of the desired file into a Pandas DataFrame
-                    with zip_archive.open(self.desired_file_name) as desired_file:
-                        self.df = pd.read_csv(
-                            desired_file, delimiter="~", encoding="utf-8"
-                        )
+            # Create a BytesIO object from the content
+            zip_content = BytesIO(response.content)
 
-                        # Convert the 'Approval_Date' column to datetime
-                        self.df["Approval_Date"] = pd.to_datetime(
-                            self.df["Approval_Date"],
-                            format="%b %d, %Y",
-                            errors="coerce",
-                        )
-
-                        return self.df
-                else:
-                    print(
-                        f"The file '{self.desired_file_name}' does not exist in the zip archive."
+            # Open the zip file
+            with zipfile.ZipFile(zip_content) as zip_file:
+                # Check if the desired file exists in the zip
+                if self.desired_file_name not in zip_file.namelist():
+                    raise FileNotFoundError(
+                        f"File '{self.desired_file_name}' not found in the zip file."
                     )
-        else:
-            print(
-                f"Failed to download the zip file. Status code: {response.status_code}"
-            )
+
+                # Read the desired file into a DataFrame
+                with zip_file.open(self.desired_file_name) as file:
+                    self.dataframe = pd.read_csv(file)
+
+            return self.dataframe
+
+        except requests.exceptions.RequestException as e:
+            raise Exception(f"Failed to download zip file: {str(e)}")
+        except zipfile.BadZipFile:
+            raise Exception("Invalid zip file.")
+        except Exception as e:
+            raise Exception(f"An error occurred: {str(e)}")
 
 
 if __name__ == "__main__":

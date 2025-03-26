@@ -1,11 +1,53 @@
 import leidenalg as la
 import pandas as pd
+import community
 
 
 class PartitionCreator:
-    def __init__(self, G, df):
-        self.G = G
-        self.df = df
+    def __init__(self, graph, dataframe):
+        """Initialize the PartitionCreator with a graph and dataframe."""
+        self.graph = graph
+        self.dataframe = dataframe
+        self.cluster_sizes = None
+        self.time_series_dataframe = None
+
+    def create_partition(self, algorithm="louvain"):
+        """Create a partition of the graph using the specified algorithm."""
+        if algorithm == "louvain":
+            partition = community.best_partition(self.graph)
+        elif algorithm == "label_propagation":
+            partition = community.label_propagation_communities(self.graph)
+        else:
+            raise ValueError(f"Unsupported algorithm: {algorithm}")
+
+        # Add partition information to the dataframe
+        self.dataframe["cluster"] = self.dataframe["eid"].map(partition)
+        
+        # Calculate cluster sizes
+        self.cluster_sizes = self.dataframe["cluster"].value_counts()
+        
+        return partition
+
+    def create_time_series_dataframe(self):
+        """Create a time series dataframe from the partition data."""
+        # Create a time series dataframe
+        time_series_dataframe = (
+            self.dataframe.groupby("year")["cluster"].value_counts(normalize=True).unstack()
+        )
+        
+        # Fill NaNs with 0
+        time_series_dataframe.fillna(0, inplace=True)
+        
+        # Rename columns to cluster_nr
+        time_series_dataframe.columns = [
+            f"cluster_{i}" for i in self.cluster_sizes.index
+        ]
+        
+        # Reset index to make year a column
+        time_series_dataframe.reset_index(inplace=True)
+        
+        self.time_series_dataframe = time_series_dataframe
+        return time_series_dataframe
 
     def create_partition_from_modularityvertexpartition(
         self,
@@ -14,7 +56,7 @@ class PartitionCreator:
         verbose=False,
     ):
         self.partition = la.find_partition(
-            self.G,
+            self.graph,
             la.ModularityVertexPartition,
             weights="weight",
             n_iterations=n_iterations,
@@ -22,7 +64,7 @@ class PartitionCreator:
             seed=1887,
         )
         # assign cluster labels to G
-        self.G.vs["cluster"] = self.partition.membership
+        self.graph.vs["cluster"] = self.partition.membership
         # sizes of clusters
         self.cluster_sizes = pd.Series(self.partition.sizes()).sort_values(
             ascending=False
@@ -42,7 +84,7 @@ class PartitionCreator:
         centrality_column_name=None,
     ):
         self.partition = la.find_partition(
-            self.G,
+            self.graph,
             la.CPMVertexPartition,
             resolution_parameter=resolution_parameter,
             weights="weight",
@@ -50,7 +92,7 @@ class PartitionCreator:
             seed=1887,
         )
         # assign cluster labels to G
-        self.G.vs["cluster"] = self.partition.membership
+        self.graph.vs["cluster"] = self.partition.membership
         # sizes of clusters
         self.cluster_sizes = pd.Series(self.partition.sizes()).sort_values(
             ascending=False
@@ -66,10 +108,10 @@ class PartitionCreator:
 
     def add_cluster_to_df(self, column_name="cluster"):
         # Extract vertex attributes as a list of dictionaries
-        vertices_df = pd.DataFrame([vertex.attributes() for vertex in self.G.vs])
+        vertices_df = pd.DataFrame([vertex.attributes() for vertex in self.graph.vs])
 
         # Add the 'cluster' column to the DataFrame based on 'eid'
-        self.df = self.df.merge(
+        self.dataframe = self.dataframe.merge(
             vertices_df[["eid", "cluster"]], on="eid", how="left"
         ).rename(columns={"cluster": column_name})
 
@@ -87,8 +129,8 @@ class PartitionCreator:
 
         for cluster_nr in self.cluster_sizes.index:
             # Extract the subgraph for the current cluster
-            Gsub = self.G.subgraph(
-                [v.index for v in self.G.vs if v["cluster"] == cluster_nr]
+            Gsub = self.graph.subgraph(
+                [v.index for v in self.graph.vs if v["cluster"] == cluster_nr]
             )
             # Use igraph to get eigenvector centrality for the subgraph
             eigenvector_cluster_centralities = Gsub.eigenvector_centrality(
@@ -98,9 +140,9 @@ class PartitionCreator:
             for eid, ev in zip(eids, eigenvector_cluster_centralities):
                 eid_eigenvector[eid] = ev
 
-        self.df[column_name] = self.df["eid"].map(eid_eigenvector)
+        self.dataframe[column_name] = self.dataframe["eid"].map(eid_eigenvector)
 
-        self.G.vs[column_name] = [eid_eigenvector[eid] for eid in self.G.vs["eid"]]
+        self.graph.vs[column_name] = [eid_eigenvector[eid] for eid in self.graph.vs["eid"]]
 
     def cluster_title_printer(
         self,
@@ -109,7 +151,7 @@ class PartitionCreator:
         n=15,
         cols_to_print=["title", "year"],
     ):
-        cluster = self.df[self.df["cluster"] == cluster_nr]
+        cluster = self.dataframe[self.dataframe["cluster"] == cluster_nr]
         cluster = cluster.sort_values(
             by="eigenvector_cluster_centrality", ascending=False
         )
@@ -127,22 +169,6 @@ class PartitionCreator:
             print("")
             [print(f"{col}: {row[col]}") for col in cols_to_print]
 
-    def create_time_series_df(self):
-        # create a time series df
-        df_time_series = (
-            self.df.groupby("year")["cluster"].value_counts(normalize=True).unstack()
-        )
-        # fill NaNs with 0
-        df_time_series.fillna(0, inplace=True)
-        # columns to cluser_nr
-        df_time_series.columns = [
-            "cluster" + "_" + str(i) for i in self.cluster_sizes.index
-        ]
-        # index to column
-        df_time_series.reset_index(inplace=True)
-        self.df_time_series = df_time_series
-        return df_time_series
-
 
 # example usage
 # pc = PartionCreation(G, df)
@@ -150,5 +176,5 @@ class PartitionCreator:
 # pc.add_cluster_to_df()
 # pc.calculate_centrality_within_cluster()
 # pc.cluster_title_printer(cluster_nr=0, random=True, n=5)
-# df_time_series = pc.create_time_series_df()
+# df_time_series = pc.create_time_series_dataframe()
 # df_time_series.head()

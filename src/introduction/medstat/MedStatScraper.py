@@ -4,10 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class MedStatScraperVolumeSoldADs:
+class MedStatVolumeSoldScraper:
     def __init__(self, url):
         self.url = url
-        self.df = None
+        self.dataframe = None
 
     def scrape_data(self):
         # Send an HTTP GET request to the URL
@@ -46,57 +46,53 @@ class MedStatScraperVolumeSoldADs:
         if not tr_texts:
             return None
 
-        # Define colnames
+        # Define column names
         years = tr_texts[0]
-        colnames = ["ATC-code", "Unit"] + years
+        column_names = ["ATC-code", "Unit"] + years
 
         # Every list after the second as a row
         rows = tr_texts[2:]
 
         # Create DataFrame
-        df = pd.DataFrame(rows, columns=colnames)
+        dataframe = pd.DataFrame(rows, columns=column_names)
 
         # Get drug names from ATC-code column
-        df["Drug"] = (
-            df["ATC-code"]
+        dataframe["Drug"] = (
+            dataframe["ATC-code"]
             .str.split(" ")
             .apply(lambda x: " ".join(x[1:]).replace("(", "").replace(")", ""))
         )
 
-        df["ATC-code"] = df["ATC-code"].apply(lambda x: x.split(" ")[0])
-
-        # Split ATC-code column to get only the code
+        dataframe["ATC-code"] = dataframe["ATC-code"].apply(lambda x: x.split(" ")[0])
 
         # Move the Drug column to the front
-        cols = df.columns.tolist()
-        cols = cols[-1:] + cols[:-1]
-        df = df[cols]
+        columns = dataframe.columns.tolist()
+        columns = columns[-1:] + columns[:-1]
+        dataframe = dataframe[columns]
 
         # Specify '-' as NaN and convert numerical columns to integers
-        df.iloc[:, 3:] = df.iloc[:, 3:].applymap(
+        dataframe.iloc[:, 3:] = dataframe.iloc[:, 3:].applymap(
             lambda cell_value: int(cell_value.replace(",", ""))
             if cell_value != "-"
             else np.nan
         )
 
-        self.df = df  # Store the DataFrame in the class attribute
+        self.dataframe = dataframe  # Store the DataFrame in the class attribute
 
     def get_dataframe(self):
-        return self.df
+        return self.dataframe
 
 
 if __name__ == "__main__":
     url = "https://medstat.dk/en/viewDataTables/medicineAndMedicalGroups/%7B%22year%22:[%222022%22,%222021%22,%222020%22,%222019%22,%222018%22,%222017%22,%222016%22,%222015%22,%222014%22,%222013%22,%222012%22,%222011%22,%222010%22,%222009%22,%222008%22,%222007%22,%222006%22,%222005%22,%222004%22,%222003%22,%222002%22,%222001%22,%222000%22,%221999%22,%221998%22,%221997%22,%221996%22],%22region%22:[%220%22],%22gender%22:[%22A%22],%22ageGroup%22:[%22A%22],%22searchVariable%22:[%22sold_volume%22],%22errorMessages%22:[],%22atcCode%22:[%22N06A%22,%22N06AA%22,%22N06AA02%22,%22N06AA03%22,%22N06AA04%22,%22N06AA05%22,%22N06AA06%22,%22N06AA07%22,%22N06AA09%22,%22N06AA10%22,%22N06AA11%22,%22N06AA12%22,%22N06AA16%22,%22N06AA17%22,%22N06AA21%22,%22N06AB%22,%22N06AB03%22,%22N06AB04%22,%22N06AB05%22,%22N06AB06%22,%22N06AB08%22,%22N06AB10%22,%22N06AF%22,%22N06AF01%22,%22N06AG%22,%22N06AG02%22,%22N06AX%22,%22N06AX03%22,%22N06AX06%22,%22N06AX11%22,%22N06AX12%22,%22N06AX16%22,%22N06AX18%22,%22N06AX21%22,%22N06AX22%22,%22N06AX26%22,%22N06AX27%22],%22sector%22:[%222%22]%7D"
-    scraper = MedStatScraper(url)
+    scraper = MedStatVolumeSoldScraper(url)
     tr_texts = scraper.scrape_data()
     scraper.create_dataframe(tr_texts)
 
 
-class MedStatScraperNrUsersSSRI:
+class MedStatSSRIUserScraper:
     def __init__(self, url):
         self.url = url
-        self.html = None
-        self.table_data = None
         self.dataframe = None
 
     def fetch_html(self):
