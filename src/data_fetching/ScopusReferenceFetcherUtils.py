@@ -4,11 +4,12 @@ import os
 import sys
 import datetime
 from math import ceil
+from dotenv import load_dotenv
 
 import pandas as pd
 from tqdm import tqdm
 
-from src.data.ScopusReferenceFetcher import ScopusReferenceFetcher
+from src.data_fetching.ScopusReferenceFetcher import ScopusReferenceFetcher
 
 
 class ScopusRefFetcherPrep:
@@ -17,13 +18,32 @@ class ScopusRefFetcherPrep:
     """
 
     @staticmethod
-    def get_api_keys(path="../notebooks/api_key_scopus.json"):
-        api_keys = json.load(open(path))
-        # Get the comment value before filtering
-        comment = next(v for k, v in api_keys.items() if k == "comment")
-        print("Comment: ", comment)
-        # Remove comment from api keys
-        api_keys = {k: v for k, v in api_keys.items() if k != "comment"}
+    def get_api_keys():
+        """
+        Get Scopus API keys from environment variables.
+
+        Returns:
+            dict: Dictionary of API keys with their names as keys
+        """
+        load_dotenv()
+
+        api_keys = {
+            "api_key_A": os.getenv("SCOPUS_API_KEY_A"),
+            "api_key_B": os.getenv("SCOPUS_API_KEY_B"),
+            "api_key_deb": os.getenv("SCOPUS_API_KEY_DEB"),
+            "api_key_haoxin": os.getenv("SCOPUS_API_KEY_HAOXIN"),
+        }
+
+        # Remove any None values
+        api_keys = {k: v for k, v in api_keys.items() if v is not None}
+
+        if not api_keys:
+            raise ValueError("No API keys found in environment variables")
+
+        print("API Rate Limits:")
+        print("- api_key_A: 40,000 requests per week")
+        print("- Other keys: 10,000 requests per week")
+
         return api_keys
 
     @staticmethod
@@ -34,15 +54,15 @@ class ScopusRefFetcherPrep:
         """
         files = os.listdir(data_path)
         files = [file for file in files if file.endswith(".json")]
-        
+
         if not files:
             print("No previously processed files found.")
             return [], 0
-            
+
         # Extract batch numbers and find the maximum
         max_batch = max(int(file.split("_")[3].split(".")[0]) for file in files)
         print(f"Found {len(files)} files with batch numbers up to {max_batch}.")
-        
+
         eids = []
         for file in files:
             with open(data_path + file, "r") as fp:
@@ -56,18 +76,18 @@ class ScopusRefFetcherPrep:
     def load_and_filter_articles(path, eids):
         """
         Load articles from either CSV or pickle file and filter out already processed ones.
-        
+
         Args:
             path (str): Path to the file (CSV or pickle)
             eids (list): List of already processed EIDs
-            
+
         Returns:
             DataFrame: Filtered dataframe with unprocessed articles
         """
         # Try different encodings for CSV files
-        encodings = ['utf-8', 'latin1', 'iso-8859-1', 'cp1252']
-        
-        if path.endswith('.csv'):
+        encodings = ["utf-8", "latin1", "iso-8859-1", "cp1252"]
+
+        if path.endswith(".csv"):
             for encoding in encodings:
                 try:
                     df = pd.read_csv(path, encoding=encoding)
@@ -77,15 +97,17 @@ class ScopusRefFetcherPrep:
                 except Exception as e:
                     raise Exception(f"Error reading CSV file: {e}")
             else:
-                raise UnicodeDecodeError(f"Could not read file with any of the encodings: {encodings}")
-        elif path.endswith('.pkl'):
+                raise UnicodeDecodeError(
+                    f"Could not read file with any of the encodings: {encodings}"
+                )
+        elif path.endswith(".pkl"):
             try:
                 df = pd.read_pickle(path)
             except Exception as e:
                 raise Exception(f"Error reading pickle file: {e}")
         else:
             raise ValueError("File must be either CSV or pickle format")
-            
+
         df_filtered = df[~df["eid"].isin(eids)]
         df_filtered = df_filtered.reset_index(drop=True)
         print(f"Number of articles to fetch: {len(df_filtered)}")
@@ -142,7 +164,7 @@ class ScopusRefFetcherProcessor:
         while current_batch < num_batches:
             current_api_key = api_keys[api_key_names[current_api_key_idx]]
             logging.info(f"Using API key: {api_key_names[current_api_key_idx]}")
-            
+
             fetcher = ScopusReferenceFetcher(current_api_key)
             data_dict = {}
 
@@ -155,18 +177,24 @@ class ScopusRefFetcherProcessor:
                     except Exception as e:
                         logging.error(f"Error processing EID: {row['eid']}. Error: {e}")
                         if "429" in str(e):
-                            logging.warning(f"Rate limit hit for API key: {api_key_names[current_api_key_idx]}")
+                            logging.warning(
+                                f"Rate limit hit for API key: {api_key_names[current_api_key_idx]}"
+                            )
                             # Save current progress
                             with open(
                                 f"{data_path}scopus_references_batch_{current_batch + 1}.json",
                                 "w",
                             ) as fp:
                                 json.dump(data_dict, fp)
-                            
+
                             # Rotate to next API key
-                            current_api_key_idx = (current_api_key_idx + 1) % len(api_keys)
+                            current_api_key_idx = (current_api_key_idx + 1) % len(
+                                api_keys
+                            )
                             if current_api_key_idx == 0:
-                                logging.error("All API keys have hit their rate limits. Stopping.")
+                                logging.error(
+                                    "All API keys have hit their rate limits. Stopping."
+                                )
                                 return
                             continue
                         else:
@@ -185,10 +213,14 @@ class ScopusRefFetcherProcessor:
             except Exception as e:
                 logging.error(f"Error processing batch {current_batch + 1}: {e}")
                 if "429" in str(e):
-                    logging.warning(f"Rate limit hit for API key: {api_key_names[current_api_key_idx]}")
+                    logging.warning(
+                        f"Rate limit hit for API key: {api_key_names[current_api_key_idx]}"
+                    )
                     current_api_key_idx = (current_api_key_idx + 1) % len(api_keys)
                     if current_api_key_idx == 0:
-                        logging.error("All API keys have hit their rate limits. Stopping.")
+                        logging.error(
+                            "All API keys have hit their rate limits. Stopping."
+                        )
                         return
                     continue
                 else:

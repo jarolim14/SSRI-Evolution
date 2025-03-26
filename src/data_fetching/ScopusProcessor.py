@@ -8,7 +8,7 @@ from math import ceil
 import pandas as pd
 from tqdm import tqdm
 
-from src.data.ScopusReferenceFetcher import ScopusReferenceFetcher
+from src.data_fetching.ScopusReferenceFetcher import ScopusReferenceFetcher
 
 
 class ScopusRefFetcherPrep:
