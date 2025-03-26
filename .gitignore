@@ -3,11 +3,10 @@
 tests/tmp/
 notebooks/api_key_scopus.json
 report/
-# Ignore everything in the output directory
-output/*
-
-# Unignore everything in the desired subdirectory
-!output/cluster-qualifications/cluster-label-tree/
+# Ignore some things in the output directory
+output/orlando/*
+output/viz_idea.png
+output/cluster-qualifications/cluster-explorer/*
 
 cemetry/
 # Byte-compiled / optimized / DLL files
