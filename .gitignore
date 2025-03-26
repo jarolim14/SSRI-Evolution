@@ -81,9 +81,7 @@ instance/
 .scrapy
 # Ignore data files but keep scripts
 data/
-!data/**/*.py
-!data/**/*.ipynb
-!data/**/*.md
+!src/data
 # Sphinx documentation
 docs/_build/
 
