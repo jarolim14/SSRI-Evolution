@@ -1,0 +1,208 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Python Data Science Project Standards
+
+## Table of Contents
+- [Code Organization](#code-organization)
+- [Naming Conventions](#naming-conventions)
+- [Code Formatting](#code-formatting)
+- [Documentation](#documentation)
+- [Data Management](#data-management)
+- [Modeling Best Practices](#modeling-best-practices)
+- [Testing](#testing)
+- [Version Control](#version-control)
+- [Environment Management](#environment-management)
+- [Performance Considerations](#performance-considerations)
+- [Jupyter Notebook Best Practices](#jupyter-notebook-best-practices)
+
+## Code Organization
+
+### Module Organization
+- Each module should have a single responsibility
+- Limit module size to 300-500 lines; split larger modules
+- Use private functions (prefixed with `_`) for internal functionality
+
+## Naming Conventions
+
+### General Rules
+- Be descriptive and unambiguous
+- Use full words rather than abbreviations (unless widely understood)
+- Maintain consistency throughout the project
+
+### Specific Conventions
+- **Variables and Functions**: Use `snake_case`
+
+- **Classes**: Use `CamelCase`
+
+- **Constants**: Use `UPPER_SNAKE_CASE`
+
+- **Private Variables/Functions**: Prefix with underscore
+
+### Data Science Specific Naming
+- **DataFrames**: Use noun phrases ending with `_df`
+
+- **Arrays/Tensors**: Use descriptive names with `_array` or type suffix
+
+- **Models**: Name with descriptive purpose
+  ```python
+  sentiment_classifier = RandomForestClassifier()
+  price_predictor = LinearRegression()
+  ```
+
+## Code Formatting
+
+### PEP 8 Guidelines
+- Use 4 spaces for indentation (no tabs)
+- Limit lines to 88 characters (Black's default)
+- Surround top-level functions and classes with two blank lines
+- Imports should be on separate lines and grouped:
+  1. Standard library imports
+  2. Related third-party imports
+  3. Local application/library-specific imports
+- Write down return types of function results like `-> List[str]`, `-> pd.DataFrame`, etc.
+
+### Recommended Tooling
+- **Black**: For automatic code formatting
+- **Flake8**: For style guide enforcement
+- **isort**: For organizing imports
+- **mypy**: For optional static type checking
+
+### Example Configuration
+```ini
+# setup.cfg
+[flake8]
+max-line-length = 88
+extend-ignore = E203
+exclude = .git,__pycache__,build,dist
+
+[isort]
+profile = black
+line_length = 88
+```
+
+### Error Handling
+- Use try-except blocks for error-prone operations, especially when reading external data
+- Provide informative error messages
+- Avoid bare except statements; catch specific exceptions
+
+
+## Documentation
+
+### Code Documentation
+- Add docstrings to all public functions, classes, and methods
+- Use Google-style or NumPy-style docstrings
+- Explain parameters, return values, and exceptions
+
+### Project Documentation
+- Maintain a comprehensive README.md with:
+  - Project overview and purpose
+  - Setup and installation instructions
+  - Basic usage examples
+  - Data description
+  - Key findings summary
+
+- Create documentation for data dictionaries, model architectures, and analysis methodologies
+
+## Data Management
+
+### Data Loading
+- Create reproducible data loading pipelines
+- Validate data at ingestion
+- Log data statistics and schema upon loading
+
+### Data Structures
+- Utilize efficient data structures (e.g., categorical data types for low-cardinality string columns)
+- Consider memory usage when working with large datasets
+- Use appropriate numpy/pandas data types for numeric columns
+
+## Version Control
+
+### Git Practices
+- Commit often with meaningful messages
+- Use branches for features and experiments
+- Create `.gitignore` for data, credentials, .emv, and outputs
+
+### Commit Messages
+- Be rather too verbose than too little
+- 
+### Git Workflow
+- `main`: Stable, production-ready code
+- `develop`: Integration branch
+- Feature branches: Individual changes
+
+## Environment Management
+
+### Dependency Management
+- Use virtual environments (conda)
+- Maintain both `pyproject.toml` and `.env`. Don't use requirements.txt
+- Store often used paths and configurations in the .env file
+- Pin specific versions for reproducibility
+
+## Performance Considerations
+
+### Optimization Tips
+- Profile code to identify bottlenecks
+- Use vectorized operations when possible
+- Consider chunking for large datasets
+- Implement parallel processing for appropriate tasks
+
+### Memory Management
+- Use appropriate dtypes to reduce memory usage
+- Implement generators for large data processing
+- Clean up intermediate results when no longer needed
+
+## Jupyter Notebook Best Practices
+
+### Organization and Readability
+- Structure notebooks with clear sections using markdown cells
+- Include a table of contents at the beginning
+- Keep notebooks reasonably sized; split by logical sections if they become too large
+- Use meaningful cell execution order to ensure reproducibility
+- Include explanatory text in markdown cells to document analysis steps
+- Keep code cells focused and modular for easier understanding and debugging
+
+### Technical Setup
+- Use magic commands like `%matplotlib inline` for inline plotting
+- Always enable autoreload extensions:
+  ```python
+  %load_ext autoreload
+  %autoreload 2
+  ```
+- Use `%config InlineBackend.figure_format = 'retina'` for higher-resolution plots
+
+### Code Quality in Notebooks
+- Refactor repeated code into functions
+- Import custom modules instead of copy-pasting code between notebooks
+- Move complex functions to separate `.py` files for reusability
+- Use notebook checkpoints but don't rely on them for version control
+
+### Execution and Reproducibility
+- Clear all outputs before committing to version control (`Cell > All Output > Clear`)
+- Consider using papermill or nbconvert for parameterized notebook execution
+- Document the environment used for execution (Python version, key packages)
+- Test that notebooks can be run from start to finish in a clean environment
+
+### Documentation
+- Add markdown headers with metadata:
+  ```markdown
+  # Analysis Name
+  
+  **Author:** Name
+  **Date:** YYYY-MM-DD
+  **Purpose:** Brief description
+  **Dependencies:** Key packages required
+  ```
+- Document data transformation steps clearly
+- Add comments explaining the "why" not just the "what"
+- Include visualization interpretations in markdown cells
+
+## Final Recommendations
+
+1. **Consistency** is key - follow the same patterns throughout the project
+2. **Readability** over cleverness - optimize for human understanding
+3. **Documentation** should be maintained alongside code changes
+4. **Automation** - use tools to enforce standards where possible
+5. **Reproducibility** - ensure results can be recreated from scratch

@@ -72,7 +72,85 @@ The project uses environment variables for configuration. Copy `.env.example` to
 - `api_key_A`: 40,000 requests per week
 - Other keys: 10,000 requests per week
 
+## Environment Setup
+
+1. Create and activate the conda environment:
+```bash
+conda create -n bibliometrics python=3.11
+conda activate bibliometrics
+```
+
+2. Set up the environment:
+```bash
+# Run this script to activate the environment and install dependencies
+./activate_env.sh
+```
+
+3. Configure PYTHONPATH:
+   - The project uses the `src` directory as a module
+   - Add the project root to PYTHONPATH in `.env`:
+     ```
+     PYTHONPATH=/path/to/Study-1-Bibliometrics
+     ```
+   - This allows importing from `src` directly:
+     ```python
+     from src.data_fetching.ScopusProcessor import ScopusRefFetcherPrep
+     ```
+
+4. For Jupyter notebooks:
+```bash
+# Install and register the environment as a Jupyter kernel
+python -m ipykernel install --user --name=bibliometrics --display-name="Python (bibliometrics)"
+```
+
+5. Verify the environment:
+```bash
+# Should show the path to your bibliometrics environment
+which python
+```
+
+## Environment Management
+
+### Best Practices
+1. Always activate the environment before running code:
+```bash
+conda activate bibliometrics
+```
+
+2. When adding new dependencies:
+   - Add them to `pyproject.toml` first
+   - Run `pip install -e ".[dev]"` to install them
+   - Never install packages directly with `pip install package_name`
+
+3. IDE/Editor Setup:
+   - In VS Code/Cursor, select the Python interpreter from your conda environment
+   - This ensures your editor uses the same environment as your terminal
+
+### Troubleshooting
+If you encounter `ModuleNotFoundError`:
+1. Verify you're in the correct environment:
+```bash
+which python  # Should point to your bibliometrics environment
+```
+
+2. Check if the package is installed:
+```bash
+pip list | grep package_name
+```
+
+3. If needed, reinstall dependencies:
+```bash
+pip install -e ".[dev]"
+```
+
 ## Usage
+
+Always start your work by running:
+```bash
+./activate_env.sh
+```
+
+This ensures you're using the correct Python environment with all required dependencies.
 
 1. Data Collection:
    - Use notebooks in the `notebooks/` directory to fetch data from Scopus
@@ -87,8 +165,6 @@ The project uses environment variables for configuration. Copy `.env.example` to
    - Network analysis of citations
    - Visualization of paper relationships
    - Statistical analysis of publication patterns
-
-
 
 ## Contact
 
