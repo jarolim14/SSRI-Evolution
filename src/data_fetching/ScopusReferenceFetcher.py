@@ -1,9 +1,10 @@
 import os
+from typing import Any, Dict, List, Optional, Tuple
+
 import requests
+from dotenv import load_dotenv
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
-from dotenv import load_dotenv
-from typing import Dict, List, Optional, Tuple, Any
 
 
 class ScopusReferenceFetcher:
@@ -88,6 +89,7 @@ class ScopusReferenceFetcher:
         try:
             response = session.get(url, params=params, headers=self.headers)
             ref_list, total_reference_count = self.process_response(response)
+            print(response.json())
 
             if total_reference_count <= len(ref_list):
                 return ref_list
@@ -106,8 +108,15 @@ class ScopusReferenceFetcher:
             return [item for sublist in all_refs for item in sublist]
 
         except requests.exceptions.HTTPError as e:
+            print(e)
             if "429" in str(e):
                 raise requests.exceptions.HTTPError(
                     f"Rate limit exceeded for API key {self.key_name}"
                 )
             raise
+
+if __name__ == "__main__":
+    fetcher = ScopusReferenceFetcher(api_key_info=api_key_info)
+    eid = "2-s2.0-0019951467"
+    references = fetcher.request_eid(eid)
+    print(references)

@@ -1,6 +1,8 @@
 import json
-import pandas as pd
 from typing import Dict, List, Optional, Union
+
+import numpy as np
+import pandas as pd
 
 
 class nodesSaver:
@@ -96,15 +98,19 @@ class edgesSaver:
         Add cluster information to edges based on node clusters.
         If nodes are in the same cluster, the cluster ID is added; otherwise, -1 is added.
         """
-        self.edges_df["color"] = [
-            (
-                self.nodes_df.loc[source, "cluster"]
-                if self.nodes_df.loc[source, "cluster"]
-                == self.nodes_df.loc[target, "cluster"]
-                else -1
-            )
-            for source, target in zip(self.edges_df["source"], self.edges_df["target"])
-        ]
+        # Create a mapping of node_index to cluster
+        node_to_cluster = dict(zip(self.nodes_df["node_index"], self.nodes_df["cluster"]))
+
+        # Get clusters for sources and targets
+        source_clusters = self.edges_df["source"].map(node_to_cluster)
+        target_clusters = self.edges_df["target"].map(node_to_cluster)
+
+        # Create color column - where clusters match, use the cluster, otherwise use -1
+        self.edges_df["color"] = np.where(
+            source_clusters == target_clusters,
+            source_clusters,
+            -1
+        )
 
         print(
             f"Color attribute added to edges. \n-1 if inter-clusters, cluster number if intra-cluster edge."
@@ -116,17 +122,16 @@ class edgesSaver:
         Add year information to edges based on node year. Use the more recent year.
         if only 1 exists or both are the same, use that year.
         """
-        self.edges_df["year"] = [
-            (
-                max(
-                    self.nodes_df.loc[source, "year"], self.nodes_df.loc[target, "year"]
-                )
-                if self.nodes_df.loc[source, "year"]
-                != self.nodes_df.loc[target, "year"]
-                else self.nodes_df.loc[source, "year"]
-            )
-            for source, target in zip(self.edges_df["source"], self.edges_df["target"])
-        ]
+        year_list = []
+        for source, target in zip(self.edges_df["source"], self.edges_df["target"]):
+            source_year = self.nodes_df[self.nodes_df["node_index"] == source]["year"].values[0]
+            target_year = self.nodes_df[self.nodes_df["node_index"] == target]["year"].values[0]
+            if source_year != target_year:
+                year_list.append(max(source_year, target_year))
+            else:
+                year_list.append(source_year)
+
+        self.edges_df["year"] = year_list
 
         print(
             f"Year attribute added to edges. Using the more recent year if different."

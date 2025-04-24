@@ -193,6 +193,7 @@ class ScopusRefFetcherProcessor:
                         ):  # Skip if already processed with a previous API key
                             continue
 
+                        # Replace the error handling section in process_scopus_batches with this improved version
                         try:
                             logging.info(f"Fetching references for EID: {eid}")
                             references = fetcher.request_eid(eid)
@@ -201,7 +202,8 @@ class ScopusRefFetcherProcessor:
                                 f"Successfully fetched {len(references)} references for EID: {eid}"
                             )
                         except requests.exceptions.HTTPError as e:
-                            if "429" in str(e):
+                            # Check for either '429' status code OR 'Rate limit exceeded' in the error message
+                            if "429" in str(e) or "Rate limit exceeded" in str(e):
                                 logging.warning(
                                     f"Rate limit hit for API key: {current_api_key_info['key_name']}"
                                 )
@@ -233,6 +235,11 @@ class ScopusRefFetcherProcessor:
                         f"Unexpected error in batch {current_batch + 1}: {str(e)}"
                     )
                     current_api_key_idx = (current_api_key_idx + 1) % len(api_key_names)
+                    logging.info(
+                        f"Switching to API key: {api_key_names[current_api_key_idx]}"
+                    )
+                    time.sleep(2)  # Small delay to ensure clean switch between keys
+
                     if current_api_key_idx == 0:  # We've tried all keys
                         logging.error(
                             "All API keys have encountered errors. Saving partial batch and stopping."

@@ -42,7 +42,7 @@ svg.append("defs").append("style").text(`
   .link { fill: none; stroke: #555; stroke-opacity: 0.4; stroke-width: 1.5px; }
 `);
 
-let root, link, node; 
+let root, link, node;
 
 
 // Replace this URL with your GitHub raw URL
@@ -91,7 +91,7 @@ function updateVisualization(data) {
     .data(root.descendants())
     .join("g")
     .attr("class", d => "node" + (d.children ? " node--internal" : " node--leaf"))
-    .attr("transform", d => `translate(${d.y},${d.x})`); 
+    .attr("transform", d => `translate(${d.y},${d.x})`);
 
   node.append("circle").attr("r", 2.5);
   node.append("text")
@@ -103,7 +103,7 @@ function updateVisualization(data) {
 
 
 // Initial visualization
-updateVisualization(datasets.overview); 
+updateVisualization(datasets.overview);
 
 // Dropdown Change Event
 d3.select("#datasetSelect").on("change", function() {
@@ -160,7 +160,7 @@ function embedStyles(svgElement) {
         stroke-width: 1.5px;
     }
     `;
-    
+
     const styleElement = document.createElement("style");
     styleElement.setAttribute("type", "text/css");
     styleElement.innerHTML = styles;

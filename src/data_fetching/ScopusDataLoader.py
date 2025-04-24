@@ -1,5 +1,6 @@
 import json
 import os
+
 import pandas as pd
 
 
@@ -7,25 +8,27 @@ class ScopusDataLoader:
     """
     Class to load and filter Scopus data.
     """
-
     @staticmethod
     def load_fetched_reference_data(data_path):
         """
-        This is only necessary after the inital fetch of the reference data.
-        It loads the data and returns a list of EIDs and the highest batch number.
+        This is only necessary after the initial fetch of the reference data.
+        It loads all batch files with a progress bar, combines their data into a single JSON file,
+        and returns a list of EIDs, the highest batch number, and the combined data.
         """
+        from tqdm import tqdm
+
         files = os.listdir(data_path)
         files = [file for file in files if file.endswith(".json")]
 
         if not files:
             print("No previously processed files found.")
-            return [], 0
+            return [], 0, {}
 
         # Extract batch numbers and find the maximum
         batch_files = [file for file in files if file.startswith("batch_")]
         if not batch_files:
             print("No batch files found.")
-            return [], 0
+            return [], 0, {}
 
         try:
             max_batch = max(
@@ -36,16 +39,30 @@ class ScopusDataLoader:
             )
         except (ValueError, IndexError) as e:
             print(f"Error parsing batch numbers: {e}")
-            return [], 0
+            return [], 0, {}
 
+        # Combine all JSON data into a single dictionary
+        combined_data = {}
         eids = []
-        for file in batch_files:
+
+        # Use tqdm to show progress while processing files
+        for file in tqdm(batch_files, desc="Processing batch files"):
             with open(os.path.join(data_path, file), "r") as fp:
                 data = json.load(fp)
+                combined_data.update(data)
                 eids.extend(list(data.keys()))
-                # remove data from memory
+                # remove data from memory after adding to combined_data
                 del data
-        return eids, max_batch
+
+        # Create a combined file with all the data
+        combined_file_path = os.path.join(data_path, "combined_reference_data.json")
+        with open(combined_file_path, "w") as fp:
+            json.dump(combined_data, fp)
+
+        print(f"Created combined reference data file at: {combined_file_path}")
+
+        # Return the list of EIDs, max batch number, and the combined data dictionary
+        return eids, max_batch, combined_data
 
     @staticmethod
     def load_and_filter_articles(path, eids):

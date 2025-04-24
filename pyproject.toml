@@ -41,8 +41,6 @@ dependencies = [
     "tqdm>=4.66.2",
     "python-dotenv>=0.5.1",
     
-    # Data validation
-    "pydantic>=2.6.3",
 ]
 
 [project.optional-dependencies]

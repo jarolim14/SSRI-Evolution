@@ -1,0 +1,30 @@
+{
+    "basic_statistics": {
+        "number_of_nodes": 38961,
+        "number_of_edges": 355263,
+        "density": 0.0002340458449288018,
+        "average_clustering_coefficient": 0.07960445495061212
+    },
+    "in_out_degree": {
+        "indegree": {
+            "min": 0,
+            "max": 720,
+            "mean": 9.118426118426118,
+            "median": 3,
+            "range": "0 to 720"
+        },
+        "outdegree": {
+            "min": 0,
+            "max": 274,
+            "mean": 9.118426118426118,
+            "median": 6,
+            "range": "0 to 274"
+        }
+    },
+    "connected_components": {
+        "num_strongly_connected_components": 38833,
+        "largest_strongly_connected_component_size": 19,
+        "num_weakly_connected_components": 2214,
+        "largest_weakly_connected_component_size": 36677
+    }
+}

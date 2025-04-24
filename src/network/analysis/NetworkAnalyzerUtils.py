@@ -8,7 +8,7 @@ class NetworkAnalyzerUtils:
     def __init__(self) -> None:
         pass
 
-    def load_graph_files(self):
+    def load_graph_files(self, graph_dir, embeddings_dir):
         """
         Load graph files and return a dictionary of graphs and a DataFrame.
 
@@ -18,7 +18,7 @@ class NetworkAnalyzerUtils:
 
         """
         graph_files = glob.glob(
-            "../data/05-graphs/weighted-knn-citation-graph/*.graphml"
+            graph_dir + "/*.graphml"
         )
         graph_files.sort()
 
@@ -29,7 +29,7 @@ class NetworkAnalyzerUtils:
             for f in graph_files
         }
 
-        df = pd.read_pickle("../data/04-embeddings/df_with_specter2_embeddings.pkl")
+        df = pd.read_pickle(embeddings_dir + "/df_with_specter2_embeddings.pkl")
 
         return params_graph_dict, df
 
