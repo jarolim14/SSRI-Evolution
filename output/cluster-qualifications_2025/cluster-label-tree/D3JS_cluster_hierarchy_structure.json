@@ -20,21 +20,16 @@
             ]
           },
           {
-            "name": "Other",
-            "children": [
-              {
-                "name": "Pharmacokinetics"
-              },
-              {
-                "name": "Pharmacogenetics"
-              },
-              {
-                "name": "Other Pharmacology"
-              },
-              {
-                "name": "Analytical Methods"
-              }
-            ]
+            "name": "Pharmacokinetics"
+          },
+          {
+            "name": "Pharmacogenetics"
+          },
+          {
+            "name": "Analytical Methods"
+          },
+          {
+            "name": "Other Pharmacology"
           }
         ]
       },
@@ -48,21 +43,16 @@
             "name": "Anxiety"
           },
           {
-            "name": "Other",
-            "children": [
-              {
-                "name": "OCD"
-              },
-              {
-                "name": "Weight and Eating Disorders"
-              },
-              {
-                "name": "Substance Abuse/Addictions"
-              },
-              {
-                "name": "Other"
-              }
-            ]
+            "name": "OCD"
+          },
+          {
+            "name": "Weight and Eating Disorders"
+          },
+          {
+            "name": "Substance Abuse/Addictions"
+          },
+          {
+            "name": "Other"
           }
         ]
       },
@@ -96,6 +86,9 @@
         "children": [
           {
             "name": "Ecotoxicology"
+          },
+          {
+            "name": "Alternative Treatments"
           },
           {
             "name": "Other"
@@ -194,60 +187,55 @@
         ]
       },
       {
-        "name": "Other",
+        "name": "Pharmacokinetics",
         "children": [
           {
-            "name": "Pharmacokinetics",
-            "children": [
-              {
-                "name": "SSRIs and the Cytochrome P450 System"
-              }
-            ]
+            "name": "SSRIs and the Cytochrome P450 System"
+          }
+        ]
+      },
+      {
+        "name": "Pharmacogenetics",
+        "children": [
+          {
+            "name": "Serotonin Transporter Gene and Antidepressant Response"
           },
           {
-            "name": "Pharmacogenetics",
-            "children": [
-              {
-                "name": "Serotonin Transporter Gene and Antidepressant Response"
-              },
-              {
-                "name": "Pharmacogenetics in SSRI Treatment"
-              }
-            ]
+            "name": "Pharmacogenetics in SSRI Treatment"
+          }
+        ]
+      },
+      {
+        "name": "Analytical Methods",
+        "children": [
+          {
+            "name": "Analytical Methods for SSRI Detection and Quantification"
           },
           {
-            "name": "Other Pharmacology",
-            "children": [
-              {
-                "name": "Inflammatory Biomarkers"
-              },
-              {
-                "name": "Pharmacological Reviews"
-              },
-              {
-                "name": "Antidepressant Drug Design"
-              }
-            ]
+            "name": "Paroxetine Binding to Serotonin Transporter"
           },
           {
-            "name": "Analytical Methods",
-            "children": [
-              {
-                "name": "Analytical Methods for SSRI Detection and Quantification"
-              },
-              {
-                "name": "Paroxetine Binding to Serotonin Transporter"
-              },
-              {
-                "name": "Synthetic Chemistry of Paroxetine"
-              },
-              {
-                "name": "Laboratory Techniques for drug analysis"
-              },
-              {
-                "name": "SSRI Crystal Structure and Complexation"
-              }
-            ]
+            "name": "Synthetic Chemistry of Paroxetine"
+          },
+          {
+            "name": "Laboratory Techniques for drug analysis"
+          },
+          {
+            "name": "SSRI Crystal Structure and Complexation"
+          }
+        ]
+      },
+      {
+        "name": "Other Pharmacology",
+        "children": [
+          {
+            "name": "Inflammatory Biomarkers"
+          },
+          {
+            "name": "Pharmacological Reviews"
+          },
+          {
+            "name": "Antidepressant Drug Design"
           }
         ]
       }
@@ -351,90 +339,85 @@
         ]
       },
       {
+        "name": "OCD",
+        "children": [
+          {
+            "name": "SSRIs for OCD"
+          },
+          {
+            "name": "SSRIs for Body Dysmorphic Disorder (BDD)"
+          }
+        ]
+      },
+      {
+        "name": "Weight and Eating Disorders",
+        "children": [
+          {
+            "name": "SSRIs for Weight Management"
+          },
+          {
+            "name": "SSRIs for Eating Disorders"
+          }
+        ]
+      },
+      {
+        "name": "Substance Abuse/Addictions",
+        "children": [
+          {
+            "name": "SSRIs for Alcohol Dependence"
+          },
+          {
+            "name": "Serotonergic Modulation of Cocaine Effects"
+          }
+        ]
+      },
+      {
         "name": "Other",
         "children": [
           {
-            "name": "OCD",
-            "children": [
-              {
-                "name": "SSRIs for OCD"
-              },
-              {
-                "name": "SSRIs for Body Dysmorphic Disorder (BDD)"
-              }
-            ]
+            "name": "SSRIs for PTSD"
           },
           {
-            "name": "Weight and Eating Disorders",
-            "children": [
-              {
-                "name": "SSRIs for Weight Management"
-              },
-              {
-                "name": "SSRIs for Eating Disorders"
-              }
-            ]
+            "name": "SSRIs for Pain"
           },
           {
-            "name": "Substance Abuse/Addictions",
-            "children": [
-              {
-                "name": "SSRIs for Alcohol Dependence"
-              },
-              {
-                "name": "Serotonergic Modulation of Cocaine Effects"
-              }
-            ]
+            "name": "Fluvoxamine for Covid 19"
           },
           {
-            "name": "Other",
-            "children": [
-              {
-                "name": "SSRIs for PTSD"
-              },
-              {
-                "name": "SSRIs for Pain"
-              },
-              {
-                "name": "Fluvoxamine for Covid 19"
-              },
-              {
-                "name": "SSRIs Effect on Sleep"
-              },
-              {
-                "name": "SSRIs for Menopausal Vasomotor Symptoms (Hot flashes)"
-              },
-              {
-                "name": "Premature Ejaculation"
-              },
-              {
-                "name": "SSRIs for Irritable Bowel Syndrome"
-              },
-              {
-                "name": "SSRIs for Premenstrual Dysphoric Disorder (PMDD)"
-              },
-              {
-                "name": "SSRIs for (Psycho)dermatological Diseases"
-              },
-              {
-                "name": "SSRIs for Autism Spectrum Disorders"
-              },
-              {
-                "name": "SSRIs (Fluvoxamine) for Schizophrenia"
-              },
-              {
-                "name": "SSRIs Effect on Pulmonary Hypertension"
-              },
-              {
-                "name": "SSRIs for Borderline Personality Disorder"
-              },
-              {
-                "name": "Antifungal Activity of Sertraline"
-              },
-              {
-                "name": "SSRIs for Fibromyalgia"
-              }
-            ]
+            "name": "SSRIs Effect on Sleep"
+          },
+          {
+            "name": "SSRIs for Menopausal Vasomotor Symptoms (Hot flashes)"
+          },
+          {
+            "name": "Premature Ejaculation"
+          },
+          {
+            "name": "SSRIs for Irritable Bowel Syndrome"
+          },
+          {
+            "name": "SSRIs for Premenstrual Dysphoric Disorder (PMDD)"
+          },
+          {
+            "name": "SSRIs for (Psycho)dermatological Diseases"
+          },
+          {
+            "name": "SSRIs for Autism Spectrum Disorders"
+          },
+          {
+            "name": "SSRIs (Fluvoxamine) for Schizophrenia"
+          },
+          {
+            "name": "SSRIs Effect on Pulmonary Hypertension"
+          },
+          {
+            "name": "SSRIs for Borderline Personality Disorder"
+          },
+          {
+            "name": "Antifungal Activity of Sertraline"
+          },
+          {
+            "name": "SSRIs for Fibromyalgia"
           }
         ]
       }
@@ -580,13 +563,18 @@
         ]
       },
       {
+        "name": "Alternative Treatments",
+        "children": [
+          {
+            "name": "Antidepressant-like Effects of Herbal Extracts in Animal Models"
+          }
+        ]
+      },
+      {
         "name": "Other",
         "children": [
           {
             "name": "SSRI Utilization Patterns"
-          },
-          {
-            "name": "Antidepressant-like Effects of Herbal Extracts in Animal Models"
           },
           {
             "name": "Pharmacoeconomics of SSRIs for Depression"

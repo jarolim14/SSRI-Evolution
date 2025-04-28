@@ -74,49 +74,47 @@
                 }
             ]
         },
-        "Other": {
-            "Pharmacokinetics": [
-                {
-                    "6": "SSRIs and the Cytochrome P450 System"
-                }
-            ],
-            "Pharmacogenetics": [
-                {
-                    "20": "Serotonin Transporter Gene and Antidepressant Response"
-                },
-                {
-                    "72": "Pharmacogenetics in SSRI Treatment"
-                }
-            ],
-            "Other Pharmacology": [
-                {
-                    "15": "Inflammatory Biomarkers"
-                },
-                {
-                    "35": "Pharmacological Reviews"
-                },
-                {
-                    "70": "Antidepressant Drug Design"
-                }
-            ],
-            "Analytical Methods": [
-                {
-                    "2": "Analytical Methods for SSRI Detection and Quantification"
-                },
-                {
-                    "27": "Paroxetine Binding to Serotonin Transporter"
-                },
-                {
-                    "55": "Synthetic Chemistry of Paroxetine"
-                },
-                {
-                    "64": "Laboratory Techniques for drug analysis"
-                },
-                {
-                    "91": "SSRI Crystal Structure and Complexation"
-                }
-            ]
-        }
+        "Pharmacokinetics": [
+            {
+                "6": "SSRIs and the Cytochrome P450 System"
+            }
+        ],
+        "Pharmacogenetics": [
+            {
+                "20": "Serotonin Transporter Gene and Antidepressant Response"
+            },
+            {
+                "72": "Pharmacogenetics in SSRI Treatment"
+            }
+        ],
+        "Analytical Methods": [
+            {
+                "2": "Analytical Methods for SSRI Detection and Quantification"
+            },
+            {
+                "27": "Paroxetine Binding to Serotonin Transporter"
+            },
+            {
+                "55": "Synthetic Chemistry of Paroxetine"
+            },
+            {
+                "64": "Laboratory Techniques for drug analysis"
+            },
+            {
+                "91": "SSRI Crystal Structure and Complexation"
+            }
+        ],
+        "Other Pharmacology": [
+            {
+                "15": "Inflammatory Biomarkers"
+            },
+            {
+                "35": "Pharmacological Reviews"
+            },
+            {
+                "70": "Antidepressant Drug Design"
+            }
+        ]
     },
     "Indications": {
         "Depressive Disorders": [
@@ -207,79 +205,77 @@
                 "65": "SSRIs for Social Anxiety Disorder"
             }
         ],
-        "Other": {
-            "OCD": [
-                {
-                    "3": "SSRIs for OCD"
-                },
-                {
-                    "69": "SSRIs for Body Dysmorphic Disorder (BDD)"
-                }
-            ],
-            "Weight and Eating Disorders": [
-                {
-                    "26": "SSRIs for Weight Management"
-                },
-                {
-                    "57": "SSRIs for Eating Disorders"
-                }
-            ],
-            "Substance Abuse/Addictions": [
-                {
-                    "51": "SSRIs for Alcohol Dependence"
-                },
-                {
-                    "71": "Serotonergic Modulation of Cocaine Effects"
-                }
-            ],
-            "Other": [
-                {
-                    "11": "SSRIs for PTSD"
-                },
-                {
-                    "22": "SSRIs for Pain"
-                },
-                {
-                    "38": "Fluvoxamine for Covid 19"
-                },
-                {
-                    "40": "SSRIs Effect on Sleep"
-                },
-                {
-                    "44": "SSRIs for Menopausal Vasomotor Symptoms (Hot flashes)"
-                },
-                {
-                    "46": "Premature Ejaculation"
-                },
-                {
-                    "50": "SSRIs for Irritable Bowel Syndrome"
-                },
-                {
-                    "52": "SSRIs for Premenstrual Dysphoric Disorder (PMDD)"
-                },
-                {
-                    "54": "SSRIs for (Psycho)dermatological Diseases"
-                },
-                {
-                    "56": "SSRIs for Autism Spectrum Disorders"
-                },
-                {
-                    "67": "SSRIs (Fluvoxamine) for Schizophrenia"
-                },
-                {
-                    "68": "SSRIs Effect on Pulmonary Hypertension"
-                },
-                {
-                    "78": "SSRIs for Borderline Personality Disorder"
-                },
-                {
-                    "87": "Antifungal Activity of Sertraline"
-                },
-                {
-                    "90": "SSRIs for Fibromyalgia"
-                }
-            ]
-        }
+        "OCD": [
+            {
+                "3": "SSRIs for OCD"
+            },
+            {
+                "69": "SSRIs for Body Dysmorphic Disorder (BDD)"
+            }
+        ],
+        "Weight and Eating Disorders": [
+            {
+                "26": "SSRIs for Weight Management"
+            },
+            {
+                "57": "SSRIs for Eating Disorders"
+            }
+        ],
+        "Substance Abuse/Addictions": [
+            {
+                "51": "SSRIs for Alcohol Dependence"
+            },
+            {
+                "71": "Serotonergic Modulation of Cocaine Effects"
+            }
+        ],
+        "Other": [
+            {
+                "11": "SSRIs for PTSD"
+            },
+            {
+                "22": "SSRIs for Pain"
+            },
+            {
+                "38": "Fluvoxamine for Covid 19"
+            },
+            {
+                "40": "SSRIs Effect on Sleep"
+            },
+            {
+                "44": "SSRIs for Menopausal Vasomotor Symptoms (Hot flashes)"
+            },
+            {
+                "46": "Premature Ejaculation"
+            },
+            {
+                "50": "SSRIs for Irritable Bowel Syndrome"
+            },
+            {
+                "52": "SSRIs for Premenstrual Dysphoric Disorder (PMDD)"
+            },
+            {
+                "54": "SSRIs for (Psycho)dermatological Diseases"
+            },
+            {
+                "56": "SSRIs for Autism Spectrum Disorders"
+            },
+            {
+                "67": "SSRIs (Fluvoxamine) for Schizophrenia"
+            },
+            {
+                "68": "SSRIs Effect on Pulmonary Hypertension"
+            },
+            {
+                "78": "SSRIs for Borderline Personality Disorder"
+            },
+            {
+                "87": "Antifungal Activity of Sertraline"
+            },
+            {
+                "90": "SSRIs for Fibromyalgia"
+            }
+        ]
     },
     "Safety": {
         "Special Populations": {
@@ -394,12 +390,14 @@
                 "62": "Environmental Degradation of Antidepressants"
             }
         ],
+        "Alternative Treatments": [
+            {
+                "29": "Antidepressant-like Effects of Herbal Extracts in Animal Models"
+            }
+        ],
         "Other": [
             {
                 "13": "SSRI Utilization Patterns"
-            },
-            {
-                "29": "Antidepressant-like Effects of Herbal Extracts in Animal Models"
             },
             {
                 "39": "Pharmacoeconomics of SSRIs for Depression"
