@@ -1,0 +1,107 @@
+/* Custom CSS for Bibliometric Analysis Presentation */
+
+/* Custom colors */
+:root {
+  --primary-color: #2a76dd;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --background-color: #f8f9fa;
+  --text-color: #333;
+}
+
+/* Custom slide background */
+.reveal .slides {
+  background-color: var(--background-color);
+}
+
+/* Title slide */
+.title-slide h1 {
+  color: var(--primary-color);
+  font-size: 2.5em;
+}
+
+/* Section headers */
+.reveal h2 {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Emphasis */
+.reveal em {
+  color: var(--accent-color);
+  font-style: normal;
+  font-weight: bold;
+}
+
+/* Code blocks */
+.reveal pre {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+/* Data visualization containers */
+.chart-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Citations */
+.citation {
+  font-size: 0.7em;
+  color: #666;
+  text-align: left;
+  margin-top: 30px;
+}
+
+/* Two-column layout */
+.two-column {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  flex: 0 0 48%;
+}
+
+/* Highlighted text */
+.highlight {
+  background-color: rgba(255, 255, 0, 0.3);
+  padding: 0 5px;
+  border-radius: 3px;
+}
+
+/* Table styling */
+.reveal table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+.reveal table th {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px;
+}
+
+.reveal table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.reveal table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Footer with page number */
+.footer {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 0.6em;
+  color: #999;
+} 
