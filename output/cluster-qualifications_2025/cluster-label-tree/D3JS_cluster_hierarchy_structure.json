@@ -88,9 +88,6 @@
             "name": "Ecotoxicology"
           },
           {
-            "name": "Alternative Treatments"
-          },
-          {
             "name": "Other"
           }
         ]
@@ -114,9 +111,6 @@
               },
               {
                 "name": "SSRIs Effect on Neural Processing of Emotional Cues"
-              },
-              {
-                "name": "SSRIs for Panic Disorder"
               },
               {
                 "name": "Neuroimaging of Serotonin Transporters"
@@ -563,18 +557,13 @@
         ]
       },
       {
-        "name": "Alternative Treatments",
-        "children": [
-          {
-            "name": "Antidepressant-like Effects of Herbal Extracts in Animal Models"
-          }
-        ]
-      },
-      {
         "name": "Other",
         "children": [
           {
             "name": "SSRI Utilization Patterns"
+          },
+          {
+            "name": "Antidepressant-like Effects of Herbal Extracts in Animal Models"
           },
           {
             "name": "Pharmacoeconomics of SSRIs for Depression"

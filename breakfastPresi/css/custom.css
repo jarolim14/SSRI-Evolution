@@ -1,29 +1,71 @@
 /* Custom CSS for Bibliometric Analysis Presentation */
 
-/* Custom colors */
-:root {
-  --primary-color: #2a76dd;
-  --secondary-color: #3498db;
-  --accent-color: #e74c3c;
-  --background-color: #f8f9fa;
-  --text-color: #333;
+/* Font setup */
+.reveal {
+  font-family: 'Open Sans', sans-serif;
 }
 
-/* Custom slide background */
-.reveal .slides {
-  background-color: var(--background-color);
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  font-family: 'Montserrat', sans-serif;
 }
+
+/* Custom colors */
+:root {
+  --primary-color: #f8f8f8;
+  --secondary-color: #9dcbf1;
+  --accent-color: #abedf8;
+  --background-color: inherit;
+  --text-color: #ffffffc4;
+}
+
+/* Let the theme handle slide background */
 
 /* Title slide */
 .title-slide h1 {
   color: var(--primary-color);
-  font-size: 2.5em;
+  font-size: 2.3em;
+  margin-bottom: 0.2em;
+}
+
+.title-slide h3 {
+  color: var(--secondary-color);
+  font-size: 1.3em;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+/* Make main text content lighter and smaller */
+.reveal p {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 0.9em;
+}
+
+.reveal ul li, 
+.reveal ol li {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 0.85em;
+  margin-bottom: 0.4em;
+}
+
+/* Reduce vertical spacing in lists */
+.reveal ul, 
+.reveal ol {
+  margin-bottom: 0.5em;
 }
 
 /* Section headers */
 .reveal h2 {
   color: var(--primary-color);
   font-weight: 600;
+  font-size: 1.6em;
+  margin-bottom: 0.4em;
 }
 
 /* Emphasis */
@@ -44,28 +86,37 @@
   width: 80%;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #eee;
+  border: 1px solid #444;
   border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Citations */
 .citation {
   font-size: 0.7em;
-  color: #666;
+  color: #999;
   text-align: left;
-  margin-top: 30px;
+  margin-top: 15px;
+  line-height: 1.2;
 }
 
 /* Two-column layout */
 .two-column {
   display: flex;
   justify-content: space-between;
+  margin-top: -10px;
 }
 
 .column {
   flex: 0 0 48%;
+}
+
+/* Column headings */
+.column h3 {
+  font-size: 1.1em;
+  margin-bottom: 0.3em;
+  margin-top: 0;
 }
 
 /* Highlighted text */
@@ -73,6 +124,33 @@
   background-color: rgba(255, 255, 0, 0.3);
   padding: 0 5px;
   border-radius: 3px;
+}
+
+/* Method step styling */
+.reveal .method-step {
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+/* Steps that have been visited */
+.reveal .method-step.visited {
+  opacity: 0.85;
+}
+
+/* Current fragment highlight */
+.reveal .current-fragment {
+  color: var(--accent-color);
+  font-weight: 400;
+  text-shadow: 0 0 10px rgba(255, 123, 105, 0.5);
+  transform: scale(1.05);
+  opacity: 1 !important;
+  transition: all 0.3s ease;
+}
+
+/* For method steps specifically */
+.reveal .method-step.current-fragment::marker {
+  color: var(--accent-color);
+  font-weight: bold;
 }
 
 /* Table styling */
@@ -90,11 +168,11 @@
 
 .reveal table td {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #444;
 }
 
 .reveal table tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Footer with page number */
@@ -102,6 +180,6 @@
   position: absolute;
   bottom: 10px;
   right: 10px;
-  font-size: 0.6em;
+  font-size: 0.3em;
   color: #999;
 } 

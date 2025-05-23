@@ -12,9 +12,6 @@
                     "9": "SSRIs Effect on Neural Processing of Emotional Cues"
                 },
                 {
-                    "34": "SSRIs for Panic Disorder"
-                },
-                {
                     "53": "Neuroimaging of Serotonin Transporters"
                 },
                 {
@@ -390,14 +387,12 @@
                 "62": "Environmental Degradation of Antidepressants"
             }
         ],
-        "Alternative Treatments": [
-            {
-                "29": "Antidepressant-like Effects of Herbal Extracts in Animal Models"
-            }
-        ],
         "Other": [
             {
                 "13": "SSRI Utilization Patterns"
+            },
+            {
+                "29": "Antidepressant-like Effects of Herbal Extracts in Animal Models"
             },
             {
                 "39": "Pharmacoeconomics of SSRIs for Depression"

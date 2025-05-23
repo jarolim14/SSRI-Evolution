@@ -1,9 +1,9 @@
+import sys
+
 import colorcet as cc
 import networkx as nx
 import pandas as pd
-import sys
 from dash import Dash, html
-import colorcet as cc
 
 sys.path.append("/Users/jlq293/Projects/Study-1-Bibliometrics/src/main_path/")
 
@@ -95,8 +95,8 @@ cluster_color_dict = cluster_color_dict(G)
 default_stylesheet = default_stylesheet_fun(cluster_color_dict)
 
 
-from dash import Dash, html
 import dash_cytoscape as cyto
+from dash import Dash, html
 
 # nodes_list[0] = {'data': {'id': '1', 'label': '36', 'cluster': '36'}, 'position': {'x': 0, 'y': 0}}
 cyto.load_extra_layouts()
