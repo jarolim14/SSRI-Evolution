@@ -8,17 +8,18 @@ Resouces:
 - [API Settings (rate limits)](https://dev.elsevier.com/api_key_settings.html)
 - Remember Logging In to Cisco VPN!!!
 """
+import json
+import logging
+import os
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+
 import pandas as pd
 import requests
 from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 from tqdm import tqdm
-from typing import Dict, Optional, List, Tuple
-import os
-from datetime import datetime
-import logging
-import json
-from pathlib import Path
+from urllib3.util.retry import Retry
 
 
 class ScopusArticleFetcher:
@@ -46,7 +47,7 @@ class ScopusArticleFetcher:
         self.headers = {"Accept": "application/json"}
         self.output_dir = output_dir
         os.makedirs(output_dir, exist_ok=True)
-        
+
         # Set up logging
         self._setup_logging()
 
@@ -55,40 +56,40 @@ class ScopusArticleFetcher:
         # Create logs directory if it doesn't exist
         log_dir = Path(self.output_dir) / "logs"
         log_dir.mkdir(exist_ok=True)
-        
+
         # Create a unique log file for this session
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         log_file = log_dir / f"scopus_fetch_{timestamp}.log"
-        
+
         # Configure logging
         self.logger = logging.getLogger(f"ScopusFetcher_{timestamp}")
         self.logger.setLevel(logging.INFO)
-        
+
         # File handler for detailed logs
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
-        
+
         # Console handler for important messages only (warnings and errors)
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.WARNING)  # Only show warnings and errors
-        
+
         # Create formatters and add them to the handlers
         file_formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
-        console_formatter = logging.Formatter(
-            '%(levelname)s: %(message)s'
-        )
-        
+        console_formatter = logging.Formatter("%(levelname)s: %(message)s")
+
         file_handler.setFormatter(file_formatter)
         console_handler.setFormatter(console_formatter)
-        
+
         # Add handlers to logger
         self.logger.addHandler(file_handler)
         self.logger.addHandler(console_handler)
-        
+
         # Log initialization
-        self.logger.info(f"Initialized ScopusArticleFetcher with {len(self.api_keys)} API keys")
+        self.logger.info(
+            f"Initialized ScopusArticleFetcher with {len(self.api_keys)} API keys"
+        )
         self.logger.info(f"Output directory: {self.output_dir}")
 
     def build_params(self, cursor: str, query_params: Optional[Dict] = None) -> Dict:
@@ -116,8 +117,10 @@ class ScopusArticleFetcher:
 
         if query_params:
             default_params.update(query_params)
-            self.logger.info(f"Using custom query parameters: {json.dumps(query_params, indent=2)}")
-        
+            self.logger.info(
+                f"Using custom query parameters: {json.dumps(query_params, indent=2)}"
+            )
+
         return default_params
 
     def request_page(self, params: Dict) -> Optional[Dict]:
@@ -137,9 +140,11 @@ class ScopusArticleFetcher:
         session.mount("https://", HTTPAdapter(max_retries=retries))
 
         try:
-            self.logger.debug(f"Making request with API key {self.current_api_key_index + 1}")
+            self.logger.debug(
+                f"Making request with API key {self.current_api_key_index + 1}"
+            )
             response = session.get(self.base_url, params=params, headers=self.headers)
-            
+
             if response.status_code == 200:
                 return response.json()
             elif response.status_code == 429:  # Rate limit exceeded
@@ -149,7 +154,9 @@ class ScopusArticleFetcher:
                 )
                 if self.current_api_key_index < len(self.api_keys) - 1:
                     self.current_api_key_index += 1
-                    self.logger.info(f"Switching to API key {self.current_api_key_index + 1}")
+                    self.logger.info(
+                        f"Switching to API key {self.current_api_key_index + 1}"
+                    )
                     return self.request_page(params)
                 else:
                     self.logger.error("All API keys have reached their rate limit")
@@ -180,15 +187,17 @@ class ScopusArticleFetcher:
 
         df = pd.DataFrame(results["search-results"].get("entry", []))
         cursor = results["search-results"]["cursor"].get("@next")
-        
+
         if len(df) == 0:
             self.logger.warning("No entries found in search results")
         else:
             self.logger.debug(f"Processed {len(df)} entries")
-            
+
         return df, cursor
 
-    def fetch_results(self, saving_interval: int = 10, query_params: Optional[Dict] = None) -> pd.DataFrame:
+    def fetch_results(
+        self, saving_interval: int = 10, query_params: Optional[Dict] = None
+    ) -> pd.DataFrame:
         """
         Fetches all results from the Scopus API with pagination.
 
@@ -202,7 +211,7 @@ class ScopusArticleFetcher:
         self.logger.info("Starting to fetch results")
         params = self.build_params(cursor="*", query_params=query_params)
         results = self.request_page(params)
-        
+
         if not results:
             self.logger.error("Failed to fetch initial results")
             return pd.DataFrame()
@@ -221,24 +230,30 @@ class ScopusArticleFetcher:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         # Initialize progress bar with total results
-        with tqdm(total=total_results, desc="Fetching results", unit="articles") as pbar:
+        with tqdm(
+            total=total_results, desc="Fetching results", unit="articles"
+        ) as pbar:
             # Update progress bar with initial results
             pbar.update(len(df))
-            
+
             while cursor:
                 iteration_counter += 1
 
                 params = self.build_params(cursor=cursor, query_params=query_params)
                 results = self.request_page(params)
-                
+
                 if not results:
-                    self.logger.error(f"Failed to fetch results at iteration {iteration_counter}")
+                    self.logger.error(
+                        f"Failed to fetch results at iteration {iteration_counter}"
+                    )
                     break
-                    
+
                 df, cursor = self.processing_results(results)
 
                 if cursor in seen_cursors or not cursor:
-                    self.logger.info("Reached end of results or encountered duplicate cursor")
+                    self.logger.info(
+                        "Reached end of results or encountered duplicate cursor"
+                    )
                     break
                 seen_cursors.add(cursor)
 
@@ -249,14 +264,13 @@ class ScopusArticleFetcher:
                 if iteration_counter % saving_interval == 0:
                     filename = os.path.join(
                         self.output_dir,
-                        f"scopus_results_{timestamp}_iteration_{iteration_counter}.csv"
+                        f"scopus_results_{timestamp}_iteration_{iteration_counter}.csv",
                     )
                     full_df.to_csv(filename, index=False)
                     self.logger.info(f"Saved intermediate results to {filename}")
 
         final_filename = os.path.join(
-            self.output_dir,
-            f"final_scopus_results_{timestamp}.csv"
+            self.output_dir, f"final_scopus_results_{timestamp}.csv"
         )
         full_df.to_csv(final_filename, index=False)
         print(f"\nSaved final results to {final_filename}")  # Use print for final info
@@ -267,29 +281,23 @@ class ScopusArticleFetcher:
 
 if __name__ == "__main__":
     # Example usage
-    API_KEYS = [
-        "your_api_key_1",
-        "your_api_key_2",
-        "your_api_key_3"
-    ]
-    
+    API_KEYS = ["your_api_key_1", "your_api_key_2", "your_api_key_3"]
+
     # Custom query parameters (optional)
     custom_params = {
         "date": "2020-2024",
         "sort": "-citedby-count",
-        "query": "TITLE-ABS('machine learning') AND PUBYEAR > 2020"
+        "query": "TITLE-ABS('machine learning') AND PUBYEAR > 2020",
     }
-    
+
     # Initialize fetcher with multiple API keys
     fetcher = ScopusArticleFetcher(
-        api_keys=API_KEYS,
-        output_dir="../data/01-raw/scopus"
+        api_keys=API_KEYS, output_dir="../data/01-raw/scopus"
     )
-    
+
     # Fetch results with custom parameters
-    results_df = fetcher.fetch_results(
-        saving_interval=10,
-        query_params=custom_params
-    )
-    
+    results_df = fetcher.fetch_results(saving_interval=10, query_params=custom_params)
+
+    print(f"Total articles fetched: {len(results_df)}")
+    print(f"Total articles fetched: {len(results_df)}")
     print(f"Total articles fetched: {len(results_df)}")

@@ -84,11 +84,15 @@ class MainPathPlotterInteractive:
 
         self.hover_cols = hover_cols + additional_cols
 
-        # Don't add these twice if they're already included
-        if node_label_col not in self.hover_cols:
-            self.hover_cols.append(node_label_col)
-        if cluster_col not in self.hover_cols:
-            self.hover_cols.append(cluster_col)
+        # change order to be: cluster_label, year, title, doi, then the rest
+        self.hover_cols = [
+            col
+            for col in self.hover_cols
+            if col not in ["cluster_label", "year", "title", "doi"]
+        ] + ["cluster_label", "year", "title", "doi"]
+
+        # title case the hover_cols and '_' to ' '
+        # self.hover_cols = [col.title().replace("_", " ") for col in self.hover_cols]
 
         self.pos = None
 
@@ -228,9 +232,12 @@ class MainPathPlotterInteractive:
                         f'<a href="https://doi.org/{doi}" target="_blank">{doi}</a>'
                     )
 
-            # Format the hover text
+            # Format the hover text with title case and spaces instead of underscores
             node_hover_text = "<br>".join(
-                [f"<b>{col}:</b> {col_text_dict[col]}" for col in col_text_dict]
+                [
+                    f"<b>{col.replace('_', ' ').title()}:</b> {col_text_dict[col]}"
+                    for col in col_text_dict
+                ]
             )
             hover_texts.append(node_hover_text)
         return hover_texts
@@ -542,6 +549,128 @@ class MainPathPlotterInteractive:
 
         return legend_traces
 
+    def create_timeline_traces(self, min_year, max_year, timeline_x):
+        """
+        Create timeline traces with proper positioning based on node years.
+
+        Args:
+            min_year (int): Minimum year in the dataset.
+            max_year (int): Maximum year in the dataset.
+            timeline_x (float): X position for the timeline.
+
+        Returns:
+            list: List of timeline traces.
+        """
+        timeline_traces = []
+
+        # Create gradient effect using multiple traces
+        num_gradient_steps = 50
+        for i in range(num_gradient_steps):
+            opacity = 0.1 + (0.3 - 0.1) * (
+                i / num_gradient_steps
+            )  # Gradient from 0.1 to 0.3
+            y_start = 1 - (i / num_gradient_steps)
+            y_end = 1 - ((i + 1) / num_gradient_steps)
+
+            trace = go.Scatter(
+                x=[timeline_x] * 2,
+                y=[y_start, y_end],
+                mode="lines",
+                line=dict(
+                    width=20,
+                    color=f"rgba(128, 0, 128, {opacity})",
+                ),
+                hoverinfo="none",
+                showlegend=False,
+            )
+            timeline_traces.append(trace)
+
+        # Create year markers based on actual year range
+        if max_year > min_year:
+            year_range = max_year - min_year
+
+            # Dynamic year marker selection based on range
+            if year_range <= 10:
+                # For small ranges, show every 2-3 years
+                step = max(1, year_range // 4)
+                year_markers = list(range(min_year, max_year + 1, step))
+                if max_year not in year_markers:
+                    year_markers.append(max_year)
+            elif year_range <= 30:
+                # For medium ranges, show every 5-10 years
+                step = max(5, year_range // 5)
+                year_markers = list(range(min_year, max_year + 1, step))
+                if max_year not in year_markers:
+                    year_markers.append(max_year)
+            else:
+                # For large ranges, show key decades
+                year_markers = [min_year]
+                current_decade = (min_year // 10 + 1) * 10
+                while current_decade < max_year:
+                    year_markers.append(current_decade)
+                    current_decade += 10
+                if max_year not in year_markers:
+                    year_markers.append(max_year)
+        else:
+            # Fallback for edge cases
+            year_markers = [min_year] if min_year == max_year else [min_year, max_year]
+
+        # Calculate positions for year markers (top to bottom, newer years at top)
+        year_positions = []
+        for year in year_markers:
+            if max_year > min_year:
+                # Normalize year to 0-1 range, with newer years at top (y=1)
+                normalized_pos = 1 - ((year - min_year) / (max_year - min_year))
+            else:
+                normalized_pos = 0.5  # Middle position if only one year
+            year_positions.append(normalized_pos)
+
+        # Create year marker traces
+        for year, pos in zip(year_markers, year_positions):
+            year_trace = go.Scatter(
+                x=[timeline_x + 0.02],  # Slightly offset text from timeline
+                y=[pos],
+                mode="text",
+                text=[str(year)],
+                textposition="middle left",
+                textfont=dict(size=10, color="purple", family="Arial"),
+                hoverinfo="none",
+                showlegend=False,
+            )
+            timeline_traces.append(year_trace)
+
+        return timeline_traces
+
+    def position_nodes_by_year(self):
+        """
+        Position nodes along the timeline based on their year attribute.
+        Modifies node positions to align with timeline years.
+        """
+        if self.pos is None:
+            return
+
+        min_year, max_year, _ = self.clean_years()
+        if min_year is None or max_year is None or min_year == max_year:
+            return
+
+        # Get current position bounds
+        positions = np.array(list(self.pos.values()))
+        y_min, y_max = positions[:, 1].min(), positions[:, 1].max()
+
+        # Update y-positions based on years
+        for node, data in self.G.nodes(data=True):
+            if node in self.pos:
+                year = data.get("year", min_year)
+                # Normalize year to 0-1 range (newer years at top)
+                if max_year > min_year:
+                    normalized_year = 1 - ((year - min_year) / (max_year - min_year))
+                else:
+                    normalized_year = 0.5
+
+                # Keep original x position, update y position
+                x_pos = self.pos[node][0]
+                self.pos[node] = (x_pos, normalized_year)
+
     def plot_network_on_timeline_interactive(
         self,
         savingpath=None,
@@ -554,9 +683,11 @@ class MainPathPlotterInteractive:
         height=None,
         use_custom_colors=False,
         show_labels=True,
+        align_nodes_with_timeline=False,
+        save_png=True,
     ):
         """
-        Create and display an interactive network visualization.
+        Create and display an interactive network visualization with timeline.
 
         Args:
             savingpath (str, optional): Path to save the visualization.
@@ -565,18 +696,19 @@ class MainPathPlotterInteractive:
             pos (dict, optional): Pre-calculated node positions.
             show_legend (bool): Whether to show the cluster legend.
             title (str, optional): Plot title.
-            width (int, optional): Custom width for the figure in pixels. Default is based on graph size:
-                                  1000px for small graphs, 1200px for medium graphs, 1500px for large graphs.
-            height (int, optional): Custom height for the figure in pixels. Default is based on graph size:
-                                   800px for small graphs, 900px for medium graphs, 1000px for large graphs.
-            use_custom_colors (bool): Whether to use a custom set of 25 distinct colors instead of the default colors.
-            show_labels (bool): Whether to show labels on the nodes. Default is True.
+            width (int, optional): Custom width for the figure in pixels.
+            height (int, optional): Custom height for the figure in pixels.
+            use_custom_colors (bool): Whether to use a custom set of 25 distinct colors.
+            show_labels (bool): Whether to show labels on the nodes.
+            align_nodes_with_timeline (bool): Whether to align nodes vertically with timeline years.
 
         Returns:
             str or None: HTML representation of figure if return_fig is True.
         """
         # Set node positions
-        if not pos:
+        if pos:
+            self.pos = pos
+        elif self.pos is None:
             self.pos = nx.kamada_kawai_layout(
                 self.G,
                 weight=None,
@@ -584,8 +716,16 @@ class MainPathPlotterInteractive:
                 center=None,
                 dim=2,
             )
-        else:
-            self.pos = pos
+
+        # Get year information
+        min_year, max_year, _ = self.clean_years()
+        if min_year is None or max_year is None:
+            min_year = 1982
+            max_year = 2025
+
+        # Align nodes with timeline if requested
+        if align_nodes_with_timeline:
+            self.position_nodes_by_year()
 
         # Adjust node positions to reduce overlap if requested
         if adjust_overlap:
@@ -604,25 +744,38 @@ class MainPathPlotterInteractive:
             else []
         )
 
+        # Find the rightmost scatter point position for timeline placement
+        max_x = max(node_trace.x) if node_trace.x else 0
+        timeline_x = max_x + 0.15  # Position timeline with proper spacing
+
+        # Create timeline traces
+        timeline_traces = self.create_timeline_traces(min_year, max_year, timeline_x)
+
         # Set dimensions based on graph size if not specified
         graph_size = len(self.G.nodes)
-        if width is None or height is None:
-            width = width or 1000
-            height = height or 800
-
+        if width is None:
+            width = 1000
             if graph_size > 100:
-                width = width or 1200
-                height = height or 900
+                width = 1200
             if graph_size > 200:
-                width = width or 1500
-                height = height or 1000
+                width = 1500
+
+        if height is None:
+            height = 800
+            if graph_size > 100:
+                height = 900
+            if graph_size > 200:
+                height = 1000
+
+        # Calculate proper x-axis range to accommodate timeline
+        timeline_width = 0.25  # Fraction of plot width for timeline area
+        plot_width = 1 - timeline_width
 
         # Create the figure
         fig = go.Figure(
-            data=[edge_trace, node_trace] + legend_traces,
+            data=[edge_trace, node_trace] + timeline_traces + legend_traces,
             layout=go.Layout(
                 title=title,
-                # titlefont=dict(size=16),
                 width=width,
                 height=height,
                 showlegend=show_legend,
@@ -632,13 +785,16 @@ class MainPathPlotterInteractive:
                     bordercolor="rgba(0, 0, 0, 0.4)",
                     font=dict(color="black", size=12),
                 ),
-                margin=dict(b=40, l=40, r=40, t=60),
+                margin=dict(
+                    b=40, l=40, r=100, t=60
+                ),  # Increased right margin for timeline
                 xaxis=dict(
                     showline=False,
                     showgrid=False,
                     zeroline=False,
                     showticklabels=False,
                     visible=False,
+                    range=[-0.1, max_x + 0.3],  # Dynamic range based on content
                 ),
                 yaxis=dict(
                     showline=False,
@@ -646,6 +802,7 @@ class MainPathPlotterInteractive:
                     zeroline=False,
                     showticklabels=False,
                     visible=False,
+                    range=[-0.1, 1.1],
                 ),
                 legend=dict(
                     x=0.005,
@@ -678,6 +835,14 @@ class MainPathPlotterInteractive:
 
         # Show the figure
         fig.show()
+
+        if save_png:
+            png_file = savingpath.replace(".html", ".png")
+            fig.write_image(
+                png_file,
+                format="png",
+                scale=1,  # We already scaled the dimensions
+            )
 
         # Return HTML representation if requested
         if return_fig:
@@ -813,6 +978,7 @@ class MainPathPlotterInteractive:
                 node_sizes.append(10 + (self.G.degree(node) * 3))
                 node_labels.append(self.G.nodes[node].get(self.node_label_col, ""))
                 hover_texts.append(hover_dict[node])
+                print(hover_texts)
 
         # Create node trace
         node_trace = go.Scatter(
