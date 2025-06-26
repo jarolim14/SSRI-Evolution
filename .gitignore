@@ -10,6 +10,7 @@ output/cluster-qualifications/cluster-explorer/*
 scopuskeys.txt
 breakfastPresi/
 cemetry/
+src/introduction
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

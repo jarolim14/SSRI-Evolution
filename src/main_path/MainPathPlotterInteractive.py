@@ -254,6 +254,7 @@ class MainPathPlotterInteractive:
         """
         # Always use custom colors if requested
         if use_custom_colors:
+            print("Generating colors using a color palette.")
             return self._generate_cluster_colors(use_custom_colors=True)
 
         # Fallback to using color attribute if available
