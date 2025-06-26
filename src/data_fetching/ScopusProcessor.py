@@ -1,4 +1,3 @@
-import requests
 import datetime
 import json
 import logging
@@ -9,10 +8,11 @@ from math import ceil
 from typing import Dict, List, Optional
 
 import pandas as pd
+import requests
 from tqdm import tqdm
 
-from src.data_fetching.ScopusReferenceFetcher import ScopusReferenceFetcher
 from src.data_fetching.ScopusApiKeyLoader import ScopusApiKeyLoader
+from src.data_fetching.ScopusReferenceFetcher import ScopusReferenceFetcher
 
 
 class ScopusRefFetcherPrep:

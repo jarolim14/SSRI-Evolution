@@ -33,7 +33,9 @@ class ScopusArticleFetcher:
         logger (logging.Logger): Logger instance for tracking errors and events.
     """
 
-    def __init__(self, api_keys: List[str], output_dir: str = "../data/01-raw/scopus"):
+    def __init__(
+        self, api_keys: List[str], output_dir: str = "../data/01-raw/publications"
+    ):
         """
         Initializes ScopusSearcher with API keys and output directory.
 
@@ -292,7 +294,7 @@ if __name__ == "__main__":
 
     # Initialize fetcher with multiple API keys
     fetcher = ScopusArticleFetcher(
-        api_keys=API_KEYS, output_dir="../data/01-raw/scopus"
+        api_keys=API_KEYS, output_dir="../data/01-raw/publications"
     )
 
     # Fetch results with custom parameters

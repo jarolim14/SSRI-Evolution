@@ -6,6 +6,7 @@ sys.path.append("/Users/jlq293/Projects/Study-1-Bibliometrics/src/network/analys
 
 from TextAnalyzer import TextAnalyzer
 
+
 class CommunityExplorer:
     def __init__(
         self,
@@ -92,9 +93,13 @@ class CommunityExplorer:
             ## Calculate the full value counts per cluster
             summary_dict["Cluster"].append(cluster)
             summary_dict["Nr of Pubs"].append(df_cluster.shape[0])
-            summary_dict["25th Percentile Year"].append(df_cluster["year"].quantile(0.25))
+            summary_dict["25th Percentile Year"].append(
+                df_cluster["year"].quantile(0.25)
+            )
             summary_dict["Median Year"].append(df_cluster["year"].quantile(0.50))
-            summary_dict["75th Percentile Year"].append(df_cluster["year"].quantile(0.75))
+            summary_dict["75th Percentile Year"].append(
+                df_cluster["year"].quantile(0.75)
+            )
             summary_dict["Given Label"].append("")
 
             ## text analyser
@@ -167,9 +172,13 @@ class FullExplorer:
             df_cluster = self.df[self.df[self.cluster_column] == cluster]
             params_dict["Cluster"].append(cluster)
             params_dict["Nr of Pubs"].append(df_cluster.shape[0])
-            params_dict["25th Percentile Year"].append(df_cluster["year"].quantile(0.25))
+            params_dict["25th Percentile Year"].append(
+                df_cluster["year"].quantile(0.25)
+            )
             params_dict["Median Year"].append(df_cluster["year"].quantile(0.50))
-            params_dict["75th Percentile Year"].append(df_cluster["year"].quantile(0.75))
+            params_dict["75th Percentile Year"].append(
+                df_cluster["year"].quantile(0.75)
+            )
 
             # Now add words
             text_analyzer = TextAnalyzer()  # Make sure TextAnalyzer is defined/imported
