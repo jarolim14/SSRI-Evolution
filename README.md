@@ -1,4 +1,4 @@
-# BibliometricAnalysis Project
+# SSRI Bibliometric Project
 
 This is a Python-based project for analyzing academic papers using the Scopus API. This project provides tools for fetching, processing, and analyzing academic paper data.
 This repository contains the data analysis code for the manuscript:
