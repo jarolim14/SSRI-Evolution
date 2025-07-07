@@ -1,6 +1,14 @@
 # BibliometricAnalysis Project
 
-A Python-based project for analyzing academic papers using the Scopus API. This project provides tools for fetching, processing, and analyzing academic paper data, including citations and references.
+This is a Python-based project for analyzing academic papers using the Scopus API. This project provides tools for fetching, processing, and analyzing academic paper data.
+This repository contains the data analysis code for the manuscript:
+
+**_The Evolution of SSRI Research: Trajectories of Knowledge Domains Across Four Decades_**
+
+> The repository for the accompanying interactive visualization can be found here: [Immersive-SSRI-Evolution-Viz](https://github.com/jarolim14/Immersive-SSRI-Evolution-Viz)
+
+
+
 
 ## Features
 
@@ -65,10 +73,6 @@ The project uses environment variables for configuration. Copy `.env.example` to
 - `OUTPUT_DIR`: Directory for output files
 - `LOG_LEVEL`: Logging verbosity (INFO, DEBUG, etc.)
 - `SCOPUS_API_KEY_*`: Your Scopus API keys
-
-### API Rate Limits
-- `api_key_A`: 40,000 requests per week
-- Other keys: 10,000 requests per week
 
 ## Environment Management
 
