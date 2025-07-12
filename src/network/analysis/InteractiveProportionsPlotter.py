@@ -331,7 +331,7 @@ class InteractiveProportionsPlotter:
             yearly_totals = subset_cluster_counts.groupby(self.year_col)[
                 "count"
             ].transform("sum")
-            y_label = "Proportion of Selected Clusters"
+            y_label = "Cluster Proportion"
 
         # Calculate proportions
         subset_cluster_counts["proportion"] = (
@@ -442,7 +442,7 @@ class InteractiveProportionsPlotter:
         # Format Y-axis as percentage
         fig.update_layout(
             yaxis=dict(
-                tickformat=".1%",
+                tickformat=".1*100",
                 title=dict(font=dict(size=14)),
             ),
             xaxis=dict(
@@ -450,7 +450,7 @@ class InteractiveProportionsPlotter:
             ),
             title=dict(font=dict(size=18)),
             legend=dict(
-                title=dict(text="Cluster", font=dict(size=14)),
+                title=dict(text="Cluster Labels", font=dict(size=14)),
                 font=dict(size=12),
                 # Always place legend on the right side with one column
                 orientation="v",
@@ -459,7 +459,7 @@ class InteractiveProportionsPlotter:
                 xanchor="left",
                 x=1.02,
                 # Single column
-                traceorder="normal",
+                traceorder="reversed",
             ),
             plot_bgcolor="white",
             hovermode="closest",
@@ -849,3 +849,24 @@ class InteractiveProportionsPlotter:
             filename = f"cluster_proportions_{max_year}.html"
         # Return full path
         return str(self.output_dir / filename)
+
+    def save_figure_as_png(
+        self,
+        fig: Figure,
+        filename: str,
+        width: int = 1000,
+        height: int = 600,
+        dpi: int = 400,
+    ) -> None:
+        """
+        Save a Plotly figure as a PNG with the specified DPI.
+
+        Args:
+            fig: Plotly Figure object
+            filename: Output filename (should end with .png)
+            width: Width of the image in pixels
+            height: Height of the image in pixels
+            dpi: Desired DPI (default 400)
+        """
+        scale = dpi / 72  # Plotly's default is 72 DPI
+        fig.write_image(filename, width=width, height=height, scale=scale)
