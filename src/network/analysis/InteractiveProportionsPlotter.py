@@ -5,7 +5,10 @@ from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 import numpy as np
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
+import plotly.io as pio
 from plotly.graph_objects import Figure
+from plotly.subplots import make_subplots
 
 
 class InteractiveProportionsPlotter:
@@ -870,3 +873,18 @@ class InteractiveProportionsPlotter:
         """
         scale = dpi / 72  # Plotly's default is 72 DPI
         fig.write_image(filename, width=width, height=height, scale=scale)
+
+    def save_figure_as_pdf(
+        self,
+        fig: Figure,
+        filename: str,
+        width: int = 1000,
+        height: int = 600,
+    ) -> None:
+        pio.write_image(
+            fig,
+            filename,
+            width=width,
+            height=height,
+            format="pdf",
+        )

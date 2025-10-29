@@ -686,6 +686,7 @@ class MainPathPlotterInteractive:
         show_labels=True,
         align_nodes_with_timeline=False,
         save_png=True,
+        save_pdf=True,
     ):
         """
         Create and display an interactive network visualization with timeline.
@@ -829,20 +830,28 @@ class MainPathPlotterInteractive:
         if savingpath:
             if savingpath.endswith(".html"):
                 fig.write_html(savingpath)
-            elif savingpath.endswith(".png"):
-                fig.write_image(savingpath, scale=2, width=width, height=height)
-            else:
-                fig.write_html(f"{savingpath}.html")
 
         # Show the figure
         fig.show()
 
         if save_png:
             png_file = savingpath.replace(".html", ".png")
-            fig.write_image(
+            print(f"Saved as png ({png_file})")
+            pio.write_image(
+                fig,
                 png_file,
-                format="png",
-                scale=1,  # We already scaled the dimensions
+                width=width,
+                height=height,
+                # scale=1,
+            )
+        if save_pdf:
+            pdf_file = savingpath.replace(".html", ".pdf")
+            pio.write_image(
+                fig,
+                pdf_file,
+                width=width,
+                height=height,
+                format="pdf",
             )
 
         # Return HTML representation if requested
