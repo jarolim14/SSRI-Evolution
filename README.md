@@ -18,6 +18,13 @@ This repository contains the data analysis code for the manuscript:
 - Network analysis of paper citations
 - Data visualization capabilities
 
+## Published Visualizations
+
+The following interactive visualizations are now available:
+
+- [Main Path Figure](https://jarolim14.github.io/SSRI-Evolution/main_path_fig.html)
+- [Cluster Progression](https://jarolim14.github.io/SSRI-Evolution/mainpath_interactive_clusterprogression.html)
+
 ## Project Structure
 
 ```
