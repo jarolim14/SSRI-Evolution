@@ -6,7 +6,10 @@ report/
 # Ignore some things in the output directory
 output/orlando/*
 output/viz_idea.png
-output/cluster-qualifications/cluster-explorer/*
+output/cluster-qualifications/*
+output/descriptive-stats-logs/*
+output/figures/
+output/tables/
 scopuskeys.txt
 breakfastPresi/
 cemetry/
